@@ -52,4 +52,20 @@ chmod +x ./appimagetool-x86_64.AppImage
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable foobar2000_${stable_ver}-${ARCH}.AppImage
 
-ls -al
+# f2k beta
+beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br||;s| ||;s| ||;s|b|-b|g;s|</a>||g')
+wget --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 &>/dev/null
+7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!icons' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-beta/usr/share/foobar2000" &>/dev/null
+find "f2k-beta/usr" -type d -execdir chmod 755 {} +
+touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
+rm *.exe
+
+mkdir -p f2k-beta/usr/bin ; cp wine f2k-beta/usr/bin ; cp wineserver f2k-beta/usr/bin ; cp foobar2000.desktop f2k-beta ; cp AppRun f2k-beta ; sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun
+
+cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
+
+wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+chmod +x ./appimagetool-x86_64.AppImage
+./appimagetool-x86_64.AppImage --appimage-extract
+
+export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta foobar2000_${beta_ver}-${ARCH}.AppImage
