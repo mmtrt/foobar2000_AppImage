@@ -18,6 +18,7 @@ wget https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*be
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!icons' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
 find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
+rm *.exe
 
 cat > wine <<EOF
 #!/bin/bash
