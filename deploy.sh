@@ -20,14 +20,14 @@ find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cat > wine <<EOF
+cat > wine <<'EOF'
 #!/bin/bash
 export winecmd=$(find $HOME/Downloads $HOME/bin $HOME/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1)
 $winecmd wine "$@"
 EOF
 chmod +x wine
 
-cat > wineserver <<EOF1
+cat > wineserver <<'EOF1'
 #!/bin/bash
 export winecmd=$(find $HOME/Downloads $HOME/bin $HOME/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1)
 $winecmd wineserver "$@"
