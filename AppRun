@@ -133,7 +133,7 @@ exit 1
 fi
 
 # Create custom $WINEPREFIX and add $WINEDLLOVERRIDES
-export WINEPREFIX="${HOME}/.wine32_appimage" WINEDLLOVERRIDES="mscoree,mshtml=;winemenubuilder.exe=d" WINEDEBUG=-all
+export WINEPREFIX="${progHome}/.wine" WINEDLLOVERRIDES="mscoree,mshtml=;winemenubuilder.exe=d" WINEDEBUG=-all
 
 if [ ! -d $WINEPREFIX ]; then
 
