@@ -48,6 +48,6 @@ cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
 wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 chmod +x ./appimagetool-x86_64.AppImage
 
-ARCH=x86_64 ./appimagetool-x86_64.AppImage -g ./f2k-stable foobar2000_${stable_ver}-x86_64.AppImage
+ARCH=x86_64 ./appimagetool-x86_64.AppImage -g ./f2k-stable
 
 ls -al
