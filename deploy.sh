@@ -16,7 +16,7 @@ done
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br||;s|</a>||')
 wget https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*beta*.exe' &>/dev/null
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!icons' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
-find "usr" -type d -execdir chmod 755 {} +
+find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 
 cat > wine <<EOF
