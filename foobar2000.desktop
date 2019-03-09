@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=foobar2000
+GenericName=Audio player
+Comment=Simple and powerful audio player.
+Type=Application
+Terminal=false
+Icon=foobar2000
+Exec=AppRun
+StartupWMClass=foobar2000.exe
+Categories=AudioVideo;Audio;Player;
+MimeType=audio/aac;audio/x-ape;audio/basic;audio/mp4;audio/mpeg;audio/mpegurl;audio/vorbis;audio/x-flac;audio/x-mp2;audio/x-mp3;audio/x-mpegurl;audio/x-ms-wma;audio/x-oggflac;audio/x-speex;audio/x-vorbis;audio/x-wav;audio/m3u;audio/x-aifc;audio/x-aiffc;audio/x-aiff;audio/x-musepack;audio/x-wavpack;x-content/audio-player;audio/x-matroska;audio/x-vorbis+ogg;
