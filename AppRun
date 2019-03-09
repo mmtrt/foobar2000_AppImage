@@ -14,7 +14,7 @@ progUiFix="$progHome/configuration/foo_ui_std.dll.cfg"
 # Symlink stuff
 mkdir -p "$progHome" || exit 1
 # Delete broken symlinks
-find -L "$progHome" -type l -delete
+find -L "$progHome" -not \( -path "$progHome/.wine" -prune \) -type l -delete
 # Update existing symlinks, add new symlinks
 cp -urs "$progRealPath/"* "$progHome" 2> /dev/null
 # fix ui glitch
