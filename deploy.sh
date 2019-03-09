@@ -25,7 +25,7 @@ $winecmd wineserver "$@"
 EOF1
 chmod +x wineserver
 
-mkdir -p f2k-stable/usr/bin ; cp wine f2k-stable/usr/bin ; cp wineserver f2k-stable/usr/bin ; cp foobar2000.desktop f2k-stable ; cp AppRun f2k-stable
+mkdir -p f2k-stable/usr/bin ; cp wine f2k-stable/usr/bin ; cp wineserver f2k-stable/usr/bin ; cp foobar2000.desktop f2k-stable ; cp AppRun f2k-stable ; sed -i -e 's|progVer=|progVer='"$stable_ver"'|g' f2k-stable/AppRun
 
 # Convert and copy icon which is needed for desktop integration into place:
 wget https://github.com/mmtrt/foobar2000/raw/beta/src/foobar2000.png &>/dev/null
