@@ -50,7 +50,7 @@ wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/ap
 chmod +x ./appimagetool-x86_64.AppImage
 ./appimagetool-x86_64.AppImage --appimage-extract
 
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable foobar2000_${stable_ver}-${ARCH}.AppImage
+export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|continuous|foobar2000_${stable_ver}*.AppImage.zsync" foobar2000_${stable_ver}-${ARCH}.AppImage
 
 # f2k beta
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br||;s| ||;s| ||;s|b|-b|g;s|</a>||g')
@@ -68,4 +68,4 @@ wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/ap
 chmod +x ./appimagetool-x86_64.AppImage
 ./appimagetool-x86_64.AppImage --appimage-extract
 
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta foobar2000_${beta_ver}-${ARCH}.AppImage
+export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|continuous|foobar2000_${beta_ver}*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage
