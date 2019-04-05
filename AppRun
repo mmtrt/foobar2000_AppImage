@@ -76,10 +76,10 @@ export WINESERVER=$HERE/usr/bin/wineserver
 export WINE=$HERE/usr/bin/wine
 export WINETRICKS=$HERE/usr/bin/winetricks
 else
-notify-send --icon "foobar2000" "Downloading WINE-STABLE appimage from https://github.com/mmtrt/Wine_Appimage/releases Please Wait..."
+notify-send --icon "foobar2000" --expire-time=10000 "foobar2000" "Downloading WINE-STABLE appimage from https://github.com/mmtrt/Wine_Appimage/releases Please Wait..."
 wget "https://github.com/mmtrt/Wine_Appimage/releases/download/continuous/wine-stable-i386_x86_64-bionic.AppImage" -P $HOME/Downloads
 chmod +x $HOME/Downloads/wine-stable-i386_x86_64-bionic.AppImage
-notify-send --icon "foobar2000" "Now run Appimage again"
+notify-send --icon "foobar2000" --expire-time=10000 "foobar2000" "Now run Appimage again"
 exit 1
 fi
 
