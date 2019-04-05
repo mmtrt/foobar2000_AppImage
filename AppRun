@@ -20,8 +20,9 @@ cp -urs "$progRealPath/"* "$progHome" 2> /dev/null
 # fix ui glitch
 rm "$progUiFix" 2> /dev/null
 
+if [[ ! -f $progIcoD ]]; then
 
-gendskfile () {
+cp -r $HERE/usr/share/icons ${HOME}/.local/share
 mkdir -p "${HOME}/.local/share/applications"
 DesktopFilePath="${HOME}/.local/share/applications/$progName.desktop"
 
@@ -64,12 +65,6 @@ echo "" >>$DesktopFilePath
 echo "[Desktop Action Config]" >>$DesktopFilePath
 echo "Name=Preferences" >>$DesktopFilePath
 echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -config" >>$DesktopFilePath
-}
-
-if [[ ! -f $progIcoD ]]; then
-
-cp -r $HERE/usr/share/icons ${HOME}/.local/share
-gendskfile
 
 fi
 
