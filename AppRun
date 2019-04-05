@@ -93,22 +93,18 @@ if [ ! -d $WINEPREFIX ]; then
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
 find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &>/dev/null
 
+# getting winetricks & cabextract
 wget "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -P /tmp && chmod +x /tmp/winetricks
-wget "http://archive.ubuntu.com/ubuntu/pool/universe/c/cabextract/cabextract_1.6-1.1_i386.deb" -P /tmp
-wget "http://archive.ubuntu.com/ubuntu/pool/main/libm/libmspack/libmspack0_0.6-3ubuntu0.2_i386.deb" -P /tmp
-
-# unpacking cabextract to tmp/cabex
-dpkg -x /tmp/cabextract_1.6-1.1_i386.deb /tmp/cabex && dpkg -x /tmp/libmspack0_0.6-3ubuntu0.2_i386.deb /tmp/cabex
+wget "https://mex.mirror.pkgbuild.com/community/os/x86_64/cabextract-1.9.1-1-x86_64.pkg.tar.xz" -P /tmp && mkdir -p /tmp/cabex && tar --warning=no-unknown-keyword -xf /tmp/cabextract-1.9.1-1-x86_64.pkg.tar.xz -C /tmp/cabex
 
 # adding cabextract winetricks env
-export PATH=$PATH:/tmp:/tmp/cabex/usr/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/tmp/cabex/usr/lib/i386-linux-gnu
 export PATH=$PATH:/tmp:/tmp/cabex/usr/bin
 
 # running winetricks from tmp
 /tmp/winetricks --unattended wmp9
+
 # removing cache data
-rm -r /tmp/winetricks && rm -rf /tmp/cabex && rm /tmp/*.deb
+rm -r /tmp/winetricks && rm -rf /tmp/cabex
 
 cat > $progReg <<'EOF'
 Windows Registry Editor Version 5.00
