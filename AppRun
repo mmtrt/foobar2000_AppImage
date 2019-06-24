@@ -84,7 +84,7 @@ exit 1
 fi
 
 # Create custom $WINEPREFIX and add $WINEDLLOVERRIDES
-export WINEPREFIX="${progHome}/.wine" WINEDLLOVERRIDES="mscoree,mshtml=;winemenubuilder.exe=d" WINEDEBUG=-all
+export WINEPREFIX="${progHome}/.wine" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all
 
 if [ ! -d $WINEPREFIX ]; then
 
