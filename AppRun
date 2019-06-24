@@ -76,10 +76,17 @@ if [ $checkwine -eq 1 ]; then
 export WINESERVER=$HERE/usr/bin/wineserver
 export WINE=$HERE/usr/bin/wine
 else
-notify-send --icon "foobar2000" --expire-time=10000 "foobar2000" "Downloading WINE-STABLE appimage from https://github.com/mmtrt/Wine_Appimage/releases Please Wait..."
-wget "https://github.com/mmtrt/Wine_Appimage/releases/download/continuous/wine-stable-i386_x86_64-bionic.AppImage" -P $HOME/Downloads
-chmod +x $HOME/Downloads/wine-stable-i386_x86_64-bionic.AppImage
-notify-send --icon "foobar2000" --expire-time=10000 "foobar2000" "Now run Appimage again"
+echo "wine-stable appimage is missing can not run f2k"
+echo ""
+echo "Download wine-stable*bionic.appimage from https://github.com/mmtrt/Wine_Appimage/releases"
+echo ""
+echo "Then"
+echo ""
+echo "chmod +x wine-stable*.AppImage"
+echo ""
+echo "Also make sure you have single copy of wine-stable appimage present these locations"
+echo ""
+echo "$HOME/Downloads ; $HOME/bin ; $HOME/.local/bin"
 exit 1
 fi
 
