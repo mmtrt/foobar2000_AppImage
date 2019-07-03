@@ -21,7 +21,7 @@ cp -urs "$progRealPath/"* "$progHome" 2> /dev/null
 # fix ui glitch
 rm "$progUiFix" 2> /dev/null
 
-dkico {
+dkico() {
 if [[ ! -f $progIcoD ]]; then
 
 cp -r $HERE/usr/share/icons ${HOME}/.local/share
