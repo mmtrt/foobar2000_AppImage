@@ -21,6 +21,7 @@ cp -urs "$progRealPath/"* "$progHome" 2> /dev/null
 # fix ui glitch
 rm "$progUiFix" 2> /dev/null
 
+dkico {
 if [[ ! -f $progIcoD ]]; then
 
 cp -r $HERE/usr/share/icons ${HOME}/.local/share
@@ -68,6 +69,7 @@ echo "Name=Preferences" >>$DesktopFilePath
 echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -config" >>$DesktopFilePath
 
 fi
+}
 
 # check for wine appimage
 checkwine=$(find $HOME/Downloads $HOME/bin $HOME/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1 | wc -l)
@@ -141,6 +143,8 @@ done
 
 if [ "$1" == "winecfg" ] ; then
   $WINE "winecfg" 2>/dev/null
+elif [ "$1" == "install" ]; then
+  dkico
 else
   $WINE "$progHome/$progBin" "${args[@]}" 2>/dev/null
 fi
