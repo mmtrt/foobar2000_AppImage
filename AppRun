@@ -103,7 +103,7 @@ find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs
 
 # getting winetricks & cabextract
 wget "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -P /tmp && chmod +x /tmp/winetricks
-wget "https://mex.mirror.pkgbuild.com/community/os/x86_64/cabextract-1.9.1-1-x86_64.pkg.tar.xz" -P /tmp && mkdir -p /tmp/cabex && tar --warning=no-unknown-keyword -xf /tmp/cabextract-1.9.1-1-x86_64.pkg.tar.xz -C /tmp/cabex
+wget "http://mirror.ubrco.de/archlinux/community/os/x86_64/cabextract-1.9.1-1-x86_64.pkg.tar.xz" -P /tmp && mkdir -p /tmp/cabex && tar --warning=no-unknown-keyword -xf /tmp/cabextract-1.9.1-1-x86_64.pkg.tar.xz -C /tmp/cabex
 
 # adding cabextract winetricks env
 export PATH=$PATH:/tmp:/tmp/cabex/usr/bin
