@@ -9,7 +9,6 @@ progRealPath="$HERE/usr/share/$progName"
 progHome="$HOME/.$progName"
 progBin="$progName.exe"
 progIcoD="$HOME/.local/share/applications/$progName.desktop"
-progUiFix="$progHome/configuration/foo_ui_std.dll.cfg"
 progReg="/tmp/dlloverrides.reg"
 
 # Symlink stuff
@@ -18,8 +17,6 @@ mkdir -p "$progHome" || exit 1
 find -L "$progHome" -maxdepth 2 -type l -delete
 # Update existing symlinks, add new symlinks
 cp -urs "$progRealPath/"* "$progHome" 2> /dev/null
-# fix ui glitch
-rm "$progUiFix" 2> /dev/null
 
 dkico() {
 if [[ ! -f $progIcoD ]]; then
