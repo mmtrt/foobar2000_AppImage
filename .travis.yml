@@ -5,6 +5,10 @@ os: linux
 
 script:
  - bash -ex deploy.sh
+
+env:
+  global:
+    - RELEASE_BRANCH="master"
  
 after_success:
   - wget -c https://raw.githubusercontent.com/probonopd/uploadtool/8142d461aba7b92a058116fe5ee75be438b75fa4/upload.sh
