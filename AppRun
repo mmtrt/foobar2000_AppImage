@@ -100,7 +100,7 @@ find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs
 
 # getting winetricks & cabextract
 wget "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -P /tmp && chmod +x /tmp/winetricks
-wget "https://gist.github.com/mmtrt/578f4c0694fcfc968b2d9dcc90da4c0e/raw/777f92bca3ff02f37a88ebedd144fe04dd1c47ca/cabextract" -P /tmp  && chmod +x /tmp/cabextract
+wget "https://gist.github.com/mmtrt/578f4c0694fcfc968b2d9dcc90da4c0e/raw/74f3c0ff7a89c5a4a16f74e03cb87b0b01bda2b5/cabextract" -P /tmp  && chmod +x /tmp/cabextract
 
 # adding cabextract winetricks env
 export PATH=$PATH:/tmp
