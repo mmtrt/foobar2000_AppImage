@@ -1,17 +1,22 @@
 language: c
 sudo: required
-dist: xenial
+dist: focal
 os: linux
 
 script:
- - bash -ex deploy.sh
+ - sudo dpkg --add-architecture i386 
+ - wget -nc https://dl.winehq.org/wine-builds/winehq.key
+ - sudo apt-key add winehq.key && sudo apt update
+ - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
+ - sudo apt update && sudo apt install --install-recommends winehq-stable
+ #- bash -ex deploy.sh
 
 env:
   global:
     - RELEASE_BRANCH="master"
  
 after_success:
-  - wget -c https://raw.githubusercontent.com/probonopd/uploadtool/8142d461aba7b92a058116fe5ee75be438b75fa4/upload.sh
+  #- wget -c https://raw.githubusercontent.com/probonopd/uploadtool/8142d461aba7b92a058116fe5ee75be438b75fa4/upload.sh
 
   - |- # publish
     if [[ ("$TRAVIS_BRANCH" != "$RELEASE_BRANCH" && "$TRAVIS_BRANCH" != "$TRAVIS_TAG") || "$TRAVIS_EVENT_TYPE" != "push" ]]; then
