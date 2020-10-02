@@ -56,6 +56,7 @@ find ./ -name '*.deb' -exec dpkg -x {} . \;
 cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ && cp -Rvp ./lib f2k-stable/usr/ 
 
 export WINEDLLOVERRIDES="mscoree,mshtml="
+export WINEARCH="win32"
 export WINEPREFIX=$(readlink -f ./.wine)
 
 # Create WINEPREFIX
