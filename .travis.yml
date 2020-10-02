@@ -8,7 +8,9 @@ script:
  - wget -nc https://dl.winehq.org/wine-builds/winehq.key
  - sudo apt-key add winehq.key && sudo apt update
  - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
- - sudo apt update && sudo apt install libc6 libc6:i386 cabextract -y -o APT::Immediate-Configure=0 && sudo apt install --install-recommends winehq-stable
+ - sudo apt update && sudo apt install libc6 libc6:i386 xvfb cabextract -y -o APT::Immediate-Configure=0 && sudo apt install --install-recommends winehq-stable
+ - export DISPLAY=':99.0'
+ - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
  - bash -ex deploy.sh
 
 env:
