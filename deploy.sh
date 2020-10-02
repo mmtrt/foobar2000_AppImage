@@ -25,14 +25,14 @@ rm *.exe
 cat > wine <<'EOF'
 #!/bin/bash
 export winecmd=$(find $HOME/Downloads $HOME/bin $HOME/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1)
-$winecmd wine "$@"
+$winecmd "$@"
 EOF
 chmod +x wine
 
 cat > wineserver <<'EOF1'
 #!/bin/bash
 export winecmd=$(find $HOME/Downloads $HOME/bin $HOME/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1)
-$winecmd wineserver "$@"
+$winecmd "$@"
 EOF1
 chmod +x wineserver
 
@@ -47,6 +47,32 @@ for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
 done
 
 cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
+
+# wget -q http://mirrors.kernel.org/ubuntu/pool/main/f/fuse/libfuse2_2.9.9-3_amd64.deb 
+# wget -q http://mirrors.kernel.org/ubuntu/pool/universe/u/unionfs-fuse/unionfs-fuse_1.0-1ubuntu2_amd64.deb
+apt download libfuse2 unionfs-fuse && ls -al
+wget -q https://github.com/Winetricks/winetricks/raw/master/src/winetricks && chmod +x winetricks && cp -Rvp winetrick "$HOME/bin"
+find ./ -name '*.deb' -exec dpkg -x {} . \;
+cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ && cp -Rvp ./lib f2k-stable/usr/ 
+
+export WINEDLLOVERRIDES="mscoree,mshtml="
+export WINEPREFIX=$(readlink -f ./.wine)
+
+# Create WINEPREFIX
+wineboot && sleep 5
+winetricks --unattended wmp9 && sleep 5
+
+# Disable WINEPREFIX changes
+echo "disable" > "$WINEPREFIX/.update-timestamp"
+
+# Removing any existing user data
+( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
+
+# Pre patching dpi setting in WINEPREFIX
+# DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
+( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
+
+cp -Rvp ./.wine f2k-stable/
 
 wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 chmod +x ./appimagetool-x86_64.AppImage
@@ -67,9 +93,9 @@ find "f2k-beta/usr" -type d -execdir chmod 755 {} +
 touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-mkdir -p f2k-beta/usr/bin ; cp wine f2k-beta/usr/bin ; cp wineserver f2k-beta/usr/bin ; cp foobar2000.desktop f2k-beta ; cp AppRun f2k-beta ; sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun
+mkdir -p f2k-beta/usr/bin ; cp wine f2k-beta/usr/bin ; cp wineserver f2k-beta/usr/bin ; cp foobar2000.desktop f2k-beta ; cp AppRun f2k-beta ; sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun ; cp -Rvp ./.wine f2k-beta/ ; cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/ && cp -Rvp ./lib f2k-beta/usr/ 
 
-cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
+cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta ; rm -r ./{usr,lib}
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|continuous|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage
 fi
