@@ -51,7 +51,7 @@ cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
 # wget -q http://mirrors.kernel.org/ubuntu/pool/main/f/fuse/libfuse2_2.9.9-3_amd64.deb 
 # wget -q http://mirrors.kernel.org/ubuntu/pool/universe/u/unionfs-fuse/unionfs-fuse_1.0-1ubuntu2_amd64.deb
 apt download libfuse2 unionfs-fuse && ls -al
-wget -q https://github.com/Winetricks/winetricks/raw/master/src/winetricks && chmod +x winetricks && cp -Rvp winetrick "$HOME/bin"
+wget -q https://github.com/Winetricks/winetricks/raw/master/src/winetricks && chmod +x winetricks && cp -Rvp winetricks "$HOME/bin"
 find ./ -name '*.deb' -exec dpkg -x {} . \;
 cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ && cp -Rvp ./lib f2k-stable/usr/ 
 
