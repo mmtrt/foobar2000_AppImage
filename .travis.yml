@@ -9,7 +9,7 @@ script:
  - sudo apt-key add winehq.key && sudo apt update
  - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
  - sudo apt update && sudo apt install libc6 libc6:i386 -y -o APT::Immediate-Configure=0 && sudo apt install --install-recommends winehq-stable
- #- bash -ex deploy.sh
+ - bash -ex deploy.sh
 
 env:
   global:
