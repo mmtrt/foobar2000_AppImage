@@ -103,7 +103,7 @@ exit 1
 fi
 
 # Create custom $WINEPREFIX and add $WINEDLLOVERRIDES
-export WINEPREFIX="${progHome}/.wine" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all
+export WINEPREFIX="${progHome}/.wine" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG="fixme-all" WINEARCH="win32"
 
 # Passing args to wine apps
 for i; do # for i = for i in "$@"
