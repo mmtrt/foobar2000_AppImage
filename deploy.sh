@@ -56,7 +56,6 @@ cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ && cp -Rvp ./lib f2k-stable/usr/
 export WINEDLLOVERRIDES="mscoree,mshtml="
 export WINEARCH="win32"
 export WINEPREFIX=$(readlink -f ./.wine)
-export DISPLAY=:0
 
 # Create WINEPREFIX
 wineboot && sleep 5
