@@ -66,7 +66,7 @@ winetricks --unattended wmp9 && sleep 5
 echo "disable" > "$WINEPREFIX/.update-timestamp"
 
 # Removing any existing user data
-( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
+( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm -rf "../windows/temp/*" ) || true
 
 # Pre patching dpi setting in WINEPREFIX
 # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
@@ -78,7 +78,7 @@ wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/ap
 chmod +x ./appimagetool-x86_64.AppImage
 ./appimagetool-x86_64.AppImage --appimage-extract
 
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|continuous|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}-${ARCH}.AppImage
+export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|continuous-testing|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}-${ARCH}.AppImage
 
 # f2k beta
 chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
@@ -97,5 +97,5 @@ mkdir -p f2k-beta/usr/bin ; cp wine f2k-beta/usr/bin ; cp wineserver f2k-beta/us
 
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta ; rm -r ./{usr,lib}
 
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|continuous|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage
+export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|continuous-testing|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage
 fi
