@@ -53,13 +53,17 @@ wget -q https://github.com/Winetricks/winetricks/raw/master/src/winetricks && ch
 find ./ -name '*.deb' -exec dpkg -x {} . \;
 cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ && cp -Rvp ./lib f2k-stable/usr/ 
 
+cat ztr.txt | base64 -d > zune.reg ; 7z e ZuneDesktopTheme.msi -oResources/Themes/zune ZuneMSSTYLES ; ls -al
+(cd Resources/Themes/zune ;  mv *MSS* zune.msstyles ; ls)
+
 export WINEDLLOVERRIDES="mscoree,mshtml="
 export WINEARCH="win32"
 export WINEPREFIX=$(readlink -f ./.wine)
 
 # Create WINEPREFIX
-wineboot && sleep 5
-winetricks --unattended wmp9 && sleep 5
+wineboot ; sleep 5
+winetricks --unattended wmp9 ; sleep 5
+cp -Rvp Resources $WINEPREFIX/drive_c/windows/ ; regedit zune.reg ; sleep 1
 
 # Disable WINEPREFIX changes
 echo "disable" > "$WINEPREFIX/.update-timestamp"

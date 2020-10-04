@@ -11,6 +11,8 @@ script:
  - sudo apt update && sudo apt install libc6 libc6:i386 xvfb cabextract -y -o APT::Immediate-Configure=0 && sudo apt install --install-recommends winehq-stable
  - export DISPLAY=':99.0'
  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+ - wget -q --content-disposition https://go.microsoft.com/fwlink/?LinkID=75078
+ - wget -q https://gist.github.com/mmtrt/73db349fec787bcc5dd33ff0d6726553/raw/5c23a358d5d809087725728a4783bfb087b327fd/ztr.txt
  - bash -ex deploy.sh
 
 env:
