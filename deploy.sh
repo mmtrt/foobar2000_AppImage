@@ -63,10 +63,6 @@ export WINEPREFIX=$(readlink -f ./.wine)
 # Create WINEPREFIX
 wineboot ; sleep 5
 winetricks --unattended wmp9 ; sleep 5
-cp -Rvp Resources $WINEPREFIX/drive_c/windows/ ; regedit zune.reg ; sleep 1
-
-# Disable WINEPREFIX changes
-echo "disable" > "$WINEPREFIX/.update-timestamp"
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
@@ -74,6 +70,11 @@ echo "disable" > "$WINEPREFIX/.update-timestamp"
 # Pre patching dpi setting in WINEPREFIX
 # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
 ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
+
+cp -Rvp Resources $WINEPREFIX/drive_c/windows/ ; regedit zune.reg ; sleep 1
+
+# Disable WINEPREFIX changes
+echo "disable" > "$WINEPREFIX/.update-timestamp"
 
 cp -Rvp ./.wine f2k-stable/
 
