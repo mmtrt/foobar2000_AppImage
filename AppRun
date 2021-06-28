@@ -21,63 +21,80 @@ cp -urs "$progRealPath/"* "$progHome" 2> /dev/null
 dkico() {
 if [[ ! -f $progIcoD ]]; then
 
-cp -r $HERE/usr/share/icons ${HOME}/.local/share
-mkdir -p "${HOME}/.local/share/applications"
-DesktopFilePath="${HOME}/.local/share/applications/$progName.desktop"
+cp -r "$HERE"/usr/share/icons "$HOME"/.local/share
+mkdir -p "$HOME/.local/share/applications"
+DesktopFilePath="$HOME/.local/share/applications/$progName.desktop"
 
-echo "[Desktop Entry]" >$DesktopFilePath
-echo "Type=Application" >>$DesktopFilePath
-echo "Name=$progName" >>$DesktopFilePath
-echo "GenericName=Audio player" >>$DesktopFilePath
-echo "Comment=Simple and powerful audio player." >>$DesktopFilePath
-echo "Actions=PlayPause;Stop;Next;Prev;Random;Config" >>$DesktopFilePath
-echo "Encoding=UTF-8" >>$DesktopFilePath
-echo "Version=$progVer" >>$DesktopFilePath
-echo "Icon=$progName" >>$DesktopFilePath
-echo "TryExec=${OWD}/${progName}_${progVer}${progArch}.AppImage" >>$DesktopFilePath
-echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage %F" >>$DesktopFilePath
-echo "MimeType=audio/aac;audio/x-ape;audio/basic;audio/mp4;audio/mpeg;audio/mpegurl;audio/vorbis;audio/x-flac;audio/x-mp2;audio/x-mp3;audio/x-mpegurl;audio/x-ms-wma;audio/x-oggflac;audio/x-speex;audio/x-vorbis;audio/x-wav;audio/m3u;audio/x-aifc;audio/x-aiffc;audio/x-aiff;audio/x-musepack;audio/x-wavpack;x-content/audio-player;audio/x-matroska;audio/x-vorbis+ogg;" >>$DesktopFilePath
-echo "Categories=AudioVideo;Audio;Player;" >>$DesktopFilePath
-echo "Terminal=false" >>$DesktopFilePath
-echo "StartupWMClass=$progBin" >>$DesktopFilePath
-echo "" >>$DesktopFilePath
-echo "[Desktop Action PlayPause]" >>$DesktopFilePath
-echo "Name=Play/Pause" >>$DesktopFilePath
-echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -playpause" >>$DesktopFilePath
-echo "" >>$DesktopFilePath
-echo "[Desktop Action Stop]" >>$DesktopFilePath
-echo "Name=Stop" >>$DesktopFilePath
-echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -stop" >>$DesktopFilePath
-echo "" >>$DesktopFilePath
-echo "[Desktop Action Next]" >>$DesktopFilePath
-echo "Name=Next" >>$DesktopFilePath
-echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -next" >>$DesktopFilePath
-echo "" >>$DesktopFilePath
-echo "[Desktop Action Prev]" >>$DesktopFilePath
-echo "Name=Prev" >>$DesktopFilePath
-echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -prev" >>$DesktopFilePath
-echo "" >>$DesktopFilePath
-echo "[Desktop Action Random]" >>$DesktopFilePath
-echo "Name=Random" >>$DesktopFilePath
-echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -rand" >>$DesktopFilePath
-echo "" >>$DesktopFilePath
-echo "[Desktop Action Config]" >>$DesktopFilePath
-echo "Name=Preferences" >>$DesktopFilePath
-echo "Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage -config" >>$DesktopFilePath
+{ 
+echo "[Desktop Entry]
+Type=Application
+Name=$progName
+GenericName=Audio player
+Comment=Simple and powerful audio player.
+Actions=PlayPause;Stop;Next;Prev;Random;Config
+Encoding=UTF-8
+Version=$progVer
+Icon=$progName
+TryExec=${OWD}/${progName}_${progVer}${progArch}.AppImage
+Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage %F
+MimeType=audio/aac;audio/x-ape;audio/basic;audio/mp4;audio/mpeg;audio/mpegurl;audio/vorbis;audio/x-flac;audio/x-mp2;audio/x-mp3;audio/x-mpegurl;audio/x-ms-wma;audio/x-oggflac;audio/x-speex;audio/x-vorbis;audio/x-wav;audio/m3u;audio/x-aifc;audio/x-aiffc;audio/x-aiff;audio/x-musepack;audio/x-wavpack;x-content/audio-player;audio/x-matroska;audio/x-vorbis+ogg;
+Categories=AudioVideo;Audio;Player;
+Terminal=false
+StartupWMClass=$progBin
+
+[Desktop Action PlayPause]
+Name=Play/Pause
+Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage /playpause
+
+[Desktop Action Stop]
+Name=Stop
+Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage /stop
+
+[Desktop Action Next]
+Name=Next
+Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage /next
+
+[Desktop Action Prev]
+Name=Prev
+Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage /prev
+
+[Desktop Action Random]
+Name=Random
+Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage /rand
+
+[Desktop Action Config]
+Name=Preferences
+Exec=${OWD}/${progName}_${progVer}${progArch}.AppImage /config"
+} >> "$DesktopFilePath"
 
 fi
 }
 
 # check for wine appimage
-checkwine=$(find $HOME/Downloads $HOME/bin $HOME/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1 | wc -l)
+wine_file=$(find "$HOME"/Downloads "$HOME"/bin "$HOME"/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1)
 
-if [ $checkwine -eq 1 ]; then
-export WINESERVER=$HERE/usr/bin/wineserver
-export WINE=$HERE/usr/bin/wine
+if [[ -f $wine_file ]]; then
+
+# Calling binary files from other AppImage having $ARGV0
+
+export winecmd=$wine_file
+
+function wine {
+  $winecmd wine "$@"
+}
+
+function wineserver {
+  $winecmd wineserver "$@"
+}
+
+function winetricks {
+  $winecmd winetricks -q "$@"
+}
+
 else
 echo "wine-stable appimage is missing can not run f2k"
 echo ""
-echo "Download wine-stable*bionic.appimage from https://github.com/mmtrt/Wine_Appimage/releases"
+echo "Download wine-stable*.appimage from https://github.com/mmtrt/WINE_AppImage/releases"
 echo ""
 echo "Then"
 echo ""
@@ -90,26 +107,17 @@ exit 1
 fi
 
 # Create custom $WINEPREFIX and add $WINEDLLOVERRIDES
-export WINEPREFIX="${progHome}/.wine" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all
+export WINEPREFIX="${progHome}/.wine" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all WINEARCH=win32
 
-if [ ! -d $WINEPREFIX ]; then
+if [[ ! -d $WINEPREFIX ]]; then
 
 # link ttf & ttc fonts from root to wineprefix
-mkdir -p $WINEPREFIX/drive_c/windows/Fonts
-find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &>/dev/null
+mkdir -p "$WINEPREFIX"/drive_c/windows/Fonts
+find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" "$WINEPREFIX"/drive_c/windows/Fonts/ \; &>/dev/null
 
-# getting winetricks & cabextract
-wget "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -P /tmp && chmod +x /tmp/winetricks
-wget "https://gist.github.com/mmtrt/578f4c0694fcfc968b2d9dcc90da4c0e/raw/74f3c0ff7a89c5a4a16f74e03cb87b0b01bda2b5/cabextract" -P /tmp  && chmod +x /tmp/cabextract
-
-# adding cabextract winetricks env
-export PATH=$PATH:/tmp
-
-# running winetricks from tmp
-/tmp/winetricks --unattended wmp9
-
-# removing cache data
-rm /tmp/{winetricks,cabextract}
+# Disabled auto installing wmp9 for wma wmv files support
+# Due to AppImage philosophy not download anything when launching AppImage
+# winetricks wmp9
 
 cat > $progReg <<'EOF'
 Windows Registry Editor Version 5.00
@@ -121,11 +129,9 @@ Windows Registry Editor Version 5.00
 "vcruntime140"="native"
 EOF
 
-$WINE regedit "$progReg"
+wine regedit "$progReg"
 sleep 1
-
 rm "$progReg"
-echo "disable" > "$WINEPREFIX/.update-timestamp"
 fi
 
 # Passing args to wine apps
@@ -138,10 +144,22 @@ for i; do # for i = for i in "$@"
     fi
 done
 
-if [ "$1" == "winecfg" ] ; then
-  $WINE "winecfg" 2>/dev/null
-elif [ "$1" == "install" ]; then
-  dkico
-else
-  $WINE "$progHome/$progBin" "${args[@]}" 2>/dev/null
-fi
+# Launch wineboot/winecfg/winetricks if requested.
+# If the executable exists then launch it.
+case "$1" in
+  "install")
+    dkico
+    ;;
+  "winetricks")
+    winetricks "$2" "$3"
+    ;;
+  "msiexec"|"notepad"|"regedit"|"regsvr32"|"wineboot"|"winecfg"|"wineconsole"|"winedbg"|"winefile"|"winemine"|"winepath")
+    wine "$1"
+    ;;
+  "/playpause"|"/stop"|"/next"|"/prev"|"/random"|"/config")
+    wine "$progHome/$progBin" "$1"
+    ;;
+  *)
+    wine "$progHome/$progBin" "${args[@]}" 2>/dev/null
+    ;;
+esac
