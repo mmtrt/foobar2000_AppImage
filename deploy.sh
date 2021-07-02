@@ -55,7 +55,7 @@ fi
 get_wi () {
     VER=$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous | grep continuous/ | cut -d '"' -f2 | sed '3s|/| |g' | awk '{print $6}' | sed '/^\s*$/d')
     wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/"${VER}" -P ./test ; chmod +x ./test/"$VER"
-    sudo ln -s ./"$VER" /usr/bin/wine ; sudo ln -s ./"$VER" /usr/bin/wineboot ; sudo ln -s ./"$VER" /usr/bin/wineserver ; sudo ln -s ./"$VER" /usr/bin/winetricks
+    sudo ln -s ./test/"$VER" /usr/bin/wine ; sudo ln -s ./test/"$VER" /usr/bin/wineboot ; sudo ln -s ./test/"$VER" /usr/bin/wineserver ; sudo ln -s ./test/"$VER" /usr/bin/winetricks
 }
 
 f2kswp () {
