@@ -85,7 +85,8 @@ jobs:
       - name: Run a multi-line script
         run: |
           set -ex
-          xvfb-run --auto-servernum --server-args='-screen 0, 1024x768x24' &
+          export DISPLAY=':99.0'
+          sudo Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           sudo dpkg --add-architecture i386
           wget -nc https://dl.winehq.org/wine-builds/winehq.key
           sudo apt-key add winehq.key
