@@ -89,7 +89,7 @@ jobs:
             set -ex
             # export DISPLAY=':99.0'
             # sudo Xvfb $DISPLAY -screen 0 1024x768x24 > /dev/null 2>&1 &
-            bash deploy.sh -stablewp
+            bash deploy.sh stablewp
             mkdir dist
             mv foobar2000*.AppImage* dist/.
             cd dist
