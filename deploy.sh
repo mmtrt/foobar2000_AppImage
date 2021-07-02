@@ -93,7 +93,7 @@ f2kswp () {
 
     # Create WINEPREFIX
     (timeout 20s wineboot &) ; sleep 5
-    (winetricks wmp9) ; sleep 5
+    # (winetricks wmp9) ; sleep 5
 
     # Removing any existing user data
     ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
