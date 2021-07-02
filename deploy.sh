@@ -97,13 +97,13 @@ f2kswp () {
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
-    ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
+    ( cd "/home/runner/.wine/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
 
     # Pre patching dpi setting in WINEPREFIX
     # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
-    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
+    ( cd "$/home/runner/.wine"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
 
-    cp -Rvp ./.wine f2k-stable/ ; rm -rf ./.wine
+    cp -Rvp /home/runner/.wine f2k-stable/ ; rm -rf /home/runner/.wine
 
     export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable_wp|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage
 }
