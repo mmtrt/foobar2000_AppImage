@@ -94,7 +94,7 @@ f2kswp () {
 
     # Create WINEPREFIX
     wineboot
-    winetricks wmp9 ; sleep 5
+    winetricks -q wmp9 ; sleep 5
 
     # Removing any existing user data
     ( cd "/home/runner/.wine/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
