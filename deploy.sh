@@ -135,12 +135,12 @@ f2kbwp () {
     export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta_wp|foobar2000*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
 }
 
-if [ "$1" == "-stable" ]; then
+if [ "$1" == "stable" ]; then
     f2ks
-elif [ "$1" == "-beta" ]; then
+elif [ "$1" == "beta" ]; then
     f2kb
-elif [ "$1" == "-stablewp" ]; then
+elif [ "$1" == "stablewp" ]; then
     f2kswp
-elif [ "$1" == "-betawp" ]; then
+elif [ "$1" == "betawp" ]; then
     f2kbwp
 fi
