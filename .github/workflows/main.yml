@@ -151,8 +151,8 @@ jobs:
             foobar2000-continuous-x86_64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
-  Release-Beta:
-    needs: [f2k-Beta]
+  Release-beta:
+    needs: [f2k-beta]
     runs-on: ubuntu-latest
 
     steps:
@@ -169,4 +169,44 @@ jobs:
           draft: false
           files: |
             foobar2000-beta-continuous-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+  Release-stable-wp:
+    needs: [f2k-wp]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-continuous-wp-x86_64.AppImage
+
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 Stable AppImage Builds
+          automatic_release_tag: stable-wp
+          prerelease: false
+          draft: false
+          files: |
+            foobar2000-continuous-wp-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+  Release-beta-wp:
+    needs: [f2k-beta-wp]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-beta-continuous-wp-x86_64.AppImage
+
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 Beta AppImage Builds
+          automatic_release_tag: beta-wp
+          prerelease: true
+          draft: false
+          files: |
+            foobar2000-beta-continuous-wp-x86_64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
