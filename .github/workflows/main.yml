@@ -90,6 +90,8 @@ jobs:
           sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
           sudo apt update
           sudo apt install --install-recommends winehq-stable -y
+          wget -nc https://github.com/Winetricks/winetricks/raw/master/src/winetricks
+          chmod +x winetricks ; sudo mv winetricks /usr/bin
           bash deploy.sh stablewp
           mkdir dist
           mv foobar2000*.AppImage* dist/.
