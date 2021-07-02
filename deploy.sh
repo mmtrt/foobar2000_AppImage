@@ -127,9 +127,9 @@ f2kbwp () {
     # Removing any existing user data
     ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
 
-    # Pre patching dpi setting in WINEPREFIX
+    # Pre patching dpi setting in WINEPREFIX & Pre patching to disable winemenubuilder
     # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
-    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
+    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ; sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' system.reg ) || true
 
     cp -Rvp ./.wine f2k-beta/ ; rm -rf ./.wine
 
