@@ -84,7 +84,7 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
     # Create WINEPREFIX
-    wineserver -k ; timeout 30s wineboot ; echo $?
+    wineserver -k ; timeout 30s wineboot
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
@@ -108,7 +108,7 @@ f2kbwp () {
     cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/
 
     # Create WINEPREFIX
-    wineserver -k ; timeout 30s wineboot ; echo $?
+    wineserver -k ; timeout 30s wineboot
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
