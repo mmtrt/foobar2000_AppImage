@@ -52,33 +52,6 @@ export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|
 fi
 }
 
-# get_wi () {
-#     VER=$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous | grep continuous/ | cut -d '"' -f2 | sed '3s|/| |g' | awk '{print $6}' | sed '/^\s*$/d')
-#     wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/"${VER}" -P ./test ; chmod +x ./test/"$VER" ; wine_file="$(./test/$VER)" ;
-
-#     export winecmd=$wine_file
-
-#     wine () {
-#     $winecmd wine "$@"
-#     }
-
-#     wine64 () {
-#     $winecmd wine64 "$@"
-#     }
-
-#     wineboot () {
-#     $winecmd wineboot "$@"
-#     }
-
-#     wineserver () {
-#     $winecmd wineserver "$@"
-#     }
-
-#     winetricks () {
-#     $winecmd winetricks -q "$@"
-#     }
-# }
-
 f2kswp () {
 
     export WINEDLLOVERRIDES="mscoree,mshtml="
