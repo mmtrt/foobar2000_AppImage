@@ -57,24 +57,21 @@ get_wi () {
     wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/"${VER}" -P ./test ; chmod +x ./test/"$VER" ; wine_file="$(./test/$VER)" ;
 
     export winecmd=$wine_file
-    export WINEDLLOVERRIDES="mscoree,mshtml="
-    export WINEARCH="win32"
-    export WINEPREFIX="$HOME/.wine"
 
     function wine {
-    $winecmd wine "$@"
+    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd wine "$@"
     }
 
     function wineboot {
-    $winecmd wineboot "$@"
+    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd wineboot "$@"
     }
 
     function wineserver {
-    $winecmd wineserver "$@"
+    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd wineserver "$@"
     }
 
     function winetricks {
-    $winecmd winetricks -q "$@"
+    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd winetricks -q "$@"
     }
 }
 
