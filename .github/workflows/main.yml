@@ -109,33 +109,41 @@ jobs:
           path: 'dist'
 
   # This workflow contains a single job called "f2k-beta"
-  # f2k-beta-wp:
-  #   # The type of runner that the job will run on
-  #   runs-on: ubuntu-latest
+  f2k-beta-wp:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-  #   # Steps represent a sequence of tasks that will be executed as part of the job
-  #   steps:
-  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-  #     - uses: actions/checkout@v2
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-  #     # Runs a set of commands using the runners shell
-  #     - name: Run a multi-line script
-  #       run: |
-  #         set -ex
-  #         export DISPLAY=':99.0'
-  #         sudo Xvfb $DISPLAY -screen 0 1024x768x24 > /dev/null 2>&1 &
-  #         bash deploy.sh -betawp
-  #         mkdir dist
-  #         mv foobar2000*.AppImage* dist/.
-  #         cd dist
-  #         chmod +x *.AppImage
-  #         cd ..
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          set -ex
+          export DISPLAY=':99.0'
+          sudo Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          sudo dpkg --add-architecture i386
+          wget -nc https://dl.winehq.org/wine-builds/winehq.key
+          sudo apt-key add winehq.key
+          sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
+          sudo apt update
+          sudo apt install --install-recommends winehq-stable -y ; sudo apt install cabextract -y
+          wget -nc https://github.com/Winetricks/winetricks/raw/master/src/winetricks
+          chmod +x winetricks ; sudo mv winetricks /usr/bin
+          bash deploy.sh betawp
+          mkdir dist
+          mv foobar2000*.AppImage* dist/.
+          cd dist
+          chmod +x *.AppImage
+          cd ..
 
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v1.0.0
-  #       with:
-  #         name: foobar2000-beta-continuous-wp-x86_64.AppImage
-  #         path: 'dist'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: foobar2000-beta-continuous-wp-x86_64.AppImage
+          path: 'dist'
 
   # release-stable:
   #   needs: [f2k]
@@ -197,22 +205,22 @@ jobs:
             foobar2000-continuous-wp-x86_64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
-  # release-beta-wp:
-  #   needs: [f2k-beta-wp]
-  #   runs-on: ubuntu-latest
+  release-beta-wp:
+    needs: [f2k-beta-wp]
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/download-artifact@v1
-  #       with:
-  #         name: foobar2000-beta-continuous-wp-x86_64.AppImage
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-beta-continuous-wp-x86_64.AppImage
 
-  #     - name: Release
-  #       uses: marvinpinto/action-automatic-releases@latest
-  #       with:
-  #         title: foobar2000 beta AppImage build with wineprefix
-  #         automatic_release_tag: beta-wp
-  #         prerelease: true
-  #         draft: false
-  #         files: |
-  #           foobar2000-beta-continuous-wp-x86_64.AppImage
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 beta AppImage build with wineprefix
+          automatic_release_tag: beta-wp
+          prerelease: true
+          draft: false
+          files: |
+            foobar2000-beta-continuous-wp-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
