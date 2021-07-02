@@ -93,7 +93,7 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
     # Create WINEPREFIX
-    timeout -k 5 10 wineboot ; wineserver -k
+    # timeout -k 5 10 wineboot ; wineserver -k
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
