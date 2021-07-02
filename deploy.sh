@@ -66,49 +66,50 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ ; rm *.deb
 
     # Create WINEPREFIX
-    wineboot
+    wineboot ; sleep 5
     winetricks -q wmp9 ; sleep 5
 
     # Removing any existing user data
-    ( cd "/home/runner/.wine/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
+    ( cd "$WINEPREFIX" ; rm -rf users ; rm windows/temp/* ) || true
 
     # Pre patching dpi setting in WINEPREFIX & Pre patching to disable winemenubuilder
     # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
-    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' ./user.reg ; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' ./system.reg ; sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' ./system.reg ) || true
+    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:0000006e|' ./user.reg ; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:0000006e|' ./system.reg ; sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' ./system.reg ) || true
 
-    cp -Rvp /home/runner/.wine f2k-stable/ ; rm -rf /home/runner/.wine
+    cp -Rvp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX
 
     ( cd f2k-stable ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/3aebb9452fd6bd94c79e97745754572d38e96789/f2kw.patch'  | patch -p1 )
 
-    export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable_wp|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage
+    export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable_wp|foobar2000*WP*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage
 }
 
 f2kbwp () {
 
     export WINEDLLOVERRIDES="mscoree,mshtml="
     export WINEARCH="win32"
-    export WINEPREFIX="/home/runner/.wine-appimage"
+    export WINEPREFIX="/home/runner/.wine"
+    export WINEDEBUG="-all"
 
-    get_wi ; f2kb ; rm ./*AppImage*
+    f2kb ; rm ./*AppImage*
 
     apt download unionfs-fuse
     find ./ -name '*.deb' -exec dpkg -x {} . \;
-    cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/
+    cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/ ; rm *.deb
 
     # Create WINEPREFIX
-    (timeout 20s wineboot &) ; sleep 5
-    (winetricks wmp9) ; sleep 5
+    wineboot ; sleep 5
+    winetricks -q wmp9 ; sleep 5
 
     # Removing any existing user data
     ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
 
     # Pre patching dpi setting in WINEPREFIX & Pre patching to disable winemenubuilder
     # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
-    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ; sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' system.reg ) || true
+    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:0000006e|' ./user.reg ; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:0000006e|' ./system.reg ; sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' ./system.reg ) || true
 
-    cp -Rvp ./.wine f2k-beta/ ; rm -rf ./.wine
+    cp -Rvp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX
 
-    export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta_wp|foobar2000*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
+    export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta_wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
 }
 
 if [ "$1" == "stable" ]; then
