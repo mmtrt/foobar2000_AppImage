@@ -109,6 +109,8 @@ f2kbwp () {
 
     cp -Rvp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX
 
+    ( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/3aebb9452fd6bd94c79e97745754572d38e96789/f2kw.patch'  | patch -p1 )
+
     export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta_wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
 }
 
