@@ -85,16 +85,7 @@ jobs:
       - name: Run a multi-line script
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: |
-            # set -ex
-            # export DISPLAY=':99.0'
-            # sudo Xvfb $DISPLAY -screen 0 1024x768x24 > /dev/null 2>&1 &
-            bash deploy.sh stablewp
-            mkdir dist
-            mv foobar2000*.AppImage* dist/.
-            cd dist
-            chmod +x *.AppImage
-            cd ..
+          run: bash deploy.sh stablewp ; mkdir dist ; mv foobar2000*.AppImage* dist/. ; cd dist ; chmod +x *.AppImage ; cd ..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
