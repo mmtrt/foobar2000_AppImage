@@ -73,8 +73,6 @@ jobs:
   #         path: 'dist'
 
   f2k-wp:
-    env:
-      DISPLAY: :0
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -103,8 +101,6 @@ jobs:
 
   # This workflow contains a single job called "f2k-beta"
   f2k-beta-wp:
-    env:
-      DISPLAY: :0
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -117,8 +113,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           set -ex
-          # sudo apt install xvfb
-          # export DISPLAY=':99.0'
+          export DISPLAY=':99.0'
           sudo Xvfb $DISPLAY -screen 0 1024x768x24 > /dev/null 2>&1 &
           bash deploy.sh -betawp
           mkdir dist
