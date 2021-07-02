@@ -77,7 +77,7 @@ get_wi () {
 
 f2kswp () {
 
-    get_wi ; f2ks ; rm ./*.AppImage
+    get_wi ; f2ks ; rm ./*AppImage*
 
     apt download unionfs-fuse
     find ./ -name '*.deb' -exec dpkg -x {} . \;
@@ -85,7 +85,7 @@ f2kswp () {
 
     export WINEDLLOVERRIDES="mscoree,mshtml="
     export WINEARCH="win32"
-    export WINEPREFIX=$(readlink -f ./.wine)
+    export WINEPREFIX="$HOME/.wine"
 
     # Create WINEPREFIX
     (wineboot &)
@@ -106,7 +106,7 @@ f2kswp () {
 
 f2kbwp () {
 
-    get_wi ; f2kb ; rm ./*.AppImage
+    get_wi ; f2kb ; rm ./*AppImage*
 
     apt download unionfs-fuse
     find ./ -name '*.deb' -exec dpkg -x {} . \;
@@ -114,7 +114,7 @@ f2kbwp () {
 
     export WINEDLLOVERRIDES="mscoree,mshtml="
     export WINEARCH="win32"
-    export WINEPREFIX=$(readlink -f ./.wine)
+    export WINEPREFIX="$HOME/.wine"
 
     # Create WINEPREFIX
     (wineboot &)
