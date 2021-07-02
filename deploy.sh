@@ -83,13 +83,8 @@ f2kswp () {
     find ./ -name '*.deb' -exec dpkg -x {} . \;
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
-    export WINEDLLOVERRIDES="mscoree,mshtml="
-    export WINEARCH="win32"
-    export WINEPREFIX="$HOME/.wine"
-
     # Create WINEPREFIX
-    (wineboot &)
-    sleep 5
+    wineserver -k ; timeout 30s wineboot ; echo $?
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
@@ -112,13 +107,8 @@ f2kbwp () {
     find ./ -name '*.deb' -exec dpkg -x {} . \;
     cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/
 
-    export WINEDLLOVERRIDES="mscoree,mshtml="
-    export WINEARCH="win32"
-    export WINEPREFIX="$HOME/.wine"
-
     # Create WINEPREFIX
-    (wineboot &)
-    sleep 5
+    wineserver -k ; timeout 30s wineboot ; echo $?
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
