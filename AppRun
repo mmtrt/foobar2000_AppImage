@@ -9,7 +9,7 @@ progRealPath="$HERE/usr/share/$progName"
 progHome="$HOME/.$progName"
 progBin="$progName.exe"
 progIcoD="$HOME/.local/share/applications/$progName.desktop"
-progReg="/tmp/dlloverrides.reg"
+# progReg="/tmp/dlloverrides.reg"
 
 # Symlink stuff
 mkdir -p "$progHome" || exit 1
@@ -119,19 +119,20 @@ find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs
 # Due to AppImage philosophy not download anything when launching AppImage
 # winetricks wmp9
 
-cat > $progReg <<'EOF'
-Windows Registry Editor Version 5.00
-[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
-"concrt140"="native"
-"msvcp140"="native"
-"msvcp140_1"="native"
-"vccorlib140"="native"
-"vcruntime140"="native"
-EOF
+# Disabled adding dlloverrides
+# cat > $progReg <<'EOF'
+# Windows Registry Editor Version 5.00
+# [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+# "concrt140"="native"
+# "msvcp140"="native"
+# "msvcp140_1"="native"
+# "vccorlib140"="native"
+# "vcruntime140"="native"
+# EOF
 
-wine regedit "$progReg"
-sleep 1
-rm "$progReg"
+# wine regedit "$progReg"
+# sleep 1
+# rm "$progReg"
 fi
 
 # Passing args to wine apps
