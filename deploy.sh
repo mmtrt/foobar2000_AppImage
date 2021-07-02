@@ -59,23 +59,31 @@ get_wi () {
     export winecmd=$wine_file
 
     function wine {
-    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd wine "$@"
+    $winecmd wine "$@"
+    }
+
+    function wine64 {
+    $winecmd wine64 "$@"
     }
 
     function wineboot {
-    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd wineboot "$@"
+    $winecmd wineboot "$@"
     }
 
     function wineserver {
-    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd wineserver "$@"
+    $winecmd wineserver "$@"
     }
 
     function winetricks {
-    env WINEDLLOVERRIDES="mscoree,mshtml=" WINEARCH="win32" WINEPREFIX="$HOME/.wine" $winecmd winetricks -q "$@"
+    $winecmd winetricks -q "$@"
     }
 }
 
 f2kswp () {
+
+    export WINEDLLOVERRIDES="mscoree,mshtml="
+    export WINEARCH="win32"
+    export WINEPREFIX="/home/runner/.wine-appimage"
 
     get_wi ; f2ks ; rm ./*AppImage*
 
@@ -84,7 +92,7 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
     # Create WINEPREFIX
-    wineserver -k ; timeout 30s wineboot
+    wineserver -k ; timeout 20s wineboot ;
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
@@ -101,6 +109,10 @@ f2kswp () {
 
 f2kbwp () {
 
+    export WINEDLLOVERRIDES="mscoree,mshtml="
+    export WINEARCH="win32"
+    export WINEPREFIX="/home/runner/.wine-appimage"
+
     get_wi ; f2kb ; rm ./*AppImage*
 
     apt download unionfs-fuse
@@ -108,7 +120,7 @@ f2kbwp () {
     cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/
 
     # Create WINEPREFIX
-    wineserver -k ; timeout 30s wineboot
+    wineserver -k ; timeout 20s wineboot ;
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
