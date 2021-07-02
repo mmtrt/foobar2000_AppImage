@@ -52,48 +52,48 @@ export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|
 fi
 }
 
-get_wi () {
-    VER=$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous | grep continuous/ | cut -d '"' -f2 | sed '3s|/| |g' | awk '{print $6}' | sed '/^\s*$/d')
-    wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/"${VER}" -P ./test ; chmod +x ./test/"$VER" ; wine_file="$(./test/$VER)" ;
+# get_wi () {
+#     VER=$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous | grep continuous/ | cut -d '"' -f2 | sed '3s|/| |g' | awk '{print $6}' | sed '/^\s*$/d')
+#     wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/"${VER}" -P ./test ; chmod +x ./test/"$VER" ; wine_file="$(./test/$VER)" ;
 
-    export winecmd=$wine_file
+#     export winecmd=$wine_file
 
-    wine () {
-    $winecmd wine "$@"
-    }
+#     wine () {
+#     $winecmd wine "$@"
+#     }
 
-    wine64 () {
-    $winecmd wine64 "$@"
-    }
+#     wine64 () {
+#     $winecmd wine64 "$@"
+#     }
 
-    wineboot () {
-    $winecmd wineboot "$@"
-    }
+#     wineboot () {
+#     $winecmd wineboot "$@"
+#     }
 
-    wineserver () {
-    $winecmd wineserver "$@"
-    }
+#     wineserver () {
+#     $winecmd wineserver "$@"
+#     }
 
-    winetricks () {
-    $winecmd winetricks -q "$@"
-    }
-}
+#     winetricks () {
+#     $winecmd winetricks -q "$@"
+#     }
+# }
 
 f2kswp () {
 
     export WINEDLLOVERRIDES="mscoree,mshtml="
     export WINEARCH="win32"
-    export WINEPREFIX="/home/runner/.wine-appimage"
+    export WINEPREFIX="/home/runner/.wine"
     export WINEDEBUG="-all"
 
-    get_wi ; f2ks ; rm ./*AppImage*
+    f2ks ; rm ./*AppImage*
 
     apt download unionfs-fuse
     find ./ -name '*.deb' -exec dpkg -x {} . \;
-    cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
+    cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ ; rm *.deb
 
     # Create WINEPREFIX
-    # timeout -k 5 10 wineboot ; wineserver -k
+    wineboot
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
@@ -103,7 +103,7 @@ f2kswp () {
     # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
     ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
 
-    cp -Rvp ./.wine-appimage f2k-stable/ ; (cd f2k-stable ; mv .wine-appimage .wine) ; rm -rf ./.wine-appimage
+    cp -Rvp ./.wine f2k-stable/ ; rm -rf ./.wine
 
     export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable_wp|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage
 }
