@@ -58,23 +58,23 @@ get_wi () {
 
     export winecmd=$wine_file
 
-    function wine {
+    wine () {
     $winecmd wine "$@"
     }
 
-    function wine64 {
+    wine64 () {
     $winecmd wine64 "$@"
     }
 
-    function wineboot {
+    wineboot () {
     $winecmd wineboot "$@"
     }
 
-    function wineserver {
+    wineserver () {
     $winecmd wineserver "$@"
     }
 
-    function winetricks {
+    winetricks () {
     $winecmd winetricks -q "$@"
     }
 }
@@ -92,7 +92,7 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
     # Create WINEPREFIX
-    wineserver -k ; timeout 20s wineboot ; echo "$?"
+    wineserver -k ; timeout 20s wineboot & ; echo "$?"
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
@@ -120,7 +120,7 @@ f2kbwp () {
     cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/
 
     # Create WINEPREFIX
-    wineserver -k ; timeout 20s wineboot ; echo "$?"
+    (wineserver -k ; timeout 20s wineboot ; echo "$?")
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
