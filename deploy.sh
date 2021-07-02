@@ -92,8 +92,8 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
     # Create WINEPREFIX
-    wineserver -k ; timeout 20s wineboot & ; echo "$?"
-    winetricks wmp9 ; sleep 5
+    (timeout 20s wineboot &) ; sleep 5
+    (winetricks wmp9) ; sleep 5
 
     # Removing any existing user data
     ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
