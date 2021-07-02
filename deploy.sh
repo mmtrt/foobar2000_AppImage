@@ -88,7 +88,7 @@ f2kswp () {
     export WINEPREFIX=$(readlink -f ./.wine)
 
     # Create WINEPREFIX
-    wineboot ; sleep 5
+    (wineboot & ; sleep 5)
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
@@ -116,7 +116,7 @@ f2kbwp () {
     export WINEPREFIX=$(readlink -f ./.wine)
 
     # Create WINEPREFIX
-    wineboot ; sleep 5
+    (wineboot & ; sleep 5)
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
