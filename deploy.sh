@@ -84,6 +84,7 @@ f2kswp () {
     export WINEDLLOVERRIDES="mscoree,mshtml="
     export WINEARCH="win32"
     export WINEPREFIX="/home/runner/.wine-appimage"
+    export WINEDEBUG="-all"
 
     get_wi ; f2ks ; rm ./*AppImage*
 
@@ -92,7 +93,7 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
     # Create WINEPREFIX
-    timeout 10s wineboot ; wineboot
+    timeout 10s wineboot ;
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
