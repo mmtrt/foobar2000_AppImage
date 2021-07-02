@@ -89,7 +89,7 @@ jobs:
           sudo apt-key add winehq.key
           sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
           sudo apt update
-          sudo apt install --install-recommends winehq-stable -y
+          sudo apt install --install-recommends winehq-stable -y ; sudo apt install cabextract -y
           wget -nc https://github.com/Winetricks/winetricks/raw/master/src/winetricks
           chmod +x winetricks ; sudo mv winetricks /usr/bin
           bash deploy.sh stablewp
