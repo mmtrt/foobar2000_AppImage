@@ -52,8 +52,74 @@ export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|
 fi
 }
 
+get_wi () {
+    VER=$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous | grep continuous/ | cut -d '"' -f2 | sed '3s|/| |g' | awk '{print $6}' | sed '/^\s*$/d')
+    wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/"${VER}" -P ./test ; chmod +x ./test/"$VER"
+    sudo ln -s ./"$VER" /usr/bin/wine ; sudo ln -s ./"$VER" /usr/bin/wineboot ; sudo ln -s ./"$VER" /usr/bin/wineserver ; sudo ln -s ./"$VER" /usr/bin/winetricks
+}
+
+f2kswp () {
+
+    get_wi ; f2ks ; rm ./*.AppImage
+
+    apt download unionfs-fuse
+    find ./ -name '*.deb' -exec dpkg -x {} . \;
+    cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
+
+    export WINEDLLOVERRIDES="mscoree,mshtml="
+    export WINEARCH="win32"
+    export WINEPREFIX=$(readlink -f ./.wine)
+
+    # Create WINEPREFIX
+    wineboot ; sleep 5
+    winetricks wmp9 ; sleep 5
+
+    # Removing any existing user data
+    ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
+
+    # Pre patching dpi setting in WINEPREFIX
+    # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
+    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
+
+    cp -Rvp ./.wine f2k-stable/ ; rm -rf ./.wine
+
+    export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable_wp|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage
+}
+
+f2kbwp () {
+
+    get_wi ; f2kb ; rm ./*.AppImage
+
+    apt download unionfs-fuse
+    find ./ -name '*.deb' -exec dpkg -x {} . \;
+    cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/
+
+    export WINEDLLOVERRIDES="mscoree,mshtml="
+    export WINEARCH="win32"
+    export WINEPREFIX=$(readlink -f ./.wine)
+
+    # Create WINEPREFIX
+    wineboot ; sleep 5
+    winetricks wmp9 ; sleep 5
+
+    # Removing any existing user data
+    ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
+
+    # Pre patching dpi setting in WINEPREFIX
+    # DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
+    ( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:00000078|' user.reg ; sed -i '/"WheelScrollLine*/a\\"LogPixels"=dword:00000078' user.reg ) || true
+
+    cp -Rvp ./.wine f2k-beta/ ; rm -rf ./.wine
+
+    export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta_wp|foobar2000*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
+}
+
 if [ "$1" == "-stable" ]; then
-f2ks
+    f2ks
 elif [ "$1" == "-beta" ]; then
-f2kb
+    f2kb
+elif [ "$1" == "-stablewp" ]; then
+    f2kswp
+elif [ "$1" == "-betawp" ]; then
+    f2kbwp
 fi
