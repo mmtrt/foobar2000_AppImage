@@ -57,6 +57,9 @@ get_wi () {
     wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/"${VER}" -P ./test ; chmod +x ./test/"$VER" ; wine_file="$(./test/$VER)" ;
 
     export winecmd=$wine_file
+    export WINEDLLOVERRIDES="mscoree,mshtml="
+    export WINEARCH="win32"
+    export WINEPREFIX="$HOME/.wine"
 
     function wine {
     $winecmd wine "$@"
@@ -84,7 +87,7 @@ f2kswp () {
     cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/
 
     # Create WINEPREFIX
-    # wineserver -k ; timeout 30s wineboot
+    wineserver -k ; timeout 30s wineboot
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
@@ -108,7 +111,7 @@ f2kbwp () {
     cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/
 
     # Create WINEPREFIX
-    # wineserver -k ; timeout 30s wineboot
+    wineserver -k ; timeout 30s wineboot
     winetricks wmp9 ; sleep 5
 
     # Removing any existing user data
