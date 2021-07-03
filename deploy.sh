@@ -78,7 +78,7 @@ f2kswp () {
 
     cp -Rvp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX
 
-    ( cd f2k-stable ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/481750d533d73eb817df8cb49f34e7d6ead73f3a/f2kw.patch' | patch -p1 )
+    ( cd f2k-stable ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/b9427b854696b2b87ec4ec478a9de95f4db19037/f2kw.patch' | patch -p1 )
 
     export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable_wp|foobar2000*WP*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage
 }
