@@ -18,59 +18,59 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # # This workflow contains a single job called "f2k"
-  # f2k:
-  #   # The type of runner that the job will run on
-  #   runs-on: ubuntu-latest
+  # This workflow contains a single job called "f2k"
+  f2k:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-  #   # Steps represent a sequence of tasks that will be executed as part of the job
-  #   steps:
-  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-  #     - uses: actions/checkout@v2
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-  #     # Runs a set of commands using the runners shell
-  #     - name: Run a multi-line script
-  #       run: |
-  #         set -ex
-  #         bash deploy.sh -stable
-  #         mkdir dist
-  #         mv foobar2000*.AppImage* dist/.
-  #         cd dist
-  #         chmod +x *.AppImage
-  #         cd ..
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          set -ex
+          bash deploy.sh stable
+          mkdir dist
+          mv foobar2000*.AppImage* dist/.
+          cd dist
+          chmod +x *.AppImage
+          cd ..
 
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v1.0.0
-  #       with:
-  #         name: foobar2000-continuous-x86_64.AppImage
-  #         path: 'dist'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: foobar2000-continuous-x86_64.AppImage
+          path: 'dist'
 
-  # # This workflow contains a single job called "f2k-beta"
-  # f2k-beta:
-  #   # The type of runner that the job will run on
-  #   runs-on: ubuntu-latest
+  # This workflow contains a single job called "f2k-beta"
+  f2k-beta:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-  #   # Steps represent a sequence of tasks that will be executed as part of the job
-  #   steps:
-  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-  #     - uses: actions/checkout@v2
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-  #     # Runs a set of commands using the runners shell
-  #     - name: Run a multi-line script
-  #       run: |
-  #         set -ex
-  #         bash deploy.sh -beta
-  #         mkdir dist
-  #         mv foobar2000*.AppImage* dist/.
-  #         cd dist
-  #         chmod +x *.AppImage
-  #         cd ..
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          set -ex
+          bash deploy.sh beta
+          mkdir dist
+          mv foobar2000*.AppImage* dist/.
+          cd dist
+          chmod +x *.AppImage
+          cd ..
 
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v1.0.0
-  #       with:
-  #         name: foobar2000-beta-continuous-x86_64.AppImage
-  #         path: 'dist'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: foobar2000-beta-continuous-x86_64.AppImage
+          path: 'dist'
 
   f2k-wp:
     # The type of runner that the job will run on
@@ -145,45 +145,45 @@ jobs:
           name: foobar2000-beta-continuous-wp-x86_64.AppImage
           path: 'dist'
 
-  # release-stable:
-  #   needs: [f2k]
-  #   runs-on: ubuntu-latest
+  release-stable:
+    needs: [f2k]
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/download-artifact@v1
-  #       with:
-  #         name: foobar2000-continuous-x86_64.AppImage
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-continuous-x86_64.AppImage
 
-  #     - name: Release
-  #       uses: marvinpinto/action-automatic-releases@latest
-  #       with:
-  #         title: foobar2000 Stable AppImage Builds
-  #         automatic_release_tag: stable
-  #         prerelease: false
-  #         draft: false
-  #         files: |
-  #           foobar2000-continuous-x86_64.AppImage
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 stable
+          automatic_release_tag: stable
+          prerelease: false
+          draft: false
+          files: |
+            foobar2000-continuous-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
 
-  # release-beta:
-  #   needs: [f2k-beta]
-  #   runs-on: ubuntu-latest
+  release-beta:
+    needs: [f2k-beta]
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/download-artifact@v1
-  #       with:
-  #         name: foobar2000-beta-continuous-x86_64.AppImage
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-beta-continuous-x86_64.AppImage
 
-  #     - name: Release
-  #       uses: marvinpinto/action-automatic-releases@latest
-  #       with:
-  #         title: foobar2000 Beta AppImage Builds
-  #         automatic_release_tag: beta
-  #         prerelease: true
-  #         draft: false
-  #         files: |
-  #           foobar2000-beta-continuous-x86_64.AppImage
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 beta
+          automatic_release_tag: beta
+          prerelease: true
+          draft: false
+          files: |
+            foobar2000-beta-continuous-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
 
   release-stable-wp:
     needs: [f2k-wp]
@@ -197,7 +197,7 @@ jobs:
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: foobar2000 stable AppImage build with wineprefix
+          title: foobar2000 stable with wineprefix
           automatic_release_tag: stable-wp
           prerelease: false
           draft: false
@@ -217,7 +217,7 @@ jobs:
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: foobar2000 beta AppImage build with wineprefix
+          title: foobar2000 beta with wineprefix
           automatic_release_tag: beta-wp
           prerelease: true
           draft: false
