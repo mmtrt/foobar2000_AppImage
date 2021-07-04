@@ -84,7 +84,7 @@ winetricks -q wmp9 ; sleep 5
 
 cp -Rvp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX
 
-( cd f2k-stable ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/b9427b854696b2b87ec4ec478a9de95f4db19037/f2kw.patch' | patch -p1 )
+( cd f2k-stable ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/2941da3fb3396c986f907f90392f70594f21273f/f2kw.patch' | patch -p1 )
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable-wp|foobar2000*WP*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage
 
@@ -116,7 +116,7 @@ winetricks -q wmp9 ; sleep 5
 
 cp -Rvp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX
 
-( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/c1a97d094a77c7b1b4d8f4a02aa0f8d06682c06b/f2kbw.patch' | patch -p1 )
+( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/c3482733c04a81896a73e7798f40e3d5aa509a7d/f2kbw.patch' | patch -p1 )
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta-wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
 
