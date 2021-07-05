@@ -97,7 +97,7 @@ export WINEARCH="win32"
 export WINEPREFIX="/home/runner/.wine"
 export WINEDEBUG="-all"
 
-f2kb ; rm ./*AppImage*
+f2kb ; rm ./*AppImage* ; ( cd f2k-beta ; rm AppRun ; cp ../AppRun . )
 
 #apt download unionfs-fuse
 #find ./ -name '*.deb' -exec dpkg -x {} . \;
