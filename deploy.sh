@@ -67,10 +67,6 @@ export WINEDEBUG="-all"
 
 f2ks ; rm ./*AppImage*
 
-#apt download unionfs-fuse
-#find ./ -name '*.deb' -exec dpkg -x {} . \;
-#cp -Rvp ./usr/{bin,sbin} f2k-stable/usr/ ; rm *.deb
-
 # Create WINEPREFIX
 wineboot ; sleep 5
 winetricks -q wmp9 ; sleep 5
@@ -98,10 +94,6 @@ export WINEPREFIX="/home/runner/.wine"
 export WINEDEBUG="-all"
 
 f2kb ; rm ./*AppImage* ; ( cd f2k-beta ; rm AppRun ; cp ../AppRun . )
-
-#apt download unionfs-fuse
-#find ./ -name '*.deb' -exec dpkg -x {} . \;
-#cp -Rvp ./usr/{bin,sbin} f2k-beta/usr/ ; rm *.deb
 
 # Create WINEPREFIX
 wineboot ; sleep 5
