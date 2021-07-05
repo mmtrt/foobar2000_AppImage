@@ -43,13 +43,12 @@ wget --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 
 wget https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe &> /dev/null
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!icons' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-beta/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-beta/usr/share/foobar2000/encoders" &> /dev/null
-( cd f2k-beta/usr/share/foobar2000 ; mv foobar2000.exe foobar2000-beta.exe )
 find "f2k-beta/usr" -type d -execdir chmod 755 {} +
 touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
 cp foobar2000.desktop f2k-beta ; cp AppRun f2k-beta ;
-( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/3e4e7489f3f90e7b72df55912407fab1/raw/b0631034910da5ed3d8cce5a9c03e8789e3ce222/f2kb.patch' | patch -p1 )
+( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/3e4e7489f3f90e7b72df55912407fab1/raw/bb5d2ce5dcaef42416ffddfa75ec46418b2cb1cd/f2kb.patch' | patch -p1 )
 sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun
 
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
@@ -109,7 +108,7 @@ winetricks -q wmp9 ; sleep 5
 
 cp -Rvp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX
 
-( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/7e2dd13ad5148da4645e59a5eee6cdb1a1aa22a5/f2kbw.patch' | patch -p1 )
+( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/c93fb9389861e419eb70c721a36703cf9756b656/f2kbw.patch' | patch -p1 )
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta-wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
 
