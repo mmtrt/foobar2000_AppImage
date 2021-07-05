@@ -48,11 +48,11 @@ find "f2k-beta/usr" -type d -execdir chmod 755 {} +
 touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cp foobar2000.desktop f2k-beta ; cp AppRun f2k-beta ; sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun
+cp foobar2000.desktop f2k-beta ; cp AppRun f2k-beta ;
+( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/3e4e7489f3f90e7b72df55912407fab1/raw/b0631034910da5ed3d8cce5a9c03e8789e3ce222/f2kb.patch' | patch -p1 )
+sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun
 
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
-
-( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/3e4e7489f3f90e7b72df55912407fab1/raw/ee6d177d64f503e5059aa3791bd3af826d67689b/f2kb.patch' | patch -p1 )
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage
 fi
