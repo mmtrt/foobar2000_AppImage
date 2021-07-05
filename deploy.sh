@@ -116,7 +116,7 @@ winetricks -q wmp9 ; sleep 5
 
 cp -Rvp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX
 
-( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/c3482733c04a81896a73e7798f40e3d5aa509a7d/f2kbw.patch' | patch -p1 )
+( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/bd9981678b18945d6d304d9e12ef4c899967a90f/f2kbw.patch' | patch -p1 )
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta-wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage
 
