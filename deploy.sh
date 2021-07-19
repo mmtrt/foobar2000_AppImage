@@ -128,10 +128,14 @@ export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|
 
 if [ "$1" == "stable" ]; then
     f2ks
+    ( mkdir -p dist ; mv foobar2000*.AppImage* dist/. ; cd dist || exit ; chmod +x ./*.AppImage )
 elif [ "$1" == "beta" ]; then
     f2kb
+    ( mkdir -p dist ; mv foobar2000*.AppImage* dist/. ; cd dist || exit ; chmod +x ./*.AppImage )
 elif [ "$1" == "stablewp" ]; then
     f2kswp
+    ( mkdir -p dist ; mv foobar2000*.AppImage* dist/. ; cd dist || exit ; chmod +x ./*.AppImage )
 elif [ "$1" == "betawp" ]; then
     f2kbwp
+    ( mkdir -p dist ; mv foobar2000*.AppImage* dist/. ; cd dist || exit ; chmod +x ./*.AppImage )
 fi
