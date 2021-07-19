@@ -1,5 +1,7 @@
 #!/bin/bash
 
+f2ks () {
+
 # Convert and copy icon which is needed for desktop integration into place:
 wget https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png &>/dev/null
 for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
@@ -11,8 +13,6 @@ done
 wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 chmod +x ./appimagetool-x86_64.AppImage
 ./appimagetool-x86_64.AppImage --appimage-extract
-
-f2ks () {
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -33,6 +33,18 @@ export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsyn
 }
 
 f2kb () {
+
+# Convert and copy icon which is needed for desktop integration into place:
+wget https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png &>/dev/null
+for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
+    dir=icons/hicolor/${width}x${width}/apps
+    mkdir -p $dir
+    convert foobar2000.png -resize ${width}x${width} $dir/foobar2000.png
+done
+
+wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+chmod +x ./appimagetool-x86_64.AppImage
+./appimagetool-x86_64.AppImage --appimage-extract
 
 # f2k beta
 chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
@@ -60,14 +72,6 @@ fi
 
 f2kswp () {
 
-# Disable FileOpenAssociations
-sudo sed -i 's|    LicenseInformation|    LicenseInformation,\\\n    FileOpenAssociations|g;$a \\n[FileOpenAssociations]\nHKCU,Software\\Wine\\FileOpenAssociations,"Enable",,"N"' /opt/wine-stable/share/wine/wine.inf
-# Disable winemenubuilder
-sudo sed -i 's|    FileOpenAssociations|    FileOpenAssociations,\\\n    DllOverrides|;$a \\n[DllOverrides]\nHKCU,Software\\Wine\\DllOverrides,"*winemenubuilder.exe",,""' /opt/wine-stable/share/wine/wine.inf
-sudo sed -i '/\%11\%\\winemenubuilder.exe -a -r/d' /opt/wine-stable/share/wine/wine.inf
-# Pre patching DPI setting DPI dword value 240=f0 180=b4 120=78 110=6e 100=64 96=60
-sudo sed -i 's|0x00000060|0x00000064|' /opt/wine-stable/share/wine/wine.inf
-
 export WINEDLLOVERRIDES="mscoree,mshtml="
 export WINEARCH="win32"
 export WINEPREFIX="/home/runner/.wine"
@@ -75,14 +79,18 @@ export WINEDEBUG="-all"
 
 f2ks ; rm ./*AppImage*
 
+WINE_VER="$(wget -qO- https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/ | grep wine-stable | sed 's|_| |g;s|~| |g' | awk '{print $5}' | tail -n1)"
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/wine-stable_${WINE_VER}-x86_64.AppImage
+chmod +x *.AppImage ; mv wine-stable_${WINE_VER}-x86_64.AppImage wine-stable.AppImage
+
 # Create WINEPREFIX
-wineboot ; sleep 5
-winetricks -q wmp9 ; sleep 5
+./wine-stable.AppImage wineboot ; sleep 5
+./wine-stable.AppImage winetricks -q wmp9 ; sleep 5
 
 # Removing any existing user data
-( cd "$WINEPREFIX" ; rm -rf users ; rm windows/temp/* ) || true
+( cd "$WINEPREFIX" ; rm -rf users ) || true
 
-cp -Rvp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX
+cp -Rvp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
 ( cd f2k-stable ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/2941da3fb3396c986f907f90392f70594f21273f/f2kw.patch' | patch -p1 )
 
@@ -99,18 +107,18 @@ export WINEDEBUG="-all"
 
 f2kb ; rm ./*AppImage*
 
+WINE_VER="$(wget -qO- https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/ | grep wine-stable | sed 's|_| |g;s|~| |g' | awk '{print $5}' | tail -n1)"
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/wine-stable_${WINE_VER}-x86_64.AppImage
+chmod +x *.AppImage ; mv wine-stable_${WINE_VER}-x86_64.AppImage wine-stable.AppImage
+
 # Create WINEPREFIX
-wineboot ; sleep 5
-winetricks -q wmp9 ; sleep 5
+./wine-stable.AppImage wineboot ; sleep 5
+./wine-stable.AppImage winetricks -q wmp9 ; sleep 5
 
 # Removing any existing user data
-( cd "$WINEPREFIX/drive_c/" ; rm -rf users ; rm windows/temp/* ) || true
+( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
-# Pre patching dpi setting in WINEPREFIX & Pre patching to disable winemenubuilder
-# DPI dword value 240=f0 180=b4 120=78 110=6e 96=60
-( cd "$WINEPREFIX"; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:0000006e|' ./user.reg ; sed -i 's|"LogPixels"=dword:00000060|"LogPixels"=dword:0000006e|' ./system.reg ; sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' ./system.reg ) || true
-
-cp -Rvp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX
+cp -Rvp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
 ( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/c93fb9389861e419eb70c721a36703cf9756b656/f2kbw.patch' | patch -p1 )
 
