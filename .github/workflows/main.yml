@@ -29,15 +29,9 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          set -ex
-          bash deploy.sh stable
-          mkdir dist
-          mv foobar2000*.AppImage* dist/.
-          cd dist
-          chmod +x *.AppImage
-          cd ..
+      - name: Run a single-line script
+        run: bash deploy.sh stable
+          
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
@@ -56,15 +50,8 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          set -ex
-          bash deploy.sh beta
-          mkdir dist
-          mv foobar2000*.AppImage* dist/.
-          cd dist
-          chmod +x *.AppImage
-          cd ..
+      - name: Run a single-line script
+        run: bash deploy.sh beta
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
@@ -82,17 +69,8 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          set -ex
-          export DISPLAY=':99.0'
-          sudo Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          bash deploy.sh stablewp
-          mkdir dist
-          mv foobar2000*.AppImage* dist/.
-          cd dist
-          chmod +x *.AppImage
-          cd ..
+      - name: Run a single-line script
+        run: xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh stablewp
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
@@ -111,17 +89,8 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          set -ex
-          export DISPLAY=':99.0'
-          sudo Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          bash deploy.sh betawp
-          mkdir dist
-          mv foobar2000*.AppImage* dist/.
-          cd dist
-          chmod +x *.AppImage
-          cd ..
+      - name: Run a single-line script
+        run: xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
