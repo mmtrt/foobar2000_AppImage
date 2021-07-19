@@ -107,7 +107,7 @@ jobs:
         with:
           name: foobar2000-continuous-x86_64.AppImage
 
-      - name: Release
+      - name: release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: foobar2000 stable
@@ -127,7 +127,7 @@ jobs:
         with:
           name: foobar2000-beta-continuous-x86_64.AppImage
 
-      - name: Release
+      - name: release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: foobar2000 beta
@@ -147,7 +147,7 @@ jobs:
         with:
           name: foobar2000-continuous-wp-x86_64.AppImage
 
-      - name: Release
+      - name: release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: foobar2000 stable with wineprefix
@@ -167,7 +167,7 @@ jobs:
         with:
           name: foobar2000-beta-continuous-wp-x86_64.AppImage
 
-      - name: Release
+      - name: release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: foobar2000 beta with wineprefix
