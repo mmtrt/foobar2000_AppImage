@@ -31,7 +31,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a single-line script
         run: bash deploy.sh stable
-          
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
