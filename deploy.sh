@@ -80,7 +80,7 @@ export WINEDEBUG="-all"
 f2ks ; rm ./*AppImage*
 
 WINE_VER="$(wget -qO- https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/ | grep wine-stable | sed 's|_| |g;s|~| |g' | awk '{print $5}' | tail -n1)"
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/wine-stable_${WINE_VER}-x86_64.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/wine-stable_${WINE_VER}-x86_64.AppImage
 chmod +x *.AppImage ; mv wine-stable_${WINE_VER}-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
@@ -107,7 +107,7 @@ export WINEDEBUG="-all"
 f2kb ; rm ./*AppImage*
 
 WINE_VER="$(wget -qO- https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/ | grep wine-stable | sed 's|_| |g;s|~| |g' | awk '{print $5}' | tail -n1)"
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous/wine-stable_${WINE_VER}-x86_64.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/wine-stable_${WINE_VER}-x86_64.AppImage
 chmod +x *.AppImage ; mv wine-stable_${WINE_VER}-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
