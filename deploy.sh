@@ -66,6 +66,8 @@ sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage &>/dev/null
+else
+exit
 fi
 
 }
