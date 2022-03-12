@@ -81,12 +81,12 @@ export WINEDEBUG="-all"
 
 f2ks ; rm ./*AppImage*
 
-WINE_VER="$(wget -qO- https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/ | grep wine-stable | sed 's|_| |g;s|~| |g' | awk '{print $5}' | tail -n1)"
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/wine-stable_${WINE_VER}-x86_64.AppImage
-chmod +x *.AppImage ; mv wine-stable_${WINE_VER}-x86_64.AppImage wine-stable.AppImage
+WINE_VER="$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous-devel | grep x86_64 | cut -d'"' -f2 | sed 's|_| |g;s|-| |g' |awk '{print $5}'| head -1)"
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/wine-devel_${WINE_VER}-x86_64.AppImage
+chmod +x *.AppImage ; mv wine-devel_${WINE_VER}-x86_64.AppImage wine-devel.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage winetricks -q wmp9 ; sleep 5
+./wine-devel.AppImage winetricks -q wmp9 ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
@@ -113,12 +113,12 @@ export WINEDEBUG="-all"
 
 f2kb ; rm ./*AppImage*
 
-WINE_VER="$(wget -qO- https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/ | grep wine-stable | sed 's|_| |g;s|~| |g' | awk '{print $5}' | tail -n1)"
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/wine-stable_${WINE_VER}-x86_64.AppImage
-chmod +x *.AppImage ; mv wine-stable_${WINE_VER}-x86_64.AppImage wine-stable.AppImage
+WINE_VER="$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous-devel | grep x86_64 | cut -d'"' -f2 | sed 's|_| |g;s|-| |g' |awk '{print $5}'| head -1)"
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/wine-devel_${WINE_VER}-x86_64.AppImage
+chmod +x *.AppImage ; mv wine-devel_${WINE_VER}-x86_64.AppImage wine-devel.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage winetricks -q wmp9 ; sleep 5
+./wine-devel.AppImage winetricks -q wmp9 ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
