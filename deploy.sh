@@ -86,7 +86,7 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-deve
 chmod +x *.AppImage ; mv wine-devel_${WINE_VER}-x86_64.AppImage wine-devel.AppImage
 
 # Create WINEPREFIX
-./wine-devel.AppImage winetricks -q wmp9 ; sleep 5
+./wine-devel.AppImage wineboot ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
@@ -118,7 +118,7 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-deve
 chmod +x *.AppImage ; mv wine-devel_${WINE_VER}-x86_64.AppImage wine-devel.AppImage
 
 # Create WINEPREFIX
-./wine-devel.AppImage winetricks -q wmp9 ; sleep 5
+./wine-devel.AppImage wineboot ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
