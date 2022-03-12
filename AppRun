@@ -70,7 +70,7 @@ fi
 }
 
 # check for wine appimage
-wine_file=$(find "$HOME"/Downloads "$HOME"/bin "$HOME"/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-stable" -e 'Wine-stable' | head -n 1)
+wine_file=$(find "$HOME"/Downloads "$HOME"/bin "$HOME"/.local/bin -type f \( -name '*.appimage' -o -name '*.AppImage' \) 2>/dev/null | grep -e "wine-devel" -e 'Wine-devel' | head -n 1)
 
 if [[ -f $wine_file ]]; then
 
@@ -91,15 +91,15 @@ function winetricks {
 }
 
 else
-echo "wine-stable appimage is missing can not run f2k"
+echo "wine-devel appimage is missing can not run f2k"
 echo ""
-echo "Download wine-stable*.appimage from https://github.com/mmtrt/WINE_AppImage/releases"
+echo "Download wine-devel*.appimage from https://github.com/mmtrt/WINE_AppImage/releases"
 echo ""
 echo "Then"
 echo ""
-echo "chmod +x wine-stable*.AppImage"
+echo "chmod +x wine-devel*.AppImage"
 echo ""
-echo "Also make sure you have single copy of wine-stable appimage present these locations"
+echo "Also make sure you have single copy of wine-devel appimage present these locations"
 echo ""
 echo "$HOME/Downloads ; $HOME/bin ; $HOME/.local/bin"
 exit 1
