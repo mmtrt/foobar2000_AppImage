@@ -34,6 +34,10 @@ export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsyn
 
 f2kb () {
 
+# f2k beta
+chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
+
+if [ $chkbeta_ver -eq 1 ]; then
 # Convert and copy icon which is needed for desktop integration into place:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
@@ -46,10 +50,6 @@ wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/ap
 chmod +x ./appimagetool-x86_64.AppImage
 ./appimagetool-x86_64.AppImage --appimage-extract &>/dev/null
 
-# f2k beta
-chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
-
-if [ $chkbeta_ver -eq 1 ]; then
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
@@ -101,6 +101,11 @@ export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsyn
 
 f2kbwp () {
 
+# f2k beta
+chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
+
+if [ $chkbeta_ver -eq 1 ]; then
+
 export WINEDLLOVERRIDES="mscoree,mshtml="
 export WINEARCH="win32"
 export WINEPREFIX="/home/runner/.wine"
@@ -123,6 +128,9 @@ cp -Rp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 ( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/df2366714adf97554a4e37134e88b3c3b8f94ccf/f2kbw.patch' | patch -p1 )
 
 export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta-wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage &>/dev/null
+else
+exit
+fi
 
 }
 
