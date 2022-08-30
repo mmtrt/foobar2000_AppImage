@@ -1,0 +1,179 @@
+# APP env
+progName="foobar2000"
+progArch="-x86_64"
+progVer=
+progRealPath="$APPDIR/usr/share/$progName"
+progHome="$HOME/.$progName"
+progBin="$progName.exe"
+progIcoD="$HOME/.local/share/applications/$progName.desktop"
+
+if [ -d "$APPDIR/winedata/.wine" ]; then
+# env used by unionfs-fuse
+# WINEPREFIX in the AppDir
+RO_WINEPREFIX="$APPDIR/winedata/.wine"
+MNT_WINEPREFIX="$progHome/.wine"
+RW_WINEPREFIX_OVERLAY=/tmp/."${progName}".unionfs
+else
+# WINE env
+export WINEARCH=${WINEARCH:-"win32"}
+export WINEPREFIX=${WINEPREFIX:-"$progHome/.wine"}
+export WINEDLLOVERRIDES=${WINEDLLOVERRIDES:-"mscoree,mshtml="}
+export WINEDEBUG=${WINEDEBUG:-"fixme-all"}
+fi
+export WINELOADER=${WINELOADER:-"$APPDIR/opt/wine-stable/bin/wine"}
+
+# DXVK env
+export DXVK_HUD=${DXVK_HUD:-"0"}
+export DXVK_LOG_LEVEL=${DXVK_LOG_LEVEL:-"none"}
+export DXVK_STATE_CACHE=${DXVK_STATE_CACHE:-"0"}
+export DXVK_CONFIG_FILE=${DXVK_CONFIG_FILE:-"$progHome/dxvk.conf"}
+
+if [ ! -d "$progHome" ];then
+  mkdir -p "$progHome"
+fi
+
+# Delete broken symlinks
+find -L "$progHome/" -maxdepth 2 -type l -delete &>/dev/null
+# Update existing symlinks, add new symlinks
+cp -urs "$progRealPath/"* "$progHome" &>/dev/null
+
+# Load bundled WINEPREFIX if existing and if $WINEPREFIX is not set
+if [ -d "$APPDIR/winedata/.wine" ] && [ -z "$WINEPREFIX" ] ; then
+  mkdir -p "$MNT_WINEPREFIX" "$RW_WINEPREFIX_OVERLAY"
+  if [ ! -e "$MNT_WINEPREFIX/drive_c" ] ; then
+    unionfs-fuse -o use_ino,uid=$UID -ocow "$RW_WINEPREFIX_OVERLAY"=RW:"$RO_WINEPREFIX"=RO "$MNT_WINEPREFIX" || exit 1
+    trap atexit EXIT
+  fi
+  export WINEPREFIX="$MNT_WINEPREFIX" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all WINEARCH="win32"
+elif [ ! -d "$APPDIR/winedata/.wine" ] && [ ! -d "$WINEPREFIX" ]; then
+# copy WINE light blue theme to WINEPREFIX
+# $WINELOADER wineboot -i
+mkdir -p "$WINEPREFIX/drive_c/windows"
+cp -R "$APPDIR/winedata/"* "$WINEPREFIX/drive_c/windows"
+fi
+
+dkico() {
+if [[ ! -f $progIcoD ]]; then
+
+cp -r "$APPDIR"/usr/share/icons "$HOME"/.local/share
+mkdir -p "$HOME/.local/share/applications"
+DesktopFilePath="$HOME/.local/share/applications/$progName.desktop"
+
+{
+echo "[Desktop Entry]
+Type=Application
+Name=$progName
+GenericName=Audio player
+Comment=Simple and powerful audio player.
+Actions=PlayPause;Stop;Next;Prev;Random;Config
+Encoding=UTF-8
+Version=$progVer
+Icon=$progName
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage %F
+MimeType=audio/aac;audio/x-ape;audio/basic;audio/mp4;audio/mpeg;audio/mpegurl;audio/vorbis;audio/x-flac;audio/x-mp2;audio/x-mp3;audio/x-mpegurl;audio/x-ms-wma;audio/x-oggflac;audio/x-speex;audio/x-vorbis;audio/x-wav;audio/m3u;audio/x-aifc;audio/x-aiffc;audio/x-aiff;audio/x-musepack;audio/x-wavpack;x-content/audio-player;audio/x-matroska;audio/x-vorbis+ogg;
+Categories=AudioVideo;Audio;Player;
+Terminal=false
+StartupWMClass=$progBin
+
+[Desktop Action PlayPause]
+Name=Play/Pause
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage /playpause
+
+[Desktop Action Stop]
+Name=Stop
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage /stop
+
+[Desktop Action Next]
+Name=Next
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage /next
+
+[Desktop Action Prev]
+Name=Prev
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage /prev
+
+[Desktop Action Random]
+Name=Random
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage /rand
+
+[Desktop Action Config]
+Name=Preferences
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage /config"
+} >> "$DesktopFilePath"
+
+# Set servicemenus dir path in user HOME for KDE5
+SVC_MEN_KDE5="$HOME/.local/share/kservices5/ServiceMenus" ; mkdir -p "$SVC_MEN_KDE5"
+DesktopMenuFilePath="$SVC_MEN_KDE5/${progName}_enqueue.desktop"
+
+{
+echo "[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin,audio/*,video/*,inode/directory,inode/directory-locked
+Actions=enqueue_in_f2k
+X-KDE-Priority=TopLevel
+
+[Desktop Action enqueue_in_f2k]
+Name=Enqueue in foobar2000
+Comment=Add files to playlist.
+Icon=foobar2000
+Exec=${OWD}/${progName}-${progVer}${progArch}.AppImage /add %F"
+} >> "$DesktopMenuFilePath"
+fi
+}
+
+rmdkico() {
+
+if [[ -f "$HOME/.local/share/applications/$progName.desktop" ]]; then
+  rm "$HOME/.local/share/applications/$progName.desktop"
+fi
+
+if [[ -f "$HOME/.local/share/kservices5/ServiceMenus/${progName}_enqueue.desktop" ]]; then
+  rm "$HOME/.local/share/kservices5/ServiceMenus/${progName}_enqueue.desktop"
+fi
+
+for width in 16 22 24 32 36 42 48 64 72 96 128 192 256; do
+    if [[ -f "$HOME"/.local/share/icons/hicolor/${width}x${width}/apps/$progName.png ]]; then
+      rm "$HOME"/.local/share/icons/hicolor/${width}x${width}/apps/$progName.png
+    fi
+done
+
+}
+
+atexit ()
+{
+  while pgrep -f "$progHome/$progBin" ; do sleep 1 ; done
+  pkill -f "unionfs-fuse"
+  sleep 1
+  rm -r "$MNT_WINEPREFIX" # "$RW_WINEPREFIX_OVERLAY"
+}
+
+# Passing args to wine apps
+for i in "$@"; do
+  if [[ -e "${i}" ]]; then
+    args+=( "$("$APPDIR"/opt/wine-stable/bin/winepath -w "$i")" )
+  else
+    args+=( "$i" )
+  fi
+done
+
+# Launch wineboot/winecfg/winetricks if requested.
+# If the executable exists then launch it.
+case "$1" in
+  "install")
+    dkico
+    ;;
+  "remove")
+    rmdkico
+    ;;
+  "winetricks")
+    winetricks "$2" "$3"
+    ;;
+  "msiexec"|"notepad"|"regedit"|"regsvr32"|"wineboot"|"winecfg"|"wineconsole"|"winedbg"|"winefile"|"winemine"|"winepath")
+    "$WINELOADER" "$1"
+    ;;
+  "/playpause"|"/stop"|"/next"|"/prev"|"/random"|"/config")
+    "$WINELOADER" "$progHome/$progBin" "$1"
+    ;;
+  *)
+    "$WINELOADER" "$progHome/$progBin" "${args[@]}" 2>/dev/null
+    ;;
+esac

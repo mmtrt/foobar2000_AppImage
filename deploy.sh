@@ -10,9 +10,8 @@ for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
     convert foobar2000.png -resize ${width}x${width} $dir/foobar2000.png
 done
 
-wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-chmod +x ./appimagetool-x86_64.AppImage
-./appimagetool-x86_64.AppImage --appimage-extract &>/dev/null
+VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
+wget https://github.com"${VER}" -O appimage-builder ; chmod +x appimage-builder ; sudo mv appimage-builder /usr/bin
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -24,11 +23,11 @@ find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cp foobar2000.desktop f2k-stable ; cp AppRun f2k-stable ; sed -i -e 's|progVer=|progVer='"$stable_ver"'|g' f2k-stable/AppRun
+cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"$stable_ver"'|g' f2k-stable/wrapper
 
 cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
 
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}-${ARCH}.AppImage &>/dev/null
+export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}-${ARCH}.AppImage &>/dev/null
 
 }
 
@@ -46,9 +45,8 @@ for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
     convert foobar2000.png -resize ${width}x${width} $dir/foobar2000.png
 done
 
-wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-chmod +x ./appimagetool-x86_64.AppImage
-./appimagetool-x86_64.AppImage --appimage-extract &>/dev/null
+VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
+wget https://github.com"${VER}" -O appimage-builder ; chmod +x appimage-builder ; sudo mv appimage-builder /usr/bin
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
@@ -59,13 +57,12 @@ find "f2k-beta/usr" -type d -execdir chmod 755 {} +
 touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cp foobar2000.desktop f2k-beta ; cp AppRun f2k-beta ;
-( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/3e4e7489f3f90e7b72df55912407fab1/raw/bb5d2ce5dcaef42416ffddfa75ec46418b2cb1cd/f2kb.patch' | patch -p1 )
-sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/AppRun
+cp foobar2000.desktop f2k-beta ; cp wrapper f2k-beta ;
+sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
 
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
 
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage &>/dev/null
+export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage &>/dev/null
 else
 exit
 fi
@@ -81,21 +78,18 @@ export WINEDEBUG="-all"
 
 f2ks ; rm ./*AppImage*
 
-WINE_VER="$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous-devel | grep x86_64 | cut -d'"' -f2 | sed 's|_| |g;s|-| |g' |awk '{print $5}'| head -1)"
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/wine-devel_${WINE_VER}-x86_64.AppImage
-chmod +x *.AppImage ; mv wine-devel_${WINE_VER}-x86_64.AppImage wine-devel.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-i386/wine-stable-i386_4.0.4-i686.AppImage
+chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-devel.AppImage wineboot ; sleep 5
+./wine-stable.AppImage wineboot ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
 
 cp -Rp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
-( cd f2k-stable ; wget -qO- 'https://gist.github.com/mmtrt/0a0712cbae05b2e3dc2aac338fcf95eb/raw/b3cddb7fba032796b1d347cd032664b53ec9d74c/f2kw.patch' | patch -p1 )
-
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable-wp|foobar2000*WP*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage &>/dev/null
+export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable-wp|foobar2000*WP*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage &>/dev/null
 
 }
 
@@ -113,21 +107,18 @@ export WINEDEBUG="-all"
 
 f2kb ; rm ./*AppImage*
 
-WINE_VER="$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous-devel | grep x86_64 | cut -d'"' -f2 | sed 's|_| |g;s|-| |g' |awk '{print $5}'| head -1)"
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/wine-devel_${WINE_VER}-x86_64.AppImage
-chmod +x *.AppImage ; mv wine-devel_${WINE_VER}-x86_64.AppImage wine-devel.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-i386/wine-stable-i386_4.0.4-i686.AppImage
+chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-devel.AppImage wineboot ; sleep 5
+./wine-stable.AppImage wineboot ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
 cp -Rp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
-( cd f2k-beta ; wget -qO- 'https://gist.github.com/mmtrt/618bbc9ea9b165a0c4b70bba9b6b5727/raw/df2366714adf97554a4e37134e88b3c3b8f94ccf/f2kbw.patch' | patch -p1 )
-
-export ARCH=x86_64; squashfs-root/AppRun -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta-wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage &>/dev/null
+export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta-wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage &>/dev/null
 else
 exit
 fi
