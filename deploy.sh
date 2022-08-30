@@ -67,7 +67,7 @@ f2kswp () {
 
 export WINEDLLOVERRIDES="mscoree,mshtml="
 export WINEARCH="win32"
-export WINEPREFIX="/home/runner/.wine"
+export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
 f2ks ; rm ./*AppImage*
@@ -76,14 +76,14 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stab
 chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage wineboot ; sleep 15
+./wine-stable.AppImage wineboot ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
 
-cp -Rp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
+rm ./*.AppImage
 
-mkdir -p AppDir ; cp -r "f2k-stable/"* AppDir ; rsync -a f2k-stable/.wine AppDir
+mkdir -p AppDir ; cp -r "f2k-stable/"* AppDir
 
 ./builder --recipe f2k.yml
 
@@ -98,7 +98,7 @@ if [ $chkbeta_ver -eq 1 ]; then
 
 export WINEDLLOVERRIDES="mscoree,mshtml="
 export WINEARCH="win32"
-export WINEPREFIX="/home/runner/.wine"
+export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
 f2kb ; rm ./*AppImage*
@@ -107,14 +107,14 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stab
 chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage wineboot ; sleep 15
+./wine-stable.AppImage wineboot ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
-cp -Rp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
+rm ./*.AppImage
 
-mkdir -p AppDir ; cp -r "f2k-beta/"* AppDir ; rsync -a f2k-beta/.wine AppDir
+mkdir -p AppDir ; cp -r "f2k-beta/"* AppDir
 
 ./builder --recipe f2k-beta.yml
 else
