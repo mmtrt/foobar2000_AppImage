@@ -81,7 +81,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
 
-rm ./*.AppImage
+rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
 
 ./builder --recipe f2k.yml
 
@@ -110,7 +110,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
-rm ./*.AppImage
+rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
 
 ./builder --recipe f2k-beta.yml
 else
