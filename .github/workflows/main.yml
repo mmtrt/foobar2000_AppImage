@@ -57,16 +57,8 @@ jobs:
         run: echo "F2KB_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          # Checking for f2k beta
-          chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
-
-          if [ $chkbeta_ver -eq 1 ]; then
-           bash deploy.sh beta
-          else
-           echo "No beta release found."
-          fi
+      - name: Run a single-line script
+        run: bash deploy.sh beta
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
@@ -85,12 +77,12 @@ jobs:
 
       # Set F2K_VER
       - name: Run version script
-        run: echo "F2K_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
+        run: echo "F2K_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||'_WP)" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          dpkg --add-architecture i386 && apt update && apt install libfuse2:i386
+          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2:i386
           xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh stablewp
 
       - name: Upload artifact
@@ -111,20 +103,13 @@ jobs:
 
       # Set F2KB_VER
       - name: Run version script
-        run: echo "F2KB_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
+        run: echo "F2KB_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||'_WP)" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          # Checking for f2k beta
-          chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
-
-          if [ $chkbeta_ver -eq 1 ]; then
-           dpkg --add-architecture i386 && apt update && apt install libfuse2:i386
-           xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp
-          else
-           echo "No beta release found."
-          fi
+          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2:i386
+          xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
