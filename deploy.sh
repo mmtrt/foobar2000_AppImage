@@ -6,7 +6,7 @@ f2ks () {
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
 VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q https://github.com"${VER}" -O builder ; chmod +x builder
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -38,7 +38,7 @@ if [ $chkbeta_ver -eq 1 ]; then
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
 VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q https://github.com"${VER}" -O builder ; chmod +x builder
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
