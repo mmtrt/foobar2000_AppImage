@@ -2,13 +2,8 @@
 
 f2ks () {
 
-# Convert and copy icon which is needed for desktop integration into place:
+# Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
-for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
-    dir=icons/hicolor/${width}x${width}/apps
-    mkdir -p $dir
-    convert foobar2000.png -resize ${width}x${width} $dir/foobar2000.png
-done
 
 VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
 wget https://github.com"${VER}" -O builder ; chmod +x builder
@@ -25,7 +20,7 @@ rm *.exe
 
 cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"$stable_ver"'|g' f2k-stable/wrapper
 
-cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
+# cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
 
 cp -Rp "f2k-stable/"* AppDir
 
@@ -39,13 +34,8 @@ f2kb () {
 chkbeta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g' | wc -l)
 
 if [ $chkbeta_ver -eq 1 ]; then
-# Convert and copy icon which is needed for desktop integration into place:
+# Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
-for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
-    dir=icons/hicolor/${width}x${width}/apps
-    mkdir -p $dir
-    convert foobar2000.png -resize ${width}x${width} $dir/foobar2000.png
-done
 
 VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
 wget https://github.com"${VER}" -O builder ; chmod +x builder
@@ -62,7 +52,7 @@ rm *.exe
 cp foobar2000.desktop f2k-beta ; cp wrapper f2k-beta ;
 sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
 
-cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
+# cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
 
 cp -Rp "f2k-beta/"* AppDir
 
