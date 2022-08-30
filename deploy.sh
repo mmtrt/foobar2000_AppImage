@@ -27,7 +27,7 @@ cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=
 
 cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
 
-export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable|foobar2000*.AppImage.zsync" foobar2000_${stable_ver}-${ARCH}.AppImage &>/dev/null
+appimage-builder --recipe f2k.yml
 
 }
 
@@ -62,7 +62,7 @@ sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
 
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
 
-export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta|foobar2000_*beta*.AppImage.zsync" foobar2000_${beta_ver}-${ARCH}.AppImage &>/dev/null
+appimage-builder --recipe f2k-beta.yml
 else
 exit
 fi
@@ -89,7 +89,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 
 cp -Rp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
-export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-stable -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|stable-wp|foobar2000*WP*.AppImage.zsync" foobar2000_${stable_ver}_WP-${ARCH}.AppImage &>/dev/null
+appimage-builder --recipe f2k.yml
 
 }
 
@@ -118,7 +118,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 
 cp -Rp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
-export ARCH=x86_64; squashfs-root/wrapper -v ./f2k-beta -n -u "gh-releases-zsync|mmtrt|foobar2000_AppImage|beta-wp|foobar2000*beta*WP*.AppImage.zsync" foobar2000_${beta_ver}_WP-${ARCH}.AppImage &>/dev/null
+appimage-builder --recipe f2k-beta.yml
 else
 exit
 fi
