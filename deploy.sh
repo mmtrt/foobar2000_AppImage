@@ -22,7 +22,7 @@ cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=
 
 mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/icons
 
-mkdir -p AppDir ; cp -r "f2k-stable/"* AppDir
+mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
 ./builder --recipe f2k.yml
 
@@ -54,7 +54,7 @@ sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
 
 mkdir -p f2k-beta/usr/share/icons ; cp foobar2000.png f2k-beta/usr/share/icons
 
-mkdir -p AppDir ; cp -r "f2k-beta/"* AppDir
+mkdir -p AppDir/winedata ; cp -r "f2k-beta/"* AppDir
 
 ./builder --recipe f2k-beta.yml
 else
@@ -82,8 +82,6 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
 
 rm ./*.AppImage
-
-mkdir -p AppDir ; cp -r "f2k-stable/"* AppDir
 
 ./builder --recipe f2k.yml
 
@@ -113,8 +111,6 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
 rm ./*.AppImage
-
-mkdir -p AppDir ; cp -r "f2k-beta/"* AppDir
 
 ./builder --recipe f2k-beta.yml
 else
