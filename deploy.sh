@@ -27,6 +27,8 @@ cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=
 
 cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
 
+cp -Rp "f2k-stable/"* AppDir
+
 ./builder --recipe f2k.yml
 
 }
@@ -62,9 +64,11 @@ sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
 
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
 
+cp -Rp "f2k-beta/"* AppDir
+
 ./builder --recipe f2k-beta.yml
 else
-exit
+echo "No beta release found."
 fi
 
 }
@@ -88,6 +92,8 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
 
 cp -Rp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
+
+cp -Rp "f2k-stable/"* AppDir
 
 ./builder --recipe f2k.yml
 
@@ -118,9 +124,11 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 
 cp -Rp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
+cp -Rp "f2k-beta/"* AppDir
+
 ./builder --recipe f2k-beta.yml
 else
-exit
+echo "No beta release found."
 fi
 
 }
