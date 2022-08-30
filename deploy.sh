@@ -11,7 +11,7 @@ for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
 done
 
 VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget https://github.com"${VER}" -O appimage-builder ; chmod +x appimage-builder ; sudo mv appimage-builder /usr/bin
+wget https://github.com"${VER}" -O builder ; chmod +x builder
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -27,7 +27,7 @@ cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=
 
 cp -r icons f2k-stable/usr/share ; cp foobar2000.png f2k-stable
 
-appimage-builder --recipe f2k.yml
+./builder --recipe f2k.yml
 
 }
 
@@ -46,7 +46,7 @@ for width in 8 16 22 24 32 36 42 48 64 72 96 128 192 256; do
 done
 
 VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget https://github.com"${VER}" -O appimage-builder ; chmod +x appimage-builder ; sudo mv appimage-builder /usr/bin
+wget https://github.com"${VER}" -O builder ; chmod +x builder
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4,$5,$6}'|sed '1d;3d'|sed 's|v||;s|</a><br/>||;s| ||;s| ||;s|b|-b|g;s|</a>||g')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
@@ -62,7 +62,7 @@ sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
 
 cp -r icons f2k-beta/usr/share ; cp foobar2000.png f2k-beta
 
-appimage-builder --recipe f2k-beta.yml
+./builder --recipe f2k-beta.yml
 else
 exit
 fi
@@ -89,7 +89,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 
 cp -Rp $WINEPREFIX f2k-stable/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
-appimage-builder --recipe f2k.yml
+./builder --recipe f2k.yml
 
 }
 
@@ -118,7 +118,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 
 cp -Rp $WINEPREFIX f2k-beta/ ; rm -rf $WINEPREFIX ; rm ./*.AppImage
 
-appimage-builder --recipe f2k-beta.yml
+./builder --recipe f2k-beta.yml
 else
 exit
 fi
