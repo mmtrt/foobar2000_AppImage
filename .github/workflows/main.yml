@@ -279,7 +279,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
   release-beta64:
-    needs: [f2k-beta64]
+    needs: [f2k64-beta]
     runs-on: ubuntu-latest
 
     steps:
