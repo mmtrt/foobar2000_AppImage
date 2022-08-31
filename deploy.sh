@@ -318,8 +318,6 @@ ls -al
 ( cd "squashfs-root/opt/wine-stable/bin/" ; ln -s wine64 wine ) || true
 ./squashfs-root/AppRun wineboot ; sleep 5
 
-ls -al $WINEPREFIX/drive_c/
-
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
