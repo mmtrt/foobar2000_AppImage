@@ -289,7 +289,7 @@ export WINEDEBUG="-all"
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.1.0 | grep x86_64 | cut -d'"' -f2 | head -1)
+VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
 wget -q https://github.com"${VER}" -O builder ; chmod +x builder
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
