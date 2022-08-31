@@ -42,6 +42,30 @@ jobs:
           name: foobar2000-continuous-x86_64.AppImage
           path: 'dist'
 
+  # This workflow contains a single job called "f2k64"
+  f2k64:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Set F2K_VER
+      - name: Run version script
+        run: echo "F2K_VER=x64-$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
+
+      # Runs a set of commands using the runners shell
+      - name: Run a single-line script
+        run: bash deploy.sh stable64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: foobar2000-x64-continuous-x86_64.AppImage
+          path: 'dist'
+
   # This workflow contains a single job called "f2k-beta"
   f2k-beta:
     # The type of runner that the job will run on
@@ -66,6 +90,31 @@ jobs:
           name: foobar2000-beta-continuous-x86_64.AppImage
           path: 'dist'
 
+  # This workflow contains a single job called "f2k64-beta"
+  f2k64-beta:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Set F2KB_VER
+      - name: Run version script
+        run: echo "F2KB_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')" >> $GITHUB_ENV
+
+      # Runs a set of commands using the runners shell
+      - name: Run a single-line script
+        run: bash deploy.sh beta64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: foobar2000-x64-beta-continuous-x86_64.AppImage
+          path: 'dist'
+
+  # This workflow contains a single job called "f2k-wp"
   f2k-wp:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -91,7 +140,33 @@ jobs:
           name: foobar2000-continuous-wp-x86_64.AppImage
           path: 'dist'
 
-  # This workflow contains a single job called "f2k-beta"
+  # This workflow contains a single job called "f2k64-wp"
+  f2k64-wp:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Set F2K_VER
+      - name: Run version script
+        run: echo "F2K_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2:i386
+          xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh stablewp64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: foobar2000-x64-continuous-wp-x86_64.AppImage
+          path: 'dist'
+
+  # This workflow contains a single job called "f2k-beta-wp"
   f2k-beta-wp:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -117,6 +192,32 @@ jobs:
           name: foobar2000-beta-continuous-wp-x86_64.AppImage
           path: 'dist'
 
+  # This workflow contains a single job called "f2k64-beta-wp"
+  f2k64-beta-wp:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Set F2KB_VER
+      - name: Run version script
+        run: echo "F2KB_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')" >> $GITHUB_ENV
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2:i386
+          xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: foobar2000-x64-beta-continuous-wp-x86_64.AppImage
+          path: 'dist'
+
   release-stable:
     needs: [f2k]
     runs-on: ubuntu-latest
@@ -135,6 +236,26 @@ jobs:
           draft: false
           files: |
             foobar2000-continuous-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+  release-stable64:
+    needs: [f2k64]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-x64-continuous-x86_64.AppImage
+
+      - name: release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 x64 stable
+          automatic_release_tag: stable64
+          prerelease: false
+          draft: false
+          files: |
+            foobar2000-x64-continuous-x86_64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
   release-beta:
@@ -157,6 +278,26 @@ jobs:
             foobar2000-beta-continuous-x86_64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
+  release-beta64:
+    needs: [f2k-beta64]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-x64-beta-continuous-x86_64.AppImage
+
+      - name: release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 x64 beta
+          automatic_release_tag: beta64
+          prerelease: true
+          draft: false
+          files: |
+            foobar2000-x64-beta-continuous-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
   release-stable-wp:
     needs: [f2k-wp]
     runs-on: ubuntu-latest
@@ -177,6 +318,26 @@ jobs:
             foobar2000-continuous-wp-x86_64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
+  release-stable64-wp:
+    needs: [f2k64-wp]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-x64-continuous-wp-x86_64.AppImage
+
+      - name: release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 x64 stable with wineprefix
+          automatic_release_tag: stable64-wp
+          prerelease: false
+          draft: false
+          files: |
+            foobar2000-x64-continuous-wp-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
   release-beta-wp:
     needs: [f2k-beta-wp]
     runs-on: ubuntu-latest
@@ -195,4 +356,24 @@ jobs:
           draft: false
           files: |
             foobar2000-beta-continuous-wp-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+  release-beta64-wp:
+    needs: [f2k64-beta-wp]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: foobar2000-x64-beta-continuous-wp-x86_64.AppImage
+
+      - name: release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: foobar2000 x64 beta with wineprefix
+          automatic_release_tag: beta64-wp
+          prerelease: true
+          draft: false
+          files: |
+            foobar2000-x64-beta-continuous-wp-x86_64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
