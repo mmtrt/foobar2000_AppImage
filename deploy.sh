@@ -314,6 +314,8 @@ ls -al
 # Create WINEPREFIX
 ./wine-stable.AppImage wineboot ; sleep 5
 
+ls -al $WINEPREFIX/drive_c/
+
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
