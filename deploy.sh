@@ -312,7 +312,7 @@ chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.App
 ls -al
 
 # Create WINEPREFIX
-./wine-stable.AppImage wineboot ; sleep 5
+./wine-stable.AppImage ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
