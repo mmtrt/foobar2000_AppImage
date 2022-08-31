@@ -205,7 +205,9 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stab
 chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage wineboot ; sleep 5
+./wine-stable.AppImage --appimage-extract
+( cd "squashfs-root/opt/wine-stable/bin/" ; ln -s wine64 wine ) || true
+./squashfs-root/AppRun wineboot ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
