@@ -146,6 +146,8 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 
 rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
 
+sed -i 's/stable|/stable-wp|/' f2k.yml
+
 ./builder --recipe f2k.yml
 
 }
@@ -169,6 +171,8 @@ chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.App
 ( cd "$WINEPREFIX" ; rm -rf users ) || true
 
 rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
+
+sed -i 's/stable64|/stable64-wp|/' f2k-x64.yml
 
 ./builder --recipe f2k-x64.yml
 
@@ -198,6 +202,8 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppIma
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
 rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
+
+sed -i 's/beta|/beta-wp|/' f2k-beta.yml
 
 ./builder --recipe f2k-beta.yml
 else
@@ -230,6 +236,8 @@ chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.App
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
 rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
+
+sed -i 's/beta64|/beta64-wp|/' f2k-x64-beta.yml
 
 ./builder --recipe f2k-x64-beta.yml
 else
