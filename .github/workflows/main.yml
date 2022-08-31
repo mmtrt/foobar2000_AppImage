@@ -126,7 +126,7 @@ jobs:
 
       # Set F2K_VER
       - name: Run version script
-        run: echo "F2K_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
+        run: echo "F2K_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')_WP" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
@@ -152,7 +152,7 @@ jobs:
 
       ## Set F2K_VER
       #- name: Run version script
-        #run: echo "F2K_VER=x64_$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
+        #run: echo "F2K_VER=x64_$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')_WP" >> $GITHUB_ENV
 
       ## Runs a set of commands using the runners shell
       #- name: Run a multi-line script
@@ -176,7 +176,7 @@ jobs:
 
       # Set F2KB_VER
       - name: Run version script
-        run: echo "F2KB_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')" >> $GITHUB_ENV
+        run: echo "F2KB_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')_WP" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
@@ -202,7 +202,7 @@ jobs:
 
       # Set F2KB_VER
       - name: Run version script
-        run: echo "F2KB_VER=x64_$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')" >> $GITHUB_ENV
+        run: echo "F2KB_VER=x64_$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')_WP" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
