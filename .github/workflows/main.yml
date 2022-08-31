@@ -156,9 +156,7 @@ jobs:
 
       ## Runs a set of commands using the runners shell
       #- name: Run a multi-line script
-        #run: |
-          #sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2:i386
-          #xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh stablewp64
+        #run: xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh stablewp64
 
       #- name: Upload artifact
         #uses: actions/upload-artifact@v1.0.0
@@ -208,9 +206,7 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
-        run: |
-          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2:i386
-          xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp64
+        run: xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp64
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
