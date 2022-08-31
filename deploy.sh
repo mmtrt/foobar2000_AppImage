@@ -218,7 +218,7 @@ export WINEARCH="win64"
 export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
-f2kb ; rm ./*AppImage*
+f2kb64 ; rm ./*AppImage*
 
 wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-amd64/wine-stable-i386_4.0.4-x86_64.AppImage
 chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.AppImage
