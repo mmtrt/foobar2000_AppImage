@@ -47,7 +47,7 @@ find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"$stable_ver"'|g' f2k-stable/wrapper
+cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"x64_$stable_ver"'|g' f2k-stable/wrapper
 
 mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/icons
 
@@ -115,7 +115,7 @@ touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
 cp foobar2000.desktop f2k-beta ; cp wrapper f2k-beta ;
-sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
+sed -i -e 's|progVer=|progVer='"x64_$beta_ver"'|g' f2k-beta/wrapper
 
 mkdir -p f2k-beta/usr/share/icons ; cp foobar2000.png f2k-beta/usr/share/icons
 
@@ -198,7 +198,7 @@ find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"$stable_ver"'|g' f2k-stable/wrapper
+cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"x64_${stable_ver}_WP"'|g' f2k-stable/wrapper
 
 mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/icons
 
@@ -306,7 +306,7 @@ touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
 cp foobar2000.desktop f2k-beta ; cp wrapper f2k-beta ;
-sed -i -e 's|progVer=|progVer='"$beta_ver"'|g' f2k-beta/wrapper
+sed -i -e 's|progVer=|progVer='"x64_${beta_ver}_WP"'|g' f2k-beta/wrapper
 
 mkdir -p f2k-beta/usr/share/icons ; cp foobar2000.png f2k-beta/usr/share/icons
 
