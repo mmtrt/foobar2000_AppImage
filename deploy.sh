@@ -12,8 +12,12 @@ wget -q https://github.com"${VER}" -O builder ; chmod +x builder
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
 wget -q https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*beta*.exe' ; rm *x64*.exe
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
+wget -q https://fy.3dyd.com/download/$(wget -qO- https://fy.3dyd.com/download/ | grep _beta | sed 's|>| |g;s|<| |g' | awk '{print $5}' | head -1).fb2k-component
+wget -q https://github.com/sammoth/foo_out_pulse/releases/download/v0.6.2-beta/foo_out_pulse.fb2k-component
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
+7z x "foo_youtube_*.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_youtube" &> /dev/null
+7z x "foo_out_pulse.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_out_pulse" &> /dev/null
 find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
@@ -72,8 +76,12 @@ wget -q https://github.com"${VER}" -O builder ; chmod +x builder
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe ; rm *x64*.exe
+wget -q https://fy.3dyd.com/download/$(wget -qO- https://fy.3dyd.com/download/ | grep _beta | sed 's|>| |g;s|<| |g' | awk '{print $5}' | head -1).fb2k-component
+wget -q https://github.com/sammoth/foo_out_pulse/releases/download/v0.6.2-beta/foo_out_pulse.fb2k-component
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-beta/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-beta/usr/share/foobar2000/encoders" &> /dev/null
+7z x "foo_youtube_*.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_youtube" &> /dev/null
+7z x "foo_out_pulse.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_out_pulse" &> /dev/null
 find "f2k-beta/usr" -type d -execdir chmod 755 {} +
 touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
@@ -145,8 +153,12 @@ wget -q https://github.com"${VER}" -O builder ; chmod +x builder
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
 wget -q https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*beta*.exe' ; rm *x64*.exe
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
+wget -q https://fy.3dyd.com/download/$(wget -qO- https://fy.3dyd.com/download/ | grep _beta | sed 's|>| |g;s|<| |g' | awk '{print $5}' | head -1).fb2k-component
+wget -q https://github.com/sammoth/foo_out_pulse/releases/download/v0.6.2-beta/foo_out_pulse.fb2k-component
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
+7z x "foo_youtube_*.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_youtube" &> /dev/null
+7z x "foo_out_pulse.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_out_pulse" &> /dev/null
 find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
@@ -244,8 +256,12 @@ wget -q https://github.com"${VER}" -O builder ; chmod +x builder
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe ; rm *x64*.exe
+wget -q https://fy.3dyd.com/download/$(wget -qO- https://fy.3dyd.com/download/ | grep _beta | sed 's|>| |g;s|<| |g' | awk '{print $5}' | head -1).fb2k-component
+wget -q https://github.com/sammoth/foo_out_pulse/releases/download/v0.6.2-beta/foo_out_pulse.fb2k-component
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-beta/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-beta/usr/share/foobar2000/encoders" &> /dev/null
+7z x "foo_youtube_*.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_youtube" &> /dev/null
+7z x "foo_out_pulse.fb2k-component" -o"f2k-beta/usr/share/foobar2000/profile/user-components/foo_out_pulse" &> /dev/null
 find "f2k-beta/usr" -type d -execdir chmod 755 {} +
 touch f2k-beta/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
