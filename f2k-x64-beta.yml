@@ -35,7 +35,9 @@ AppDir:
       - bash
       - cabextract
       - dash
+      - findutils
       - perl
+      - procps
       - coreutils
       - mesa-utils
       - unionfs-fuse
