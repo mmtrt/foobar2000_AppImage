@@ -35,8 +35,8 @@ AppDir:
       - bash
       - cabextract
       - dash
-      #- perl
       - findutils
+      #- perl
       - procps
       - coreutils
       - mesa-utils
