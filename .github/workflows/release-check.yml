@@ -50,5 +50,3 @@ jobs:
       with:
         commit_message: Trigger build for new version
         branch: beta
-        tags-ignore:
-          - 'beta*'
