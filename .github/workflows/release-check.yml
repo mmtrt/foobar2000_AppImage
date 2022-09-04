@@ -41,7 +41,6 @@ jobs:
 
         if [ "$VERSION_CHECK" -eq 1 ]; then
           if [ "$last" != "$VERSION" ]; then
-            git push --delete origin ${{ github.event.release.tag_name }}
             echo "$(date -u --rfc-3339=seconds) Version $VERSION" >> .build.b
           fi
         else
