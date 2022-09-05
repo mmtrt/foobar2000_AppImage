@@ -32,7 +32,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         token: ${{ secrets.PAT }}
-        ref: beta
+        ref: master-beta
     - name: get-latest-version
       run: |
         VERSION="$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')"
@@ -49,4 +49,4 @@ jobs:
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Trigger build for new version
-        branch: beta
+        branch: master-beta
