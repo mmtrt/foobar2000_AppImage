@@ -25,7 +25,7 @@ AppDir:
     exec_args: wrapper $@
 
   apt:
-    arch: [i386]
+    arch: [amd64, i386]
     sources:
       - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
       - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse'
@@ -107,8 +107,6 @@ AppDir:
   after_bundle:
     # this is executed after the packages and files are added
     - |
-     # Patch wrapper script to use i686
-     sed -i 's|x86_64|i686|' AppDir/wrapper
 
      WINE_VER="4.0.4"
      wget -q -c https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/wine-stable_${WINE_VER}~focal_i386.deb
@@ -135,5 +133,5 @@ AppDir:
 AppImage:
   update-information: gh-releases-zsync|mmtrt|foobar2000_AppImage|beta|foobar2000_*beta*.AppImage.zsync
   #sign-key: None
-  arch: i686
+  arch: x86_64
 

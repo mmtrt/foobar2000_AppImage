@@ -29,7 +29,7 @@ AppDir:
         key_url: 'https://dl.winehq.org/wine-builds/winehq.key'
 
     include:
-      #- wine-stable-amd64=4.0.4~focal
+      - wine-staging-amd64=7.19~jammy-1
       - bash
       - cabextract
       - dash
@@ -63,6 +63,7 @@ AppDir:
       - usr/lib/mime
       - usr/lib/sasl2
       - usr/lib/tmpfiles.d
+      - usr/lib/i386-linux-gnu
       - usr/sbin
       - usr/share/apps
       - usr/share/man
@@ -111,7 +112,7 @@ AppDir:
      wget -q -c https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-amd64/wine-stable-amd64_${WINE_VER}~focal_amd64.deb
      dpkg -x "wine-stable_${WINE_VER}~focal_amd64.deb" AppDir/
      dpkg -x "wine-stable-amd64_${WINE_VER}~focal_amd64.deb" AppDir/
-     #cp -r AppDir/usr/opt/wine-stable/* AppDir/usr
+     (cd AppDir/usr/bin; ln -s "../../opt/wine-stable/bin/"* .)
 
      # Cleanup
      #rm -rf AppDir/usr/{opt,usr}
