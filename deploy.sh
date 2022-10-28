@@ -5,8 +5,7 @@ f2ks () {
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -33,8 +32,7 @@ f2ks64 () {
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -66,8 +64,7 @@ if [ $chkbeta_ver -eq 1 ]; then
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
@@ -101,8 +98,7 @@ if [ $chkbeta_ver -eq 1 ]; then
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 ; rm foobar2000_*.exe
@@ -138,8 +134,7 @@ export WINEDEBUG="-all"
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -157,8 +152,8 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-i386/wine-stable-i386_4.0.4-i686.AppImage
-chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-i386/wine-stable-i386_4.0.4-x86_64.AppImage
+chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
 ./wine-stable.AppImage wineboot ; sleep 5
@@ -184,8 +179,7 @@ export WINEDEBUG="-all"
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -238,8 +232,7 @@ export WINEDEBUG="-all"
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
@@ -257,8 +250,8 @@ mkdir -p f2k-beta/usr/share/icons ; cp foobar2000.png f2k-beta/usr/share/icons
 
 mkdir -p AppDir/winedata ; cp -r "f2k-beta/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-i386/wine-stable-i386_4.0.4-i686.AppImage
-chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-i686.AppImage wine-stable.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-i386/wine-stable-i386_4.0.4-x86_64.AppImage
+chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
 ./wine-stable.AppImage wineboot ; sleep 5
@@ -292,8 +285,7 @@ export WINEDEBUG="-all"
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-VER=$(wget -qO- https://github.com/AppImageCrafters/appimage-builder/releases/tag/v1.0.3 | grep x86_64 | cut -d'"' -f2 | head -1)
-wget -q https://github.com"${VER}" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 ; rm foobar2000_*.exe

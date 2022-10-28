@@ -5,9 +5,7 @@ script:
   # Add winetricks
   - wget -q -nc "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -P ./AppDir/bin && chmod +x ./AppDir/bin/winetricks
   # Add WINE official light blue theme
-  - wget -q -nc "https://github.com/mmtrt/sommelier-core/raw/master/themes/light/light.msstyles" -P ./AppDir/winedata/resources/themes/light
-  # Deploy f2k app
-  - ./deploy.sh
+  - wget -q -nc "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msstyles" -P ./AppDir/winedata/resources/themes/light
 
 AppDir:
   path: ./AppDir
@@ -23,15 +21,15 @@ AppDir:
   apt:
     arch: [amd64]
     sources:
-      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse'
-      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse'
-      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse'
-        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3b4fe6acc0b21f32'
-      - sourceline: 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
+      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
+      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse'
+      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C'
+      - sourceline: 'deb https://dl.winehq.org/wine-builds/ubuntu/ jammy main'
         key_url: 'https://dl.winehq.org/wine-builds/winehq.key'
 
     include:
-      #- wine-stable-amd64=4.0.4~focal
+      - wine-staging-amd64=7.19~jammy-1
       - bash
       - cabextract
       - dash
@@ -65,6 +63,7 @@ AppDir:
       - usr/lib/mime
       - usr/lib/sasl2
       - usr/lib/tmpfiles.d
+      - usr/lib/i386-linux-gnu
       - usr/sbin
       - usr/share/apps
       - usr/share/man
@@ -96,6 +95,7 @@ AppDir:
       - usr/share/zoneinfo
       - usr/share/zoneinfo-icu
       - usr/share/zsh
+      - opt/wine-staging
       - opt/wine-stable/share/man
       - opt/wine-stable/lib64/wine/*.a
       - opt/wine-stable/lib64/wine/*.def
@@ -108,11 +108,11 @@ AppDir:
      sed -i 's|win32"|win64"|g' AppDir/wrapper
 
      WINE_VER="4.0.4"
-     wget -q -nc https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-amd64/wine-stable_${WINE_VER}~focal_amd64.deb
-     wget -q -nc "https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-amd64/wine-stable-amd64_${WINE_VER}~focal_amd64.deb"
+     wget -q -c https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-amd64/wine-stable_${WINE_VER}~focal_amd64.deb
+     wget -q -c https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-amd64/wine-stable-amd64_${WINE_VER}~focal_amd64.deb
      dpkg -x "wine-stable_${WINE_VER}~focal_amd64.deb" AppDir/
      dpkg -x "wine-stable-amd64_${WINE_VER}~focal_amd64.deb" AppDir/
-     #cp -r AppDir/usr/opt/wine-stable/* AppDir/usr
+     (cd AppDir/usr/bin; ln -s "../../opt/wine-stable/bin/"* .)
 
      # Cleanup
      #rm -rf AppDir/usr/{opt,usr}
