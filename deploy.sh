@@ -81,6 +81,8 @@ export WINEARCH="win32"
 export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
+wget -q "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msstyles" -P $WINEPREFIX/drive_c/windows/resources/themes/light
+
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
@@ -113,6 +115,8 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppI
 
 echo "disabled" > $WINEPREFIX/.update-timestamp
 
+sed -i "8d" f2k-beta.yml
+
 sed -i 's/beta|/beta-wp|/' f2k-beta.yml
 
 ./builder --recipe f2k-beta.yml
@@ -133,6 +137,8 @@ export WINEDLLOVERRIDES="mscoree,mshtml="
 export WINEARCH="win64"
 export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
+
+wget -q "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msstyles" -P $WINEPREFIX/drive_c/windows/resources/themes/light
 
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
@@ -166,6 +172,8 @@ chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.App
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
 echo "disabled" > $WINEPREFIX/.update-timestamp
+
+sed -i "8d" f2k-x64-beta.yml
 
 sed -i 's/beta64|/beta64-wp|/' f2k-x64-beta.yml
 
