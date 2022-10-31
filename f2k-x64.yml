@@ -5,9 +5,7 @@ script:
   # Add winetricks
   - wget -q -nc "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -P ./AppDir/bin && chmod +x ./AppDir/bin/winetricks
   # Add WINE official light blue theme
-  - wget -q -nc "https://github.com/mmtrt/sommelier-core/raw/master/themes/light/light.msstyles" -P ./AppDir/winedata/resources/themes/light
-  # Deploy f2k app
-  - ./deploy.sh
+  - wget -q -nc "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msstyles" -P ./AppDir/winedata/resources/themes/light
 
 AppDir:
   path: ./AppDir
@@ -29,18 +27,22 @@ AppDir:
         key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C'
       - sourceline: 'deb https://dl.winehq.org/wine-builds/ubuntu/ jammy main'
         key_url: 'https://dl.winehq.org/wine-builds/winehq.key'
+      - sourceline: 'deb http://ppa.launchpad.net/graphics-drivers/ppa/ubuntu/ kinetic main'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xFCAE110B1118213C'
+      - sourceline: 'deb https://ppa.launchpadcontent.net/oibaf/graphics-drivers/ubuntu kinetic main'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x957D2708A03A4626'
 
     include:
       - wine-staging-amd64=7.19~jammy-1
       - bash
       - cabextract
       - dash
-      - findutils
-      #- perl
-      - procps
+      - perl
       - coreutils
       - mesa-utils
       - unionfs-fuse
+      - libfuse2
+      - libfuse3-3
 
   files:
     exclude:
