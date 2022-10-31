@@ -111,7 +111,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppI
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
-rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
+echo "disabled" > $WINEPREFIX/.update-timestamp
 
 sed -i 's/beta|/beta-wp|/' f2k-beta.yml
 
@@ -160,14 +160,12 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stab
 chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage --appimage-extract
-( cd "squashfs-root/opt/wine-stable/bin/" ; ln -s wine64 wine ) || true
-./squashfs-root/AppRun wineboot ; sleep 5
+./wine-stable.AppImage winetricks -q "wmp9 vcrun2017" ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
-rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
+echo "disabled" > $WINEPREFIX/.update-timestamp
 
 sed -i 's/beta64|/beta64-wp|/' f2k-x64-beta.yml
 
