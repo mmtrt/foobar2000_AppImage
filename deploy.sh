@@ -90,7 +90,7 @@ chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppI
 ./wine-stable.AppImage winetricks -q "wmp9 vcrun2017" ; sleep 5
 
 # Removing any existing user data
-( cd "$WINEPREFIX" ; rm -rf users ) || true
+( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
 rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
 
@@ -137,7 +137,7 @@ chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.App
 
 
 # Removing any existing user data
-( cd "$WINEPREFIX" ; rm -rf users ) || true
+( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
 
 echo "disabled" > $WINEPREFIX/.update-timestamp
 
