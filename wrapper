@@ -39,7 +39,7 @@ cp -urs "$progRealPath/"* "$progHome" &>/dev/null
 
 # Load bundled WINEPREFIX if existing and if $WINEPREFIX is not set
 if [ -d "$APPDIR/winedata/.wine" ] && [ -z "$WINEPREFIX" ] ; then
-  mkdir -p "$MNT_WINEPREFIX" "$RW_WINEPREFIX_OVERLAY"
+  mkdir -p "$MNT_WINEPREFIX" "$RW_WINEPREFIX"
   if [ ! -e "$MNT_WINEPREFIX/drive_c" ] ; then
     unionfs-fuse -o use_ino,uid=$UID -ocow "$RW_WINEPREFIX"=RW:"$RO_WINEPREFIX"=RO "$MNT_WINEPREFIX" || exit 1
     trap atexit EXIT
