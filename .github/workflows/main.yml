@@ -32,7 +32,9 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run a single-line script
-        run: bash deploy.sh beta
+        run: |
+          sudo apt update && sudo apt install libfuse2 -y
+          bash deploy.sh beta
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
@@ -55,8 +57,10 @@ jobs:
         run: echo "F2KB_VER=x64_$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
-      - name: Run a single-line script
-        run: bash deploy.sh beta64
+      - name: Run a multi-line script
+        run: |
+          sudo apt update && sudo apt install libfuse2 -y
+          bash deploy.sh beta64
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
@@ -81,7 +85,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2:i386
+          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2 libfuse2:i386 libglu1-mesa:i386
           xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp
 
       - name: Upload artifact
@@ -106,7 +110,9 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
-        run: xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp64
+        run: |
+          sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libfuse2 libfuse2:i386 libglu1-mesa:i386
+          xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh betawp64
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
