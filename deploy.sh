@@ -138,7 +138,7 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stab
 chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage winetricks -q "wmp9 vcrun2017" ; sleep 5
+./wine-stable.AppImage winetricks -q -f "wmp9 vcrun2017" ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
@@ -206,7 +206,7 @@ wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stab
 chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage winetricks -q "wmp9 vcrun2017" ; sleep 5
+./wine-stable.AppImage winetricks -q -f "wmp9 vcrun2017" ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
