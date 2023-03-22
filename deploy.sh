@@ -9,7 +9,17 @@ if [ $chkbeta_ver -eq 1 ]; then
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+
+# add custom mksquashfs
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
+
+# force zstd format in appimagebuilder for appimages
+rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
+
+# Add static appimage runtime
+mkdir -p appimage-build/prime
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
@@ -27,7 +37,7 @@ mkdir -p f2k-beta/usr/share/icons ; cp foobar2000.png f2k-beta/usr/share/icons
 
 mkdir -p AppDir/winedata ; cp -r "f2k-beta/"* AppDir
 
-./builder --recipe f2k-beta.yml
+./squashfs-root/AppRun --recipe f2k-beta.yml
 else
 echo "No beta release found."
 fi
@@ -43,7 +53,17 @@ if [ $chkbeta_ver -eq 1 ]; then
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+
+# add custom mksquashfs
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
+
+# force zstd format in appimagebuilder for appimages
+rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
+
+# Add static appimage runtime
+mkdir -p appimage-build/prime
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 ; rm foobar2000_*.exe
@@ -62,7 +82,7 @@ mkdir -p f2k-beta/usr/share/icons ; cp foobar2000.png f2k-beta/usr/share/icons
 
 mkdir -p AppDir/winedata ; cp -r "f2k-beta/"* AppDir
 
-./builder --recipe f2k-x64-beta.yml
+./squashfs-root/AppRun --recipe f2k-x64-beta.yml
 else
 echo "No beta release found."
 fi
@@ -86,7 +106,17 @@ wget -q "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msst
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+
+# add custom mksquashfs
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
+
+# force zstd format in appimagebuilder for appimages
+rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
+
+# Add static appimage runtime
+mkdir -p appimage-build/prime
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2
@@ -119,7 +149,7 @@ sed -i "8d" f2k-beta.yml
 
 sed -i 's/beta|/beta-wp|/' f2k-beta.yml
 
-./builder --recipe f2k-beta.yml
+./squashfs-root/AppRun --recipe f2k-beta.yml
 else
 echo "No beta release found."
 fi
@@ -143,7 +173,17 @@ wget -q "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msst
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+
+# add custom mksquashfs
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
+
+# force zstd format in appimagebuilder for appimages
+rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
+
+# Add static appimage runtime
+mkdir -p appimage-build/prime
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
 
 beta_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep getfile | tail -n1 | sed 's|v| |;s| b|-b|' | awk '{print $3 $4}')
 wget -q --accept "*beta*.exe" https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 ; rm foobar2000_*.exe
@@ -177,7 +217,7 @@ sed -i "8d" f2k-x64-beta.yml
 
 sed -i 's/beta64|/beta64-wp|/' f2k-x64-beta.yml
 
-./builder --recipe f2k-x64-beta.yml
+./squashfs-root/AppRun --recipe f2k-x64-beta.yml
 else
 echo "No beta release found."
 fi
