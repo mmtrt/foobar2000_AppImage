@@ -210,7 +210,7 @@ rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/a
 
 # Add static appimage runtime
 mkdir -p appimage-build/prime
-wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
+wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-aarch64" -O appimage-build/prime/runtime-aarch64
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $4}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
