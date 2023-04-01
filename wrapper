@@ -141,7 +141,7 @@ done
 atexit ()
 {
   while pgrep -f "$progHome/$progBin" ; do sleep 1 ; done
-  kill $(ps -ef | grep $progName.unionfs | awk '{print $2}' | head -1)
+  kill $(pgrep -f $progName.unionfs)
   sleep 1
   rm -r "$MNT_WINEPREFIX" # "$RW_WINEPREFIX_OVERLAY"
 }
