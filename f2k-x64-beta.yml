@@ -76,6 +76,7 @@ AppDir:
       - usr/share/bash-completion
       - usr/share/bug
       - usr/share/debconf
+      - usr/share/debianutils
       - usr/share/doc
       - usr/share/doc-base
       - usr/share/dpkg
@@ -119,8 +120,11 @@ AppDir:
 
      # Cleanup
      #rm -rf AppDir/usr/{opt,usr}
-     rm -rf AppDir/usr/share/{applications,man,doc}
+     rm -rf AppDir/usr/share/{applications,man,doc,lintian}
      rm -rf AppDir/opt/wine-stable/share/{applications,man,doc}
+     rm AppDir/usr/share/icons/cab_*.png
+     rm AppDir/opt/wine-stable/lib64/wine/*.a
+     rm AppDir/opt/wine-stable/lib64/wine/*.def
 
      # Disable FileOpenAssociations
      sed -i 's|    LicenseInformation|    LicenseInformation,\\\n    FileOpenAssociations|g;$a \\n[FileOpenAssociations]\nHKCU,Software\\Wine\\FileOpenAssociations,"Enable",,"N"' AppDir/opt/wine-stable/share/wine/wine.inf
