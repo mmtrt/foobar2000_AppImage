@@ -41,8 +41,6 @@ AppDir:
       - coreutils
       - mesa-utils
       - unionfs-fuse
-      - libfuse2
-      - libfuse3-3
 
   files:
     exclude:
