@@ -202,8 +202,8 @@ mkdir -p f2k-beta/usr/share/icons ; cp foobar2000.png f2k-beta/usr/share/icons
 
 mkdir -p AppDir/winedata ; cp -r "f2k-beta/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-amd64/wine-stable-amd64_4.0.4-x86_64.AppImage
-chmod +x *.AppImage ; mv wine-stable-amd64_4.0.4-x86_64.AppImage wine-stable.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-multi/wine-stable-multi_4.0.4-x86_64.AppImage
+chmod +x *.AppImage ; mv /wine-stable-multi_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
 ./wine-stable.AppImage winetricks -q "wmp9 vcrun2019" ; sleep 5
