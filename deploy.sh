@@ -65,7 +65,7 @@ find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"x64_$stable_ver"'|g' f2k-stable/wrapper
+cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"x64_$stable_ver"'|g' f2k-stable/wrapper ; sed -i -z 's|progName|progName-x64|3' f2k-stable/wrapper
 
 mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/icons
 
@@ -169,7 +169,7 @@ find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
 
-cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"x64_${stable_ver}_WP"'|g' f2k-stable/wrapper
+cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=|progVer='"x64_${stable_ver}_WP"'|g' f2k-stable/wrapper ; sed -i -z 's|progName|progName-x64|3' f2k-stable/wrapper
 
 mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/icons
 
