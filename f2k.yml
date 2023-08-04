@@ -134,7 +134,7 @@ AppDir:
 
   runtime:
     env:
-      APPDIR_LIBC_VERSION: '2.37'
+      APPDIR_LIBC_VERSION: '2.38'
 
 AppImage:
   update-information: gh-releases-zsync|mmtrt|foobar2000_AppImage|stable|foobar2000*.AppImage.zsync
