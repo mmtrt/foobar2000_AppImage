@@ -36,7 +36,7 @@ AppDir:
       - wine32
       - wine32-preloader
       - bash
-      - box86
+      - box86-generic-arm
       - cabextract
       - dash
       - perl
