@@ -2,18 +2,6 @@ version: 1
 
 script:
   - mkdir -p AppDir/winedata
-  # Add unionfs cabextract mesa-utils libfuse2 libglew2.1 i386 from debian as they don't exists in focal
-  - deb=$(curl -w "%{filename_effective}" -sLO http://http.us.debian.org/debian/pool/main/u/unionfs-fuse/unionfs-fuse_1.0-1+b1_i386.deb) && dpkg -x $deb ./AppDir && rm $deb
-  - deb=$(curl -w "%{filename_effective}" -sLO http://http.us.debian.org/debian/pool/main/c/cabextract/cabextract_1.9-3_i386.deb) && dpkg -x $deb ./AppDir && rm $deb
-  - deb=$(curl -w "%{filename_effective}" -sLO http://http.us.debian.org/debian/pool/main/m/mesa-demos/mesa-utils_8.4.0-1+b1_i386.deb) && dpkg -x $deb ./AppDir && rm $deb
-  - deb=$(curl -w "%{filename_effective}" -sLO http://http.us.debian.org/debian/pool/main/g/glew/libglew2.1_2.1.0-4+b1_i386.deb) && dpkg -x $deb ./AppDir && rm $deb
-  - deb=$(curl -w "%{filename_effective}" -sLO http://http.us.debian.org/debian/pool/main/f/fuse/libfuse2_2.9.9-5_i386.deb) && dpkg -x $deb ./AppDir && rm $deb
-  # Add winetricks
-  - wget -q -nc "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -P ./AppDir/bin && chmod +x ./AppDir/bin/winetricks
-  # Add WINE official light blue theme
-  - wget -q -nc "https://github.com/mmtrt/sommelier-core/raw/master/themes/light/light.msstyles" -P ./AppDir/winedata/resources/themes/light
-  # Deploy f2k app
-  - ./deploy.sh
 
 AppDir:
   path: ./AppDir
@@ -27,7 +15,7 @@ AppDir:
     exec_args: wrapper $@
 
   apt:
-    arch: [amd64, i386]
+    arch: [amd64]
     sources:
       - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
       - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse'
@@ -37,103 +25,20 @@ AppDir:
         key_url: 'https://dl.winehq.org/wine-builds/winehq.key'
 
     include:
-      - wine-staging-i386=7.19~jammy-1
       - bash
       - dash
-      - perl
       - coreutils
+      - unionfs-fuse
 
   files:
     exclude:
-      - sbin
-      - var
-      - etc/alternatives
-      - etc/apt
-      - etc/cron.daily
-      - etc/dpkg
-      - etc/mysql
-      - etc/sane.d
-      - etc/sensors.d
-      - etc/skel
-      - etc/snmp
-      - etc/udev
-      - etc/gss
-      - etc/init.d
-      - etc/logrotate.d
-      - lib/modprobe.d
-      - lib/systemd
-      - lib/udev
-      - usr/lib/mime
-      - usr/lib/sasl2
-      - usr/lib/tmpfiles.d
-      - usr/lib/x86_64-linux-gnu
-      - usr/sbin
-      - usr/share/apps
       - usr/share/man
       - usr/share/doc
-      - usr/share/adduser
-      - usr/share/apport
-      - usr/share/bash-completion
-      - usr/share/bug
-      - usr/share/debconf
-      - usr/share/doc
       - usr/share/doc-base
-      - usr/share/dpkg
-      - usr/share/glib-2.0
-      - usr/share/gst-plugins-base
-      - usr/share/hal
-      - usr/share/info
-      - usr/share/initramfs-tools
-      - usr/share/kde4
-      - usr/share/libgphoto2
       - usr/share/lintian
-      - usr/share/menu
-      - usr/share/metainfo
-      - usr/share/misc
-      - usr/share/mysql-common
-      - usr/share/pixmaps
-      - usr/share/pkgconfig
-      - usr/share/polkit-1
-      - usr/share/snmp
-      - usr/share/zoneinfo
-      - usr/share/zoneinfo-icu
-      - usr/share/zsh
-      - opt/wine-staging
-      - opt/wine-stable/share/man
-      #- opt/wine-stable/share/applications
-      - opt/wine-stable/lib/wine/*.a
-      - opt/wine-stable/lib/wine/*.def
-      #- opt/wine-stable/lib/wine/i386-unix/*.a
-      #- opt/wine-stable/lib/wine/i386-windows/*.a
-
-  after_bundle:
-    # this is executed after the packages and files are added
-    - |
-
-     WINE_VER="4.0.4"
-     wget -q -c https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/wine-stable_${WINE_VER}~focal_i386.deb
-     wget -q -c https://dl.winehq.org/wine-builds/ubuntu/dists/focal/main/binary-i386/wine-stable-i386_${WINE_VER}~focal_i386.deb
-     dpkg -x "wine-stable_${WINE_VER}~focal_i386.deb" AppDir/
-     dpkg -x "wine-stable-i386_${WINE_VER}~focal_i386.deb" AppDir/
-     #cp -r AppDir/usr/opt/wine-stable/* AppDir/usr
-
-     # Cleanup
-     #rm -rf AppDir/usr/{opt,usr}
-     rm -rf AppDir/usr/share/{applications,man,doc}
-     rm -rf AppDir/opt/wine-stable/share/{applications,man,doc}
-
-     # Disable FileOpenAssociations
-     sed -i 's|    LicenseInformation|    LicenseInformation,\\\n    FileOpenAssociations|g;$a \\n[FileOpenAssociations]\nHKCU,Software\\Wine\\FileOpenAssociations,"Enable",,"N"' AppDir/opt/wine-stable/share/wine/wine.inf
-
-     # Disable winemenubuilder
-     sed -i 's|    FileOpenAssociations|    FileOpenAssociations,\\\n    DllOverrides|;$a \\n[DllOverrides]\nHKCU,Software\\Wine\\DllOverrides,"*winemenubuilder.exe",,""' AppDir/opt/wine-stable/share/wine/wine.inf
-     sed -i '/\%11\%\\winemenubuilder.exe -a -r/d' AppDir/opt/wine-stable/share/wine/wine.inf
-
-     # Pre patch setting wine blue theme by default
-     sed -i 's|    DllOverrides|    DllOverrides,\\\n    ThemeSet|;$a \\n[ThemeSet]\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"ColorName",,"Blue"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"DllName",,"C:\\windows\\resources\\themes\\light\\light.msstyles"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"ThemeActive",,"1"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"FlatMenu",0x10001,0x00000000\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"GradientCaption",0x10001,0x00000001\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"SizeName",,"NormalSize"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"IconTitleFont",1,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,\\\n00,00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,6c,00,\\\n20,00,44,00,6c,00,67,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"LoadedBefore",,"1"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager,"NonClientMetrics",1,f8,01,00,00,01,00,00,00,10,00,00,00,10,00,00,00,12,00,\\\n00,00,12,00,00,00,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,bc,02,00,\\\n00,00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,6c,00,\\\n20,00,44,00,6c,00,67,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,0f,00,\\\n00,00,0f,00,00,00,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,\\\n00,00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,6c,00,\\\n20,00,44,00,6c,00,67,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,12,00,\\\n00,00,12,00,00,00,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,\\\n00,00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,6c,00,\\\n20,00,44,00,6c,00,67,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,f5,ff,\\\nff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,00,00,00,00,00,00,00,\\\n22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,6c,00,20,00,44,00,6c,00,67,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,f5,ff,ff,ff,00,00,00,00,00,00,\\\n00,00,00,00,00,00,90,01,00,00,00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,\\\n00,6d,00,61,00,00,00,6c,00,20,00,44,00,6c,00,67,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00\nHKCU,Control Panel\\Colors,"ActiveBorder",,"255 255 255"\nHKCU,Control Panel\\Colors,"ActiveTitle",,"50 150 250"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ActiveBorder",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ActiveTitle",,"10 36 106"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"AppWorkSpace",,"128 128 128"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"Background",,"58 110 165"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ButtonAlternateFace",,"181 181 181"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ButtonDkShadow",,"64 64 64"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ButtonFace",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ButtonHilight",,"255 255 255"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ButtonLight",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ButtonShadow",,"128 128 128"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"ButtonText",,"0 0 0"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"GradientActiveTitle",,"166 202 240"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"GradientInactiveTitle",,"192 192 192"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"GrayText",,"128 128 128"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"Hilight",,"10 36 106"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"HilightText",,"255 255 255"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"HotTrackingColor",,"0 0 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"InactiveBorder",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"InactiveTitle",,"128 128 128"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"InactiveTitleText",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"InfoText",,"0 0 0"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"InfoWindow",,"255 255 225"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"Menu",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"MenuBar",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"MenuHilight",,"10 36 106"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"MenuText",,"0 0 0"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"Scrollbar",,"212 208 200"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"TitleText",,"255 255 255"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"Window",,"255 255 255"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"WindowFrame",,"0 0 0"\nHKCU,Software\\Microsoft\\Windows\\CurrentVersion\\ThemeManager\\Control Panel\\Colors,"WindowText",,"0 0 0"\nHKCU,Control Panel\\Colors,"AppWorkSpace",,"128 128 128"\nHKCU,Control Panel\\Colors,"Background",,"37 111 149"\nHKCU,Control Panel\\Colors,"ButtonAlternateFace",,"255 255 255"\nHKCU,Control Panel\\Colors,"ButtonDkShadow",,"106 106 106"\nHKCU,Control Panel\\Colors,"ButtonFace",,"245 245 245"\nHKCU,Control Panel\\Colors,"ButtonHilight",,"255 255 255"\nHKCU,Control Panel\\Colors,"ButtonLight",,"227 227 227"\nHKCU,Control Panel\\Colors,"ButtonShadow",,"166 166 166"\nHKCU,Control Panel\\Colors,"ButtonText",,"0 0 0"\nHKCU,Control Panel\\Colors,"GradientActiveTitle",,"50 150 250"\nHKCU,Control Panel\\Colors,"GradientInactiveTitle",,"245 245 245"\nHKCU,Control Panel\\Colors,"GrayText",,"166 166 166"\nHKCU,Control Panel\\Colors,"Hilight",,"48 150 250"\nHKCU,Control Panel\\Colors,"HilightText",,"255 255 255"\nHKCU,Control Panel\\Colors,"HotTrackingColor",,"224 224 224"\nHKCU,Control Panel\\Colors,"InactiveBorder",,"255 255 255"\nHKCU,Control Panel\\Colors,"InactiveTitle",,"245 245 245"\nHKCU,Control Panel\\Colors,"InactiveTitleText",,"100 100 100"\nHKCU,Control Panel\\Colors,"InfoText",,"0 0 0"\nHKCU,Control Panel\\Colors,"InfoWindow",,"255 255 255"\nHKCU,Control Panel\\Colors,"Menu",,"255 255 255"\nHKCU,Control Panel\\Colors,"MenuBar",,"255 255 255"\nHKCU,Control Panel\\Colors,"MenuHilight",,"48 150 250"\nHKCU,Control Panel\\Colors,"MenuText",,"0 0 0"\nHKCU,Control Panel\\Colors,"Scrollbar",,"255 255 255"\nHKCU,Control Panel\\Colors,"TitleText",,"0 0 0"\nHKCU,Control Panel\\Colors,"Window",,"255 255 255"\nHKCU,Control Panel\\Colors,"WindowFrame",,"158 158 158"\nHKCU,Control Panel\\Colors,"WindowText",,"0 0 0"\nHKCU,Control Panel\\Desktop,"UserPreferencesMask",1,30,00,02,80,12,00,00,00\nHKCU,Control Panel\\Desktop\\WindowMetrics,"BorderWidth",,"1"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"CaptionFont",1,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,bc,02,00,00,\\\n00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\nHKCU,Control Panel\\Desktop\\WindowMetrics,"CaptionHeight",,"18"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"CaptionWidth",,"18"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"IconFont",1,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,00,\\\n00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\nHKCU,Control Panel\\Desktop\\WindowMetrics,"MenuFont",1,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,00,\\\n00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\nHKCU,Control Panel\\Desktop\\WindowMetrics,"MenuHeight",,"18"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"MenuWidth",,"18"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"MessageFont",1,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\\\n00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\nHKCU,Control Panel\\Desktop\\WindowMetrics,"ScrollHeight",,"17"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"ScrollWidth",,"17"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"SmCaptionFont",1,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,\\\n00,00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\nHKCU,Control Panel\\Desktop\\WindowMetrics,"SmCaptionHeight",,"15"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"SmCaptionWidth",,"15"\nHKCU,Control Panel\\Desktop\\WindowMetrics,"StatusFont",1,f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\\\n00,00,00,00,00,00,00,22,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\\\n00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00' AppDir/opt/wine-stable/share/wine/wine.inf
 
 AppImage:
-  update-information: gh-releases-zsync|mmtrt|foobar2000_AppImage|stable|foobar2000*.AppImage.zsync
+  update-information: gh-releases-zsync|mmtrt|foobar2000_AppImage|test1|foobar2000*.AppImage.zsync
   #sign-key: None
   arch: x86_64
 

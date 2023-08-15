@@ -6,13 +6,14 @@ progRealPath="$APPDIR/usr/share/$progName"
 progHome="$HOME/.$progName"
 progBin="$progName.exe"
 progIcoD="$HOME/.local/share/applications/$progName.desktop"
+progWINE="wine-stable-i386_4.0.4-x86_64.AppImage"
 
 if [ -d "$APPDIR/winedata/.wine" ]; then
 # env used by unionfs-fuse
 # WINEPREFIX in the AppDir
 RO_WINEPREFIX="$APPDIR/winedata/.wine"
-MNT_WINEPREFIX="$progHome/.wine"
-RW_WINEPREFIX_OVERLAY=/tmp/."${progName}".unionfs
+RW_WINEPREFIX="$progHome/.wine"
+MNT_WINEPREFIX=/tmp/."${progName}".unionfs
 else
 # WINE env
 export WINEARCH=${WINEARCH:-"win32"}
@@ -20,7 +21,43 @@ export WINEPREFIX=${WINEPREFIX:-"$progHome/.wine"}
 export WINEDLLOVERRIDES=${WINEDLLOVERRIDES:-"mscoree,mshtml="}
 export WINEDEBUG=${WINEDEBUG:-"fixme-all"}
 fi
-export WINELOADER=${WINELOADER:-"$APPDIR/opt/wine-stable/bin/wine"}
+
+if command -v "~/bin/$progWINE" ; then
+chmod +x "~/bin/$progWINE"
+export WINELOADER=${WINELOADER:-"~/bin/$progWINE"}
+fi
+
+if command -v "~/.local/bin/$progWINE" ; then
+chmod +x "~/.local/bin/$progWINE"
+export WINELOADER=${WINELOADER:-"~/.local/bin/$progWINE"}
+fi
+
+if command -v "~/$progWINE" ; then
+chmod +x "~/$progWINE"
+export WINELOADER=${WINELOADER:-"~/$progWINE"}
+fi
+
+if command -v "~/Downloads/$progWINE" ; then
+chmod +x "~/Downloads/$progWINE"
+export WINELOADER=${WINELOADER:-"~/Downloads/$progWINE"}
+fi
+
+if ! command -v "$WINELOADER" ; then
+msg="Note: This AppImage does not include any WINE support you need to download \n
+https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous-stable-4-i386 \n
+ > In order to run this AppImage"
+  if [ -x /usr/bin/zenity ] ; then
+    LD_LIBRARY_PATH="" zenity --error --text "${msg}" 2>/dev/null || exit 0
+  elif [ -x /usr/bin/kdialog ] ; then
+    LD_LIBRARY_PATH="" kdialog --msgbox "${msg}" 2>/dev/null || exit 0
+  elif [ -x /usr/bin/Xdialog ] ; then
+    LD_LIBRARY_PATH="" Xdialog --msgbox "${msg}" 2>/dev/null || exit 0
+  else
+    clear
+    echo -e "${msg}"
+    exit 0
+  fi
+fi
 
 # DXVK env
 export DXVK_HUD=${DXVK_HUD:-"0"}
@@ -39,9 +76,9 @@ cp -urs "$progRealPath/"* "$progHome" &>/dev/null
 
 # Load bundled WINEPREFIX if existing and if $WINEPREFIX is not set
 if [ -d "$APPDIR/winedata/.wine" ] && [ -z "$WINEPREFIX" ] ; then
-  mkdir -p "$MNT_WINEPREFIX" "$RW_WINEPREFIX_OVERLAY"
+  mkdir -p "$MNT_WINEPREFIX" "$RW_WINEPREFIX"
   if [ ! -e "$MNT_WINEPREFIX/drive_c" ] ; then
-    unionfs-fuse -o use_ino,uid=$UID -ocow "$RW_WINEPREFIX_OVERLAY"=RW:"$RO_WINEPREFIX"=RO "$MNT_WINEPREFIX" || exit 1
+    unionfs-fuse -o use_ino,uid=$UID -ocow "$RW_WINEPREFIX"=RW:"$RO_WINEPREFIX"=RO "$MNT_WINEPREFIX" || exit 1
     trap atexit EXIT
   fi
   export WINEPREFIX="$MNT_WINEPREFIX" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all WINEARCH="win32"
@@ -141,7 +178,7 @@ done
 atexit ()
 {
   while pgrep -f "$progHome/$progBin" ; do sleep 1 ; done
-  pkill -f "unionfs-fuse"
+  kill $(ps -ef | grep $progName.unionfs | awk '{print $2}' | head -1)
   sleep 1
   rm -r "$MNT_WINEPREFIX" # "$RW_WINEPREFIX_OVERLAY"
 }
