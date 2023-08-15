@@ -33,6 +33,8 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
+sed -i '/fuse/d' f2k.yml
+
 ./squashfs-root/AppRun --recipe f2k.yml
 
 }
