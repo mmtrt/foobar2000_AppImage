@@ -22,27 +22,27 @@ export WINEDLLOVERRIDES=${WINEDLLOVERRIDES:-"mscoree,mshtml="}
 export WINEDEBUG=${WINEDEBUG:-"fixme-all"}
 fi
 
-if command -v "~/bin/$progWINE" ; then
-chmod +x "~/bin/$progWINE"
-export WINELOADER=${WINELOADER:-"~/bin/$progWINE"}
+if command -v "$HOME/bin/$progWINE" &>/dev/null ; then
+chmod +x "$HOME/bin/$progWINE"
+export WINELOADER=${WINELOADER:-"$HOME/bin/$progWINE"}
 fi
 
-if command -v "~/.local/bin/$progWINE" ; then
-chmod +x "~/.local/bin/$progWINE"
-export WINELOADER=${WINELOADER:-"~/.local/bin/$progWINE"}
+if command -v "$HOME/.local/bin/$progWINE" &>/dev/null ; then
+chmod +x "$HOME/.local/bin/$progWINE"
+export WINELOADER=${WINELOADER:-"$HOME/.local/bin/$progWINE"}
 fi
 
-if command -v "~/$progWINE" ; then
-chmod +x "~/$progWINE"
-export WINELOADER=${WINELOADER:-"~/$progWINE"}
+if command -v "$HOME/$progWINE" &>/dev/null ; then
+chmod +x "$HOME/$progWINE"
+export WINELOADER=${WINELOADER:-"$HOME/$progWINE"}
 fi
 
-if command -v "~/Downloads/$progWINE" ; then
-chmod +x "~/Downloads/$progWINE"
-export WINELOADER=${WINELOADER:-"~/Downloads/$progWINE"}
+if command -v "$HOME/Downloads/$progWINE" &>/dev/null  ; then
+chmod +x "$HOME/Downloads/$progWINE"
+export WINELOADER=${WINELOADER:-"$HOME/Downloads/$progWINE"}
 fi
 
-if ! command -v "$WINELOADER" ; then
+if ! command -v "$WINELOADER" &>/dev/null ; then
 msg="Note: This AppImage does not include any WINE support you need to download \n
 https://github.com/mmtrt/WINE_AppImage/releases/tag/continuous-stable-4-i386 \n
  > In order to run this AppImage"
