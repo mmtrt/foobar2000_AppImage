@@ -26,24 +26,28 @@ if command -v "$HOME/bin/$progWINE" &>/dev/null ; then
 chmod +x "$HOME/bin/$progWINE"
 export WINELOADER=${WINELOADER:-"$HOME/bin/$progWINE"}
 export WINEPATH=${WINEPATH:-"$HOME/bin/$progWINE winepath"}
+export WINETRICKS=${WINETRICKS:-"$HOME/bin/$progWINE winetricks"}
 fi
 
 if command -v "$HOME/.local/bin/$progWINE" &>/dev/null ; then
 chmod +x "$HOME/.local/bin/$progWINE"
 export WINELOADER=${WINELOADER:-"$HOME/.local/bin/$progWINE"}
 export WINEPATH=${WINEPATH:-"$HOME/.local/bin/$progWINE winepath"}
+export WINETRICKS=${WINETRICKS:-"$HOME/.local/bin/$progWINE winetricks"}
 fi
 
 if command -v "$HOME/$progWINE" &>/dev/null ; then
 chmod +x "$HOME/$progWINE"
 export WINELOADER=${WINELOADER:-"$HOME/$progWINE"}
 export WINEPATH=${WINEPATH:-"$HOME/$progWINE winepath"}
+export WINETRICKS=${WINETRICKS:-"$HOME/$progWINE winetricks"}
 fi
 
 if command -v "$HOME/Downloads/$progWINE" &>/dev/null  ; then
 chmod +x "$HOME/Downloads/$progWINE"
 export WINELOADER=${WINELOADER:-"$HOME/Downloads/$progWINE"}
 export WINEPATH=${WINEPATH:-"$HOME/Downloads/$progWINE winepath"}
+export WINETRICKS=${WINETRICKS:-"$HOME/Downloads/$progWINE winetricks"}
 fi
 
 if ! command -v "$WINELOADER" &>/dev/null ; then
@@ -206,7 +210,7 @@ case "$1" in
     rmdkico
     ;;
   "winetricks")
-    winetricks "$2" "$3"
+    $WINETRICKS "$2" "$3"
     ;;
   "msiexec"|"notepad"|"regedit"|"regsvr32"|"wineboot"|"winecfg"|"wineconsole"|"winedbg"|"winefile"|"winemine"|"winepath")
     "$WINELOADER" "$1"
