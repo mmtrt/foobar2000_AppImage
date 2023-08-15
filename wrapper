@@ -37,7 +37,7 @@ fi
 if command -v "$HOME/$progWINE" &>/dev/null ; then
 chmod +x "$HOME/$progWINE"
 export WINELOADER=${WINELOADER:-"$HOME/$progWINE"}
-export WINEPATH=${WINEPATH:-"$HOME/./$progWINE winepath"}
+export WINEPATH=${WINEPATH:-"$HOME/$progWINE winepath"}
 fi
 
 if command -v "$HOME/Downloads/$progWINE" &>/dev/null  ; then
@@ -190,7 +190,7 @@ atexit ()
 # Passing args to wine apps
 for i in "$@"; do
   if [[ -e "${i}" ]]; then
-    args+=( "$("$APPDIR"/opt/wine-stable/bin/winepath -w "$i")" )
+    args+=( "$("$WINEPATH" -w "$i")" )
   else
     args+=( "$i" )
   fi
