@@ -82,8 +82,8 @@ jobs:
       - name: release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: foobar2000 stable
-          automatic_release_tag: stable
+          title: foobar2000 test1
+          automatic_release_tag: test1
           prerelease: false
           draft: false
           files: |
@@ -102,8 +102,8 @@ jobs:
       - name: release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: foobar2000 stable with wineprefix
-          automatic_release_tag: stable-wp
+          title: foobar2000 test1 with wineprefix
+          automatic_release_tag: test1-wp
           prerelease: false
           draft: false
           files: |

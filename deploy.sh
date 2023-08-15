@@ -95,7 +95,7 @@ sed -i 's/test1|/test1-wp|/' f2k.yml
 if [ "$1" == "stable" ]; then
     f2ks
     ( mkdir -p dist ; mv foobar2000*.AppImage* dist/. ; cd dist || exit ; chmod +x ./*.AppImage )
-elif [ "$1" == "stable64" ]; then
-    f2ks64
+elif [ "$1" == "stablewp" ]; then
+    f2kswp
     ( mkdir -p dist ; mv foobar2000*.AppImage* dist/. ; cd dist || exit ; chmod +x ./*.AppImage )
 fi
