@@ -33,8 +33,10 @@ AppDir:
     exclude:
       - usr/share/man
       - usr/share/doc
-      - usr/share/doc-base
+      - usr/share/info
       - usr/share/lintian
+      - usr/share/initramfs-tools
+      - usr/share/menu
 
 AppImage:
   update-information: gh-releases-zsync|mmtrt|foobar2000_AppImage|test1|foobar2000*.AppImage.zsync
