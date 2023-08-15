@@ -27,7 +27,6 @@ AppDir:
     include:
       - bash
       - dash
-      - coreutils
       - unionfs-fuse
 
   files:
