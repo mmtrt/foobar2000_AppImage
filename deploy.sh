@@ -33,6 +33,8 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
+sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k.yml
+
 ./squashfs-root/AppRun --recipe f2k.yml
 
 }
@@ -70,6 +72,8 @@ cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=
 mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/icons
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
+
+sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k-x64.yml
 
 ./squashfs-root/AppRun --recipe f2k-x64.yml
 
@@ -129,6 +133,8 @@ rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
 sed -i "8d" f2k.yml
 
 sed -i 's/stable|/stable-wp|/' f2k.yml
+
+sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k.yml
 
 ./squashfs-root/AppRun --recipe f2k.yml
 
@@ -190,6 +196,8 @@ sed -i "8d" f2k-x64.yml
 
 sed -i 's/stable64|/stable64-wp|/' f2k-x64.yml
 
+sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k-x64.yml
+
 ./squashfs-root/AppRun --recipe f2k-x64.yml
 
 }
@@ -226,6 +234,8 @@ cp foobar2000.desktop f2k-stable ; cp wrapper f2k-stable ; sed -i -e 's|progVer=
 mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/icons
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
+
+sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k-box86.yml
 
 ./squashfs-root/AppRun --recipe f2k-box86.yml
 
