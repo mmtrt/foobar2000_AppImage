@@ -36,7 +36,7 @@ jobs:
           bash deploy.sh stable
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: foobar2000-continuous-x86_64.AppImage
           path: 'dist'
@@ -62,7 +62,7 @@ jobs:
           bash deploy.sh stable64
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: foobar2000-x64-continuous-x86_64.AppImage
           path: 'dist'
@@ -88,7 +88,7 @@ jobs:
           xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh stablewp
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: foobar2000-continuous-wp-x86_64.AppImage
           path: 'dist'
@@ -114,7 +114,7 @@ jobs:
           xvfb-run --server-args="-screen 0 1024x768x24" bash deploy.sh stablewp64
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: foobar2000-x64-continuous-wp-x86_64.AppImage
           path: 'dist'
@@ -140,7 +140,7 @@ jobs:
           bash deploy.sh stable-box86
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: foobar2000-continuous-aarch64.AppImage
           path: 'dist'
@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
           name: foobar2000-continuous-x86_64.AppImage
 
@@ -170,7 +170,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
           name: foobar2000-x64-continuous-x86_64.AppImage
 
@@ -190,7 +190,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
           name: foobar2000-continuous-wp-x86_64.AppImage
 
@@ -210,7 +210,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
           name: foobar2000-x64-continuous-wp-x86_64.AppImage
 
@@ -230,7 +230,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
           name: foobar2000-continuous-aarch64.AppImage
 
