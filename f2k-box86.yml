@@ -25,9 +25,9 @@ AppDir:
   apt:
     arch: [arm64,armhf]
     sources:
-      - sourceline: 'deb http://ports.ubuntu.com/ubuntu-ports/ lunar main restricted universe multiverse'
-      - sourceline: 'deb http://ports.ubuntu.com/ubuntu-ports/ lunar-updates main restricted universe multiverse'
-      - sourceline: 'deb http://ports.ubuntu.com/ubuntu-ports/ lunar-backports main restricted universe multiverse'
+      - sourceline: 'deb http://ports.ubuntu.com/ubuntu-ports/ focal main restricted universe multiverse'
+      - sourceline: 'deb http://ports.ubuntu.com/ubuntu-ports/ focal-updates main restricted universe multiverse'
+      - sourceline: 'deb http://ports.ubuntu.com/ubuntu-ports/ focal-backports main restricted universe multiverse'
         key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C'
       - sourceline: 'deb  https://ryanfortner.github.io/box86-debs/debian ./'
         key_url: 'https://ryanfortner.github.io/box86-debs/KEY.gpg'
