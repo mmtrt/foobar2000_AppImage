@@ -136,6 +136,8 @@ sed -i 's/stable|/stable-wp|/' f2k.yml
 
 sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k.yml
 
+sed -i "/libmpg123/d" f2k.yml
+
 ./squashfs-root/AppRun --recipe f2k.yml
 
 }
