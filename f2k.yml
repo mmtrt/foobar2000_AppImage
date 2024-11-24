@@ -43,6 +43,7 @@ AppDir:
       - unionfs-fuse
       - libfuse2
       - libfuse3-3
+      - libmpg123-0:i386
 
   files:
     exclude:
