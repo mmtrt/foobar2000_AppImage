@@ -119,7 +119,7 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-i386/wine-stable-i386_4.0.4-x86_64.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/old-v4-i386/wine-stable-i386_4.0.4-x86_64.AppImage
 chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
@@ -181,7 +181,7 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable-4-multi/wine-stable-multi_4.0.4-x86_64.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/old-v4-multi/wine-stable-multi_4.0.4-x86_64.AppImage
 chmod +x *.AppImage ; mv wine-stable-multi_4.0.4-x86_64.AppImage wine-stable.AppImage
 
 # Create WINEPREFIX
