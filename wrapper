@@ -15,7 +15,6 @@ RW_WINEPREFIX="$progHome/.wine"
 MNT_WINEPREFIX=/tmp/."${progName}".unionfs
 else
 # WINE env
-export WINEARCH=${WINEARCH:-"win32"}
 export WINEPREFIX=${WINEPREFIX:-"$progHome/.wine"}
 export WINEDLLOVERRIDES=${WINEDLLOVERRIDES:-"mscoree,mshtml="}
 export WINEDEBUG=${WINEDEBUG:-"fixme-all"}
@@ -44,7 +43,7 @@ if [ -d "$APPDIR/winedata/.wine" ] && [ -z "$WINEPREFIX" ] ; then
     unionfs-fuse -o use_ino,uid=$UID -ocow "$RW_WINEPREFIX"=RW:"$RO_WINEPREFIX"=RO "$MNT_WINEPREFIX" || exit 1
     trap atexit EXIT
   fi
-  export WINEPREFIX="$MNT_WINEPREFIX" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all WINEARCH="win32"
+  export WINEPREFIX="$MNT_WINEPREFIX" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all
 elif [ ! -d "$APPDIR/winedata/.wine" ] && [ ! -d "$WINEPREFIX" ]; then
 # copy WINE light blue theme to WINEPREFIX
 # $WINELOADER wineboot -i

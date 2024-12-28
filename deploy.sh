@@ -82,7 +82,6 @@ sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | g
 f2kswp () {
 
 export WINEDLLOVERRIDES="mscoree,mshtml="
-export WINEARCH="win32"
 export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
@@ -145,7 +144,6 @@ sed -i "/libmpg123/d" f2k.yml
 f2kswp64 () {
 
 export WINEDLLOVERRIDES="mscoree,mshtml="
-export WINEARCH="win64"
 export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
