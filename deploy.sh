@@ -125,7 +125,7 @@ chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/rel
 ./wine-stable.AppImage winetricks -q wmp9 vcrun2019 ; sleep 5
 
 # Removing any existing user data
-( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
+( cd "$WINEPREFIX" ; rm -rf dosdevices ; cd "drive_c" ; rm -rf users ) || true
 
 rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
 
@@ -182,7 +182,7 @@ chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/rel
 ./wine-stable.AppImage winetricks -q vcrun2019 ; sleep 5
 
 # Removing any existing user data
-( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
+( cd "$WINEPREFIX" ; rm -rf dosdevices ; cd "drive_c" ; rm -rf users ) || true
 
 echo "disabled" > $WINEPREFIX/.update-timestamp
 
