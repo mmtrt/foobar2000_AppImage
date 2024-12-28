@@ -5,7 +5,7 @@ f2ks () {
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/Continuous/appimage-builder-1.1.1.dev32+g2709a3b-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
 
 # add custom mksquashfs
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
@@ -44,7 +44,7 @@ f2ks64 () {
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/Continuous/appimage-builder-1.1.1.dev32+g2709a3b-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
 
 # add custom mksquashfs
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
@@ -86,12 +86,10 @@ export WINEARCH="win32"
 export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
-wget -q "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msstyles" -P $WINEPREFIX/drive_c/windows/resources/themes/light
-
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/Continuous/appimage-builder-1.1.1.dev32+g2709a3b-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
 
 # add custom mksquashfs
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
@@ -119,11 +117,13 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/old-v4-i386/wine-stable-i386_4.0.4-x86_64.AppImage
-chmod +x *.AppImage ; mv wine-stable-i386_4.0.4-x86_64.AppImage wine-stable.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
+)"
+chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
+)" wine-stable.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage winetricks -q wmp9 vcrun2017 ; sleep 5
+./wine-stable.AppImage winetricks -q wmp9 vcrun2019 ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX/drive_c/" ; rm -rf users ) || true
@@ -149,12 +149,10 @@ export WINEARCH="win64"
 export WINEPREFIX="/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/AppDir/winedata/.wine"
 export WINEDEBUG="-all"
 
-wget -q "https://github.com/mmtrt/sommelier-core/raw/tmp/themes/light/light.msstyles" -P $WINEPREFIX/drive_c/windows/resources/themes/light
-
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/Continuous/appimage-builder-1.1.1.dev32+g2709a3b-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
 
 # add custom mksquashfs
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
@@ -183,8 +181,10 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/old-v4-multi/wine-stable-multi_4.0.4-x86_64.AppImage
-chmod +x *.AppImage ; mv wine-stable-multi_4.0.4-x86_64.AppImage wine-stable.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
+)"
+chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
+)" wine-stable.AppImage
 
 # Create WINEPREFIX
 ./wine-stable.AppImage winetricks -q vcrun2019 ; sleep 5
@@ -209,7 +209,7 @@ f2ks-box86 () {
 # Download icon:
 wget -q https://github.com/mmtrt/foobar2000/raw/master/snap/local/src/foobar2000.png
 
-wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.3/appimage-builder-1.0.3-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
+wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/Continuous/appimage-builder-1.1.1.dev32+g2709a3b-x86_64.AppImage" -O builder ; chmod +x builder ; ./builder --appimage-extract &>/dev/null
 
 # add custom mksquashfs
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
