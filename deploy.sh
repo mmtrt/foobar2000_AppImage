@@ -129,13 +129,7 @@ chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/rel
 
 rm ./*.AppImage ; echo "disabled" > $WINEPREFIX/.update-timestamp
 
-sed -i "8d" f2k.yml
-
 sed -i 's/stable|/stable-wp|/' f2k.yml
-
-sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k.yml
-
-sed -i "/libmpg123/d" f2k.yml
 
 ./squashfs-root/AppRun --recipe f2k.yml
 
@@ -192,11 +186,7 @@ chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/rel
 
 echo "disabled" > $WINEPREFIX/.update-timestamp
 
-sed -i "8d" f2k-x64.yml
-
 sed -i 's/stable64|/stable64-wp|/' f2k-x64.yml
-
-sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | grep glibc | awk '{print $5}' | cut -d'+' -f1 | head -1)|" f2k-x64.yml
 
 ./squashfs-root/AppRun --recipe f2k-x64.yml
 
