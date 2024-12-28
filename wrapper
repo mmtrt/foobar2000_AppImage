@@ -50,6 +50,7 @@ elif [ ! -d "$APPDIR/winedata/.wine" ] && [ ! -d "$WINEPREFIX" ]; then
 # $WINELOADER wineboot -i
 mkdir -p "$WINEPREFIX/drive_c/windows"
 cp -R "$APPDIR/winedata/"* "$WINEPREFIX/drive_c/windows"
+winetricks -q vcrun2019
 fi
 
 dkico() {
