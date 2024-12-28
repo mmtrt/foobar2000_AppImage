@@ -15,9 +15,11 @@ RW_WINEPREFIX="$progHome/.wine"
 MNT_WINEPREFIX=/tmp/."${progName}".unionfs
 else
 # WINE env
+export WINE="$APPDIR/opt/wine-stable/bin/wine"
 export WINEPREFIX=${WINEPREFIX:-"$progHome/.wine"}
 export WINEDLLOVERRIDES=${WINEDLLOVERRIDES:-"mscoree,mshtml="}
 export WINEDEBUG=${WINEDEBUG:-"fixme-all"}
+export WINESERVER="$APPDIR/opt/wine-stable/bin/wineserver"
 fi
 export WINELOADER=${WINELOADER:-"$APPDIR/opt/wine-stable/bin/wine"}
 
