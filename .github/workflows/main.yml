@@ -119,32 +119,6 @@ jobs:
           name: foobar2000-x64-continuous-wp-x86_64.AppImage
           path: '/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/dist'
 
-  # This workflow contains a single job called "f2k-box86"
-  f2k-box86:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Set F2K_VER
-      - name: Run version script
-        run: echo "F2K_VER=$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')" >> $GITHUB_ENV
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          sudo apt update && sudo apt install libfuse2 -y
-          bash deploy.sh stable-box86
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: foobar2000-continuous-aarch64.AppImage
-          path: '/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/dist'
-
   release-stable:
     needs: [f2k]
     runs-on: ubuntu-latest
@@ -227,25 +201,4 @@ jobs:
           draft: false
           files: |
             foobar2000-x64-continuous-wp-x86_64.AppImage
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-
-  release-stable-box86:
-    needs: [f2k-box86]
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: foobar2000-continuous-aarch64.AppImage
-          path: '/home/runner/work/foobar2000_AppImage/foobar2000_AppImage/foobar2000-continuous-aarch64.AppImage'
-
-      - name: release
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          title: foobar2000 stable box86
-          automatic_release_tag: stable-box86
-          prerelease: false
-          draft: false
-          files: |
-            foobar2000-continuous-aarch64.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}
