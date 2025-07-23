@@ -101,15 +101,13 @@ AppDir:
   after_bundle:
     # this is executed after the packages and files are added
     - |
-     # Patch wrapper script to use wine64
-     sed -i 's|/wine"|/wine64"|' AppDir/wrapper
 
      WINE_VER="$(wget -qO- https://github.com/mmtrt/Wine-Builds/releases/expanded_assets/latest | grep -Eo '/wine-[0-9].*xz"' | cut -d'-' -f2 | head -1)"
 
      wget -q "https://github.com/mmtrt/Wine-Builds/releases/download/latest/wine-${WINE_VER}-amd64.tar.xz"
      mkdir -p AppDir/opt ; (cd AppDir/opt ; tar -xf ../../*.tar.xz ; mv wine-* wine-devel)
 
-     (cd AppDir/usr/bin; ln -s "../../opt/wine-devel/bin/"* .)
+     #cp -r AppDir/usr/opt/wine-devel/* AppDir/usr
 
      # Cleanup
      #rm -rf AppDir/usr/{opt,usr}
