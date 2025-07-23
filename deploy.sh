@@ -116,13 +116,13 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
 )"
-chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
-)" wine-stable.AppImage
+chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
+)" wine-devel.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage winetricks -q wmp9 vcrun2019 ; sleep 5
+./wine-devel.AppImage winetricks -q wmp9 vcrun2019 ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf dosdevices ; cd "drive_c" ; rm -rf users ) || true
@@ -173,13 +173,13 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-stable/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
 )"
-chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-stable | grep -Eo 'wine-stable_[0-9].*AppImage"' | cut -d'"' -f1
-)" wine-stable.AppImage
+chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
+)" wine-devel.AppImage
 
 # Create WINEPREFIX
-./wine-stable.AppImage winetricks -q vcrun2019 ; sleep 5
+./wine-devel.AppImage winetricks -q vcrun2019 ; sleep 5
 
 # Removing any existing user data
 ( cd "$WINEPREFIX" ; rm -rf dosdevices ; cd "drive_c" ; rm -rf users ) || true

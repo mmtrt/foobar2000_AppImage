@@ -15,13 +15,13 @@ RW_WINEPREFIX="$progHome/.wine"
 MNT_WINEPREFIX=/tmp/."${progName}".unionfs
 else
 # WINE env
-export WINE="$APPDIR/opt/wine-stable/bin/wine"
+export WINE="$APPDIR/opt/wine-devel/bin/wine"
 export WINEPREFIX=${WINEPREFIX:-"$progHome/.wine"}
 export WINEDLLOVERRIDES=${WINEDLLOVERRIDES:-"mscoree,mshtml="}
 export WINEDEBUG=${WINEDEBUG:-"fixme-all"}
-export WINESERVER="$APPDIR/opt/wine-stable/bin/wineserver"
+export WINESERVER="$APPDIR/opt/wine-devel/bin/wineserver"
 fi
-export WINELOADER=${WINELOADER:-"$APPDIR/opt/wine-stable/bin/wine"}
+export WINELOADER=${WINELOADER:-"$APPDIR/opt/wine-devel/bin/wine"}
 
 # DXVK env
 export DXVK_HUD=${DXVK_HUD:-"0"}
@@ -149,7 +149,7 @@ atexit ()
 # Passing args to wine apps
 for i in "$@"; do
   if [[ -e "${i}" ]]; then
-    args+=( "$("$APPDIR"/opt/wine-stable/bin/winepath -w "$i")" )
+    args+=( "$("$APPDIR"/opt/wine-devel/bin/winepath -w "$i")" )
   else
     args+=( "$i" )
   fi
