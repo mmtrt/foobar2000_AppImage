@@ -116,10 +116,8 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
-)"
-chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
-)" wine-devel.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/wine-devel_$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'devel_[0-9].*' | cut -d'_' -f2 | cut -d'-' -f1 | head -1)-x86_64.AppImage -O wine-devel.AppImage
+chmod +x *.AppImage
 
 # Create WINEPREFIX
 ./wine-devel.AppImage winetricks -q wmp9 vcrun2019 ; sleep 5
@@ -173,10 +171,8 @@ mkdir -p f2k-stable/usr/share/icons ; cp foobar2000.png f2k-stable/usr/share/ico
 
 mkdir -p AppDir/winedata ; cp -r "f2k-stable/"* AppDir
 
-wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/"$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
-)"
-chmod +x *.AppImage ; mv "$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'wine-devel_[0-9].*AppImage"' | cut -d'"' -f1
-)" wine-devel.AppImage
+wget -q https://github.com/mmtrt/WINE_AppImage/releases/download/continuous-devel/wine-devel_$(wget -qO- https://github.com/mmtrt/WINE_AppImage/releases/expanded_assets/continuous-devel | grep -Eo 'devel_[0-9].*' | cut -d'_' -f2 | cut -d'-' -f1 | head -1)-x86_64.AppImage -O wine-devel.AppImage
+chmod +x *.AppImage
 
 # Create WINEPREFIX
 ./wine-devel.AppImage winetricks -q vcrun2019 ; sleep 5
