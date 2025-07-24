@@ -11,11 +11,7 @@ wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
 
 # force zstd format in appimagebuilder for appimages
-rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
-
-# Add static appimage runtime
-mkdir -p appimage-build/prime
-wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
+rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -50,11 +46,7 @@ wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
 
 # force zstd format in appimagebuilder for appimages
-rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
-
-# Add static appimage runtime
-mkdir -p appimage-build/prime
-wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
+rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -94,11 +86,7 @@ wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
 
 # force zstd format in appimagebuilder for appimages
-rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
-
-# Add static appimage runtime
-mkdir -p appimage-build/prime
-wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
+rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -148,11 +136,7 @@ wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
 
 # force zstd format in appimagebuilder for appimages
-rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
-
-# Add static appimage runtime
-mkdir -p appimage-build/prime
-wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-x86_64" -O appimage-build/prime/runtime-x86_64
+rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
@@ -199,11 +183,7 @@ wget -q "https://github.com/AppImageCrafters/appimage-builder/releases/download/
 wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -O squashfs-root/usr/bin/mksquashfs
 
 # force zstd format in appimagebuilder for appimages
-rm builder ; sed -i 's|xz|zstd|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
-
-# Add static appimage runtime
-mkdir -p appimage-build/prime
-wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/runtime-aarch64" -O appimage-build/prime/runtime-aarch64
+rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
 stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
