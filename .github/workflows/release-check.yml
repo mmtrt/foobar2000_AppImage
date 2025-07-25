@@ -15,10 +15,15 @@ jobs:
     - name: get-latest-version
       run: |
         VERSION="$(wget 2>/dev/null http://www.foobar2000.org/download -qSO- | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')"
+        VERSION_CHECK="$(echo $VERSION | wc -l)"
         last=$(tail -n1 .build.s | awk '{print $4}')
 
-        if [ "$last" != "$VERSION" ]; then
-          echo "$(date -u --rfc-3339=seconds) Version $VERSION" >> .build.s
+        if [ "$VERSION_CHECK" -eq 1 ]; then
+         if [ "$last" != "$VERSION" ]; then
+           echo "$(date -u --rfc-3339=seconds) Version $VERSION" >> .build.s
+         fi
+        else
+         echo "No update released." 
         fi
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
