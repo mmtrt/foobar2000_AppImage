@@ -14,8 +14,8 @@ wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -
 rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
-stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
-wget -q https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm *x64*.exe *64ec*.exe
+stable_ver=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
+wget -q https://www.foobar2000.org/windows -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm *x64*.exe *64ec*.exe
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
@@ -36,7 +36,7 @@ sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | g
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|stable|*$ARCH.AppImage.zsync"
-VERSION=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
+VERSION=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
 URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-$ARCH"
 URUNTIME_LITE="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-lite-$ARCH"
 wget -q --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime
@@ -71,8 +71,8 @@ wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -
 rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
-stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
-wget -q https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm foobar2000_*.exe *64ec*.exe
+stable_ver=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
+wget -q https://www.foobar2000.org/windows -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm foobar2000_*.exe *64ec*.exe
 #wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
 wget -qO- https://www.7-zip.org/a/7z2201-linux-x64.tar.xz | tar -J -xvf - 7zz
 ./7zz x "foobar2000-*_*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
@@ -94,7 +94,7 @@ sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | g
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|stable64|*$ARCH.AppImage.zsync"
-VERSION=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
+VERSION=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
 URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-$ARCH"
 URUNTIME_LITE="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-lite-$ARCH"
 wget -q --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime
@@ -133,8 +133,8 @@ wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -
 rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
-stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
-wget -q https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm *x64*.exe *64ec*.exe
+stable_ver=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
+wget -q https://www.foobar2000.org/windows -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm *x64*.exe *64ec*.exe
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
@@ -183,8 +183,8 @@ wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -
 rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
-stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
-wget -q https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm foobar2000_*.exe *64ec*.exe
+stable_ver=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
+wget -q https://www.foobar2000.org/windows -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm foobar2000_*.exe *64ec*.exe
 # wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
 wget -qO- https://www.7-zip.org/a/7z2201-linux-x64.tar.xz | tar -J -xvf - 7zz
 ./7zz x "foobar2000-*_*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
@@ -230,8 +230,8 @@ wget -q "https://github.com/mmtrt/WINE_AppImage/raw/master/runtime/mksquashfs" -
 rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/lib/python3.8/site-packages/appimagebuilder/modules/prime/appimage_primer.py
 
 # f2k stable
-stable_ver=$(wget http://www.foobar2000.org/download -q -S -O - 2>&1 | grep foobar2000_v | awk '{print $3}'|sed '2,3d;s|v||;s|</a><br/>||;s|</a>||')
-wget -q https://www.foobar2000.org/download -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm *x64*.exe *64ec*.exe
+stable_ver=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
+wget -q https://www.foobar2000.org/windows -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm *x64*.exe *64ec*.exe
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
 7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
 7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
