@@ -35,25 +35,17 @@ sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | g
 
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
+export URUNTIME_PRELOAD=1
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|stable|*$ARCH.AppImage.zsync"
 VERSION=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
-URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-$ARCH"
-URUNTIME_LITE="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-lite-$ARCH"
-wget -q --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime
-wget -q --retry-connrefused --tries=30 "$URUNTIME_LITE" -O ./uruntime-lite
-chmod +x ./uruntime*
+APPIMAGETOOL="https://github.com/pkgforge-dev/appimagetool-uruntime/releases/download/continuous/appimagetool-$ARCH.AppImage"
 
-# Keep the mount point (speeds up launch time)
-sed -i 's|URUNTIME_MOUNT=[0-9]|URUNTIME_MOUNT=0|' ./uruntime-lite
+wget -q --retry-connrefused --tries=30 "$APPIMAGETOOL" -O ./appimagetool
 
-echo "Adding update information \"$UPINFO\" to runtime..."
-./uruntime-lite --appimage-addupdinfo "$UPINFO"
+chmod +x ./appimagetool*
 
 echo "Generating AppImage..."
-./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B8 --header uruntime-lite -i AppDir -o ./foobar2000-"$VERSION"-"$ARCH".AppImage
-
-echo "Generating zsync file..."
-zsyncmake *.AppImage -u *.AppImage
+./appimagetool --no-appstream -u "$UPINFO" AppDir foobar2000-"$VERSION"-"$ARCH".AppImage
 
 }
 
@@ -93,25 +85,17 @@ sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | g
 
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
+export URUNTIME_PRELOAD=1
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|stable64|*$ARCH.AppImage.zsync"
 VERSION=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
-URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-$ARCH"
-URUNTIME_LITE="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-lite-$ARCH"
-wget -q --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime
-wget -q --retry-connrefused --tries=30 "$URUNTIME_LITE" -O ./uruntime-lite
-chmod +x ./uruntime*
+APPIMAGETOOL="https://github.com/pkgforge-dev/appimagetool-uruntime/releases/download/continuous/appimagetool-$ARCH.AppImage"
 
-# Keep the mount point (speeds up launch time)
-sed -i 's|URUNTIME_MOUNT=[0-9]|URUNTIME_MOUNT=0|' ./uruntime-lite
+wget -q --retry-connrefused --tries=30 "$APPIMAGETOOL" -O ./appimagetool
 
-echo "Adding update information \"$UPINFO\" to runtime..."
-./uruntime-lite --appimage-addupdinfo "$UPINFO"
+chmod +x ./appimagetool*
 
 echo "Generating AppImage..."
-./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B8 --header uruntime-lite -i AppDir -o ./foobar2000-x64-"$VERSION"-"$ARCH".AppImage
-
-echo "Generating zsync file..."
-zsyncmake *.AppImage -u *.AppImage
+./appimagetool --no-appstream -u "$UPINFO" AppDir foobar2000-x64-"$VERSION"-"$ARCH".AppImage
 
 }
 
