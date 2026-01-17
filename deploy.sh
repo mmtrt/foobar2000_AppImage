@@ -35,7 +35,7 @@ sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | g
 
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
-export URUNTIME_PRELOAD=1
+export URUNTIME_PRELOAD=0
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|stable|*$ARCH.AppImage.zsync"
 VERSION=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
 APPIMAGETOOL="https://github.com/pkgforge-dev/appimagetool-uruntime/releases/download/continuous/appimagetool-$ARCH.AppImage"
@@ -85,7 +85,7 @@ sed -i "s|x.xx|$(wget -qO- https://archlinux.org/packages/core/x86_64/glibc/ | g
 
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
-export URUNTIME_PRELOAD=1
+export URUNTIME_PRELOAD=0
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|stable64|*$ARCH.AppImage.zsync"
 VERSION=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
 APPIMAGETOOL="https://github.com/pkgforge-dev/appimagetool-uruntime/releases/download/continuous/appimagetool-$ARCH.AppImage"
