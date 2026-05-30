@@ -17,8 +17,9 @@ rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/
 stable_ver=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
 wget -q https://www.foobar2000.org/windows -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm *x64*.exe *64ec*.exe
 wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
-7z x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
-7z x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
+wget -qO- https://www.7-zip.org/a/$(wget -qO- https://www.7-zip.org | grep -Eo -m2 '7z.*.exe"' | tail -1 | sed 's/.exe"/-linux-x64.tar.xz/' | cut -d'/' -f6) | tar -J -xvf - 7zz
+./7zz x "foobar2000_v*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
+./7zz x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
 find "f2k-stable/usr" -type d -execdir chmod 755 {} +
 touch f2k-stable/usr/share/foobar2000/portable_mode_enabled
 rm *.exe
@@ -66,7 +67,7 @@ rm builder ; sed -i 's|xz|zstd|;s|AppImageKit|type2-runtime|' squashfs-root/usr/
 stable_ver=$(wget https://www.foobar2000.org/windows -q -S -O - 2>&1 | grep -Eo v[0-9].* | sed 's|v||;s|.exe| |g' | awk '{print $1}' | head -1)
 wget -q https://www.foobar2000.org/windows -nH --cut-dirs=3 -r -l 2 -A exe -R '*preview*.exe' ; rm foobar2000_*.exe *64ec*.exe
 #wget -q https://www.foobar2000.org/encoderpack -nH --cut-dirs=3 -r -l 2 -A exe
-wget -qO- https://www.7-zip.org/a/7z2201-linux-x64.tar.xz | tar -J -xvf - 7zz
+wget -qO- https://www.7-zip.org/a/$(wget -qO- https://www.7-zip.org | grep -Eo -m2 '7z.*.exe"' | tail -1 | sed 's/.exe"/-linux-x64.tar.xz/' | cut -d'/' -f6) | tar -J -xvf - 7zz
 ./7zz x "foobar2000-*_*.exe" -x'!$PLUGINSDIR' -x'!$R0' -x'!foobar2000 Shell Associations Updater.exe' -x'!uninstall.exe' -o"f2k-stable/usr/share/foobar2000" &>/dev/null
 #./7zz x "Free_*.exe" -x'!$PLUGINSDIR' -o"f2k-stable/usr/share/foobar2000/encoders" &> /dev/null
 find "f2k-stable/usr" -type d -execdir chmod 755 {} +
