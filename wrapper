@@ -46,10 +46,6 @@ if [ -d "$APPDIR/winedata/.wine" ] && [ -z "$WINEPREFIX" ] ; then
     trap atexit EXIT
   fi
   export WINEPREFIX="$MNT_WINEPREFIX" WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=fixme-all
-elif [ ! -d "$APPDIR/winedata/.wine" ] && [ ! -d "$WINEPREFIX" ]; then
-# copy WINE light blue theme to WINEPREFIX
-# $WINELOADER wineboot -i
-winetricks -q vcrun2019
 fi
 
 dkico() {
