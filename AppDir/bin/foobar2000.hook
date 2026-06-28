@@ -1,0 +1,133 @@
+#!/bin/sh
+
+# foobar2000 hook — sourced by AppRun via AppRun.lib
+# Sets up WINE/DXVK environment, syncs app data dir, handles
+# install/remove dispatch, and translates file args to Wine paths.
+# Available from AppRun.lib: notify, download, is_cmd, APPDIR,
+# DATADIR, CACHEDIR, HOST_HOME, APPIMAGE_ARCH, HOSTPATH
+
+# APP
+_F2K_NAME="foobar2000"
+_F2K_ARCH="-x86_64"
+_F2K_VER=
+_F2K_REAL="$APPDIR/share/$_F2K_NAME"
+_F2K_HOME="$HOME/.$_F2K_NAME"
+_F2K_BIN="$_F2K_NAME.exe"
+_F2K_ICOD="$DATADIR/applications/$_F2K_NAME.desktop"
+
+# WINE
+export WINE="$APPDIR/bin/wine"
+export WINEPREFIX="${WINEPREFIX:-"$_F2K_HOME/.wine"}"
+export WINEDLLOVERRIDES="${WINEDLLOVERRIDES:-"mscoree,mshtml="}"
+export WINEDEBUG="${WINEDEBUG:-"fixme-all"}"
+export WINESERVER="$APPDIR/bin/wineserver"
+export WINELOADER="${WINELOADER:-"$APPDIR/bin/wine"}"
+export WINE_HOST_XDG_CACHE_HOME="$HOST_XDG_CACHE_HOME"
+
+# DXVK
+export DXVK_HUD="${DXVK_HUD:-"0"}"
+export DXVK_LOG_LEVEL="${DXVK_LOG_LEVEL:-"none"}"
+export DXVK_STATE_CACHE="${DXVK_STATE_CACHE:-"0"}"
+export DXVK_CONFIG_FILE="${DXVK_CONFIG_FILE:-"$_F2K_HOME/dxvk.conf"}"
+
+# Silence Mesa EGL/DRI warnings (pci id ... driver (null))
+export EGL_LOG_LEVEL="${EGL_LOG_LEVEL:-"fatal"}"
+
+# Ensure app home exists
+mkdir -p "$_F2K_HOME" || exit 1
+
+# Delete broken symlinks, sync app data — || true guards against set -e
+# from AppRun when the home or share dir is empty/missing on first run
+find -L "$_F2K_HOME/" -maxdepth 2 -type l -delete >/dev/null 2>&1 || true
+cp -urs "$_F2K_REAL/"* "$_F2K_HOME" >/dev/null 2>&1 || true
+
+_f2k_install() {
+        if [ ! -f "$_F2K_ICOD" ]; then
+                mkdir -p "$DATADIR/icons/hicolor/256x256/apps"
+                cp "$APPDIR/$_F2K_NAME.png" "$DATADIR/icons/hicolor/256x256/apps"
+                mkdir -p "$DATADIR/applications"
+                cat >> "$_F2K_ICOD" << EOF
+[Desktop Entry]
+Type=Application
+Name=$_F2K_NAME
+GenericName=Audio player
+Comment=Simple and powerful audio player.
+Actions=PlayPause;Stop;Next;Prev;Random;Config
+Encoding=UTF-8
+Version=$_F2K_VER
+Icon=$_F2K_NAME
+Exec=$APPIMAGE %F
+MimeType=audio/aac;audio/x-ape;audio/basic;audio/mp4;audio/mpeg;audio/mpegurl;audio/vorbis;audio/x-flac;audio/x-mp2;audio/x-mp3;audio/x-mpegurl;audio/x-ms-wma;audio/x-oggflac;audio/x-speex;audio/x-vorbis;audio/x-wav;audio/m3u;audio/x-aifc;audio/x-aiffc;audio/x-aiff;audio/x-musepack;audio/x-wavpack;x-content/audio-player;audio/x-matroska;audio/x-vorbis+ogg;
+Categories=AudioVideo;Audio;Player;
+Terminal=false
+StartupWMClass=$_F2K_BIN
+
+[Desktop Action PlayPause]
+Name=Play/Pause
+Exec=$APPIMAGE /playpause
+
+[Desktop Action Stop]
+Name=Stop
+Exec=$APPIMAGE /stop
+
+[Desktop Action Next]
+Name=Next
+Exec=$APPIMAGE /next
+
+[Desktop Action Prev]
+Name=Prev
+Exec=$APPIMAGE /prev
+
+[Desktop Action Random]
+Name=Random
+Exec=$APPIMAGE /rand
+
+[Desktop Action Config]
+Name=Preferences
+Exec=$APPIMAGE /config
+EOF
+
+                _svc_kde5="$DATADIR/kio/servicemenus"
+                mkdir -p "$_svc_kde5"
+                cat >> "$_svc_kde5/${_F2K_NAME}_enqueue.desktop" << EOF
+[Desktop Entry]
+Type=Service
+MimeType=audio/*;video/*;inode/directory;inode/directory-locked
+Actions=enqueue_in_f2k
+X-KDE-Priority=TopLevel
+
+[Desktop Action enqueue_in_f2k]
+Name=Enqueue in foobar2000
+Comment=Add files to playlist.
+Icon=foobar2000
+Exec=$APPIMAGE /add %F
+EOF
+
+chmod +x "$_svc_kde5/${_F2K_NAME}_enqueue.desktop"
+update-desktop-database -q 2>/dev/null || true
+        fi
+}
+
+_f2k_remove() {
+        rm -f "$DATADIR/applications/$_F2K_NAME.desktop"
+        rm -f "$DATADIR/kio/servicemenus/${_F2K_NAME}_enqueue.desktop"
+        rm -f "$DATADIR/icons/hicolor/256x256/apps/$_F2K_NAME.png"
+}
+
+# Intercept install/remove before AppRun reaches binary dispatch
+case "$1" in
+        install) _f2k_install; exit 0 ;;
+        remove)  _f2k_remove;  exit 0 ;;
+esac
+
+# Translate host file paths to Wine paths.
+# Uses shift-and-count to avoid eval and preserve paths with spaces.
+_f2k_argc=$#
+while [ "$_f2k_argc" -gt 0 ]; do
+        _f2k_arg="$1"; shift; _f2k_argc=$((_f2k_argc - 1))
+        if [ -e "$_f2k_arg" ]; then
+                set -- "$@" "$("$APPDIR"/bin/winepath -w "$_f2k_arg")"
+        else
+                set -- "$@" "$_f2k_arg"
+        fi
+done

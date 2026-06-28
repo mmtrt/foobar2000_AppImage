@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Thin launcher called by AppRun as MAIN_BIN after foobar2000.hook
+# has set up the Wine/DXVK env and translated file args.
+
+progHome="$HOME/.foobar2000"
+progBin="foobar2000.exe"
+
+case "$1" in
+        /playpause|/stop|/next|/prev|/random|/config)
+                exec "$WINELOADER" "$progHome/$progBin" "$1"
+                ;;
+        *)
+                exec "$WINELOADER" "$progHome/$progBin" "$@"
+                ;;
+esac
