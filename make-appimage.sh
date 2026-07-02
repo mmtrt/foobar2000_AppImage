@@ -72,15 +72,6 @@ EOF
     echo 'LD_LIBRARY_PATH=${APPDIR}/lib:${APPDIR}/lib/pulseaudio:${APPDIR}/lib/alsa-lib:${APPDIR}/lib/wine/x86_64-unix' \
         >> ./AppDir/.env
 
-    # lib/wine/x86_64-unix/wine will try to execute a relative ../../bin/wineserver
-    # which resolves to shared/bin/wineserver and it is wrong
-    # so we have to make AppDir/shared/lib the symlink and AppDir/lib the real directory
-    # that way ../../bin/wineserver resolves to the sharun hardlink
-    if [ -L ./AppDir/lib ]; then
-        rm -f ./AppDir/lib
-        mv ./AppDir/shared/lib ./AppDir
-        ln -sr ./AppDir/lib ./AppDir/shared
-    fi
 }
 
 # ─── Build function ────────────────────────────────────────────────────────────
