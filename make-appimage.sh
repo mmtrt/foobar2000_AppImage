@@ -105,7 +105,8 @@ f2ks_build() {
             -x'!foobar2000 Shell Associations Updater.exe' \
             -x'!uninstall.exe' \
             -o"f2k-stable/share/foobar2000" &>/dev/null
-        ./7zz x "Free_*.exe" -x'!$PLUGINSDIR' \
+        ./7zz x -aos "Free_*.exe" \
+            -x'!$PLUGINSDIR' -x'!qaac64.exe' -x'!refalac64.exe' \
             -o"f2k-stable/share/foobar2000/encoders" &>/dev/null
     fi
 
